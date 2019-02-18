@@ -57,7 +57,7 @@
         </el-col>
         <el-col :span='18' class="margin-top"><!--:xl="18" :lg="17"-->
           <el-button class="el-button--primary" plain round @click="showAddDialog">添加</el-button>
-          <el-button class="el-button--primary" plain round @click="showModifyDialog">编辑</el-button>
+          <el-button class="el-button--primary" plain round @click="showModifyDialog">修改</el-button>
           <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">上传</el-button>
           <el-button class="el-button--primary" plain round @click="exportTableData">导出</el-button>
           <el-table class="stakeholder-table" :data="studentList"
@@ -215,7 +215,7 @@
           <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="500px" top="20px" @close='closeDialog'>
             <el-form label-width="80px" label-position="left" :model="updateStudent" class="dialog-form" ref="updateForm" :rules="rules">
               <el-form-item label="学号" prop="studentNo">
-                <el-input v-model="updateStudent.studentNo" :disabled="stuInfoEdtiable"></el-input>
+                <el-input v-model="updateStudent.studentNo" :disabled="stuInfoEditable"></el-input>
               </el-form-item>
               <el-form-item label="姓名" prop="studentName">
                 <el-input v-model="updateStudent.studentName"></el-input>
@@ -248,30 +248,30 @@
                 <el-input v-model="updateStudent.fromPlace"></el-input>
               </el-form-item>
               <el-form-item label="系">
-                <el-input v-model="updateStudent.department" :disabled="stuInfoEdtiable"></el-input>
+                <el-input v-model="updateStudent.department" :disabled="stuInfoEditable"></el-input>
               </el-form-item>
               <el-form-item label="学院名称">
-                <el-input v-model="updateStudent.orgName" :disabled="stuInfoEdtiable"></el-input>
+                <el-input v-model="updateStudent.orgName" :disabled="stuInfoEditable"></el-input>
               </el-form-item>
               <el-form-item label="专业类别">
-                <el-input v-model="updateStudent.majorCategories" :disabled="stuInfoEdtiable"></el-input>
+                <el-input v-model="updateStudent.majorCategories" :disabled="stuInfoEditable"></el-input>
               </el-form-item>
               <el-form-item label="专业名称">
-                <el-input v-model="updateStudent.major" :disabled="stuInfoEdtiable"></el-input>
+                <el-input v-model="updateStudent.major" :disabled="stuInfoEditable"></el-input>
               </el-form-item>
               <el-form-item label="培育方向">
-                <el-input v-model="updateStudent.cultivateDirection" :disabled="stuInfoEdtiable"></el-input>
+                <el-input v-model="updateStudent.cultivateDirection" :disabled="stuInfoEditable"></el-input>
               </el-form-item>
               <el-form-item label="行政班级">
-                <el-input v-model="updateStudent.className" :disabled="stuInfoEdtiable"></el-input>
+                <el-input v-model="updateStudent.className" :disabled="stuInfoEditable"></el-input>
               </el-form-item>
               <el-form-item label="学制">
                 <el-input-number v-model="updateStudent.educationSystem" :min="1" :max="10"
-                                 :disabled="stuInfoEdtiable"></el-input-number>
+                                 :disabled="stuInfoEditable"></el-input-number>
               </el-form-item>
               <el-form-item label="入学日期">
                 <el-date-picker v-model="updateStudent.acceptanceDate" type="date" placeholder="选择日期"
-                                :disabled="stuInfoEdtiable"></el-date-picker>
+                                :disabled="stuInfoEditable"></el-date-picker>
               </el-form-item>
               <el-form-item label="毕业中学">
                 <el-input v-model="updateStudent.middleSchool"></el-input>
@@ -301,8 +301,8 @@
               </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-            <el-button @click="handleCancel">Cancel</el-button>
-            <el-button type="primary" @click="handleSaveStudent">Save</el-button>
+            <el-button @click="handleCancel">取消</el-button>
+            <el-button type="primary" @click="handleSaveStudent">保存</el-button>
           </span>
           </el-dialog>
           <el-dialog title="上传学生信息" :visible.sync="uploadDialogVisible" width="30%" center :before-close="handleCloseUpload">
@@ -347,7 +347,7 @@
         loadingStatus: false,
         multipleSelection: [],
         studentList: [],
-        stuInfoEdtiable: true,
+        stuInfoEditable: true,
         updateStudent: {
           studentNo: '',
           studentName: '',
@@ -427,7 +427,7 @@
             {required: true, message: '请选择性别', trigger: ['blur', 'change']}
           ]
         },
-        studentUploadUrl: `/xuexin/student/upload`,
+        studentUploadUrl: Constant.STUDENT_UPLOAD_URL,
         fileList: [],
         uploadDialogVisible: false,
       };
@@ -466,7 +466,8 @@
           this.dialogVisible = false;
           this.updateStudent = {};
           // refresh data from DB
-          this.callStudentList();
+          // todo 获取页码和页面数量
+          this.callStudentList(this.pageable);
         }
         this.$loading({fullscreen: true}).close();
       },
@@ -477,7 +478,7 @@
       showAddDialog() {
         this.dialogTitle = '添加';
         this.dialogVisible = true;
-        this.stuInfoEdtiable = false;
+        this.stuInfoEditable = false;
       },
       closeDialog() {
         this.dialogVisible = false;
@@ -486,12 +487,13 @@
       },
       showModifyDialog() {
         if (this.multipleSelection.length === 1) {
-          this.dialogTitle = '编辑';
+          this.dialogTitle = '修改';
+          this.stuInfoEditable = true;
           // deep clone
           this.updateStudent = JSON.parse(JSON.stringify(this.multipleSelection[0]));
           this.dialogVisible = true;
         } else {
-          this.$message.warning('请选择一条要编辑的记录');
+          this.$message.warning('请选择一条要修改的记录');
         }
       },
       async exportTableData() {
@@ -503,11 +505,10 @@
         let studentArray = JSON.parse(JSON.stringify(response.data));
         require.ensure([], () => {
           const {exportJsonToExcel} = require('@/utils/Export2Excel');
-          let tHeader = ['学号', ' 姓名', '性别', '身份证号', '出生日期', '政治面貌', '民族', '籍贯', '来源地区', '学院名称', '系', '专业名称',
-            '专业类别', '培育方向', '行政班级', '学制', '学习年限', '入学日期', '毕业中学', '邮箱', '联系方式', '家庭电话', '邮政编码', '乘车区间', '家庭地址', '特长'];
-          let filterVal = ['studentNo', 'studentName', 'sex', 'idcardNo', 'birthday', 'politicalStatus', 'nation', 'nativePlace', 'fromPlace', 'orgName',
-            'department', 'major', 'majorCategories', 'cultivateDirection', 'className', 'educationSystem', 'schoolingLength', 'acceptanceDate', 'middleSchool',
-            'email', 'mobileNo', 'familyTelNo', 'postcode', 'travelRange', 'address', 'skill'];
+          let tHeader = ['学号', ' 姓名', '性别', '身份证号', '学院名称', '专业名称','专业类别', '行政班级', '出生日期', '政治面貌', '民族', '籍贯', '来源地区',
+             '学制', '学习年限', '培育方向', '入学日期', '毕业中学', '邮箱', '联系方式', '家庭电话', '邮政编码', '乘车区间', '家庭地址', '特长'];
+          let filterVal = ['studentNo', 'studentName', 'sex', 'idcardNo', 'orgName', 'major', 'majorCategories', 'className', 'birthday', 'politicalStatus', 'nation', 'nativePlace', 'fromPlace',
+             'educationSystem', 'schoolingLength', 'cultivateDirection', 'acceptanceDate', 'middleSchool', 'email', 'mobileNo', 'familyTelNo', 'postcode', 'travelRange', 'address', 'skill'];
           // deep clone
           // let exportStakeholderList = JSON.parse(JSON.stringify(StakeholderList.data));
           // studentList.forEach(item => {
@@ -547,6 +548,7 @@
       },
       handleRowDBClick(row, event) {
         this.dialogTitle = '修改';
+        this.stuInfoEditable = true;
         this.updateStudent = JSON.parse(JSON.stringify(row));
         this.dialogVisible = true;
       },

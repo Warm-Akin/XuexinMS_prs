@@ -14,8 +14,11 @@ const NATIONOPTIONS = [
   {name: '京族'}, {name: '基诺族'}, {name: '回族'}, {name: '赫哲族'}, {name: '哈尼族'}, {name: '鄂温克族'}, {name: '鄂伦春族'}, {name: '独龙族'}, {name: '德昂族'}, {name: '达斡尔族'}, {name: '布依族'}, {name: '保安族'}, {name: '阿昌族'}
   ];
 
+const STUDENT_UPLOAD_URL = `/xuexin/student/upload`;
+
 export default {
   POPUP_EXCEPTION_CODE,
   POLITICALOPTIONS,
-  NATIONOPTIONS
+  NATIONOPTIONS,
+  STUDENT_UPLOAD_URL
 }
