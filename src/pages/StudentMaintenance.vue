@@ -594,29 +594,17 @@
             confirmButtonText: 'OK'
           });
         } else {
+          // todo 异常情况
           this.$alert('上传成功', {
             confirmButtonText: 'OK'
+          }).then(value => {
+            // recall getAll data
+            this.pageable = {
+              currentPage: 1,
+              pageSize: 20
+            };
+            this.callStudentList(this.pageable);
           });
-          // recall getAll data
-
-        //   this.stakeholderInfoList = [];
-        //   this.pageSize = 20;
-        //   this.currentPage = 1;
-        //   this.stakeholderSearchInfo = {
-        //     pageSize: 20,
-        //     currentPage: 1,
-        //     organization: '',
-        //     name: '',
-        //     email: '',
-        //     categoryId: '',
-        //     region: '',
-        //     applicant: '',
-        //     company: '',
-        //     unsubscribed: ''
-        //   };
-        //   sessionStorage.setItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS, JSON.stringify(this.stakeholderSearchInfo));
-        //   this.callSearchInfo();
-        //   this.callStakeholderInfo();
         }
         this.$refs.upload.clearFiles();
       },
