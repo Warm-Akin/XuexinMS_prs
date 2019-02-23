@@ -76,7 +76,7 @@
                 <span>{{scope.row.studentName}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="性别" sortable prop="sex" align="center" width="80">
+            <el-table-column label="性别" align="center" width="80">
               <template slot-scope="scope">
                 <span>{{scope.row.sex}}</span>
               </template>
@@ -96,14 +96,12 @@
                 <span>{{scope.row.nation}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="籍贯" sortable prop="nativePlace" align="center" width="120"
-                             :show-overflow-tooltip="true">
+            <el-table-column label="籍贯" sortable prop="nativePlace" align="center" width="120" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.nativePlace}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="来源地区" sortable prop="fromPlace" align="center" width="150"
-                             :show-overflow-tooltip="true">
+            <el-table-column label="来源地区" sortable prop="fromPlace" align="center" width="150" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.fromPlace}}</span>
               </template>
@@ -119,32 +117,27 @@
               </template>
             </el-table-column>
             <!--todo ignore-->
-            <el-table-column label="系" sortable prop="department" align="center" width="80"
-                             :show-overflow-tooltip="true">
+            <el-table-column label="系" sortable prop="department" align="center" width="80" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.department}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="专业名称" sortable prop="major" align="center" width="180"
-                             :show-overflow-tooltip="true">
+            <el-table-column label="专业名称" sortable prop="major" align="center" width="180" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.major}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="专业类别" sortable prop="majorCategories" align="center" width="120"
-                             :show-overflow-tooltip="true">
+            <el-table-column label="专业类别" sortable prop="majorCategories" align="center" width="120" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.majorCategories}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="培育方向" sortable prop="cultivateDirection" align="center" width="120"
-                             :show-overflow-tooltip="true">
+            <el-table-column label="培育方向" align="center" width="120" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.cultivateDirection}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="行政班级" sortable prop="className" align="center" width="180"
-                             :show-overflow-tooltip="true">
+            <el-table-column label="行政班级" sortable prop="className" align="center" width="180" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.className}}</span>
               </template>
@@ -164,8 +157,7 @@
                 <span>{{scope.row.acceptanceDate}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="毕业中学" sortable prop="middleSchool" align="center" width="180"
-                             :show-overflow-tooltip="true">
+            <el-table-column label="毕业中学" sortable prop="middleSchool" align="center" width="180" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.middleSchool}}</span>
               </template>
@@ -200,8 +192,7 @@
                 <span>{{scope.row.address}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="特长" sortable prop="department" align="center" width="180"
-                             :show-overflow-tooltip="true">
+            <el-table-column label="特长" align="center" width="180" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.skill}}</span>
               </template>
@@ -347,7 +338,7 @@
         loadingStatus: false,
         multipleSelection: [],
         studentList: [],
-        stuInfoEditable: true,
+        teacherInfoEditable: true,
         updateStudent: {
           studentNo: '',
           studentName: '',
@@ -478,7 +469,7 @@
       showAddDialog() {
         this.dialogTitle = '添加';
         this.dialogVisible = true;
-        this.stuInfoEditable = false;
+        this.teacherInfoEditable = false;
       },
       closeDialog() {
         this.dialogVisible = false;
@@ -488,7 +479,7 @@
       showModifyDialog() {
         if (this.multipleSelection.length === 1) {
           this.dialogTitle = '修改';
-          this.stuInfoEditable = true;
+          this.teacherInfoEditable = true;
           // deep clone
           this.updateStudent = JSON.parse(JSON.stringify(this.multipleSelection[0]));
           this.dialogVisible = true;
@@ -548,7 +539,7 @@
       },
       handleRowDBClick(row, event) {
         this.dialogTitle = '修改';
-        this.stuInfoEditable = true;
+        this.teacherInfoEditable = true;
         this.updateStudent = JSON.parse(JSON.stringify(row));
         this.dialogVisible = true;
       },
