@@ -1,4 +1,4 @@
-import { getAllTeacherInfo, getPageTeacherInfo, getTeachersByConditions } from '@/repository/teacher.repository';
+import { getAllTeacherInfo, getPageTeacherInfo, getTeachersByConditions, insertTeacherInfo } from '@/repository/teacher.repository';
 
   async function getTeacherInfo () {
     const data = await getAllTeacherInfo();
@@ -15,8 +15,14 @@ async function findTeachersByConditions (params) {
   return data || [];
 }
 
+async function saveTeacherInfo (params) {
+  const data = await insertTeacherInfo(params);
+  return data || [];
+}
+
 export {
   getTeacherInfo,
   getTeacherInfoPage,
-  findTeachersByConditions
+  findTeachersByConditions,
+  saveTeacherInfo
 };

@@ -12,11 +12,11 @@ import { get, post } from '@/utils/httpHelper';
     return body.data;
   }
 
-// async function saveStudent (params) {
-//   const url = `/xuexin/student/save`;
-//   const body = await post(url, params);
-//   return body.data;
-// }
+async function insertTeacherInfo (params) {
+  const url = `/xuexin/admin/teacher/save`;
+  const body = await post(url, params);
+  return body.data;
+}
 //
 // async function getAllActiveStudents () {
 //   const url = `/xuexin/student/findAll`;
@@ -33,5 +33,6 @@ async function getTeachersByConditions (params) {
 export {
   getAllTeacherInfo,
   getPageTeacherInfo,
-  getTeachersByConditions
+  getTeachersByConditions,
+  insertTeacherInfo
 };

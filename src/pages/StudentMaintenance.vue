@@ -270,7 +270,7 @@
               <el-form-item label="邮箱">
                 <el-input type="email" v-model="updateStudent.email"></el-input>
               </el-form-item>
-              <el-form-item label="联系方式">
+              <el-form-item label="手机号码">
                 <el-input v-model="updateStudent.mobileNo"></el-input>
               </el-form-item>
               <el-form-item label="家庭电话">
@@ -488,31 +488,34 @@
         }
       },
       async exportTableData() {
-        this.$loading({fullscreen: true});
-        // todo call findAll function or by criteria
-        let response = await findAllActiveStudents();
-        // let studentList = JSON.parse(JSON.stringify(this.studentList));
-        // deep clone
-        let studentArray = JSON.parse(JSON.stringify(response.data));
+        if (this.multipleSelection.length > 0) {
+          this.$confirm('是否导出当前所选的记录?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.doExport(this.multipleSelection);
+          }).catch(() => {
+            return;
+          });
+        } else {
+          // get all data
+          let response = await findAllActiveStudents();
+          // deep clone
+          let studentArray = JSON.parse(JSON.stringify(response.data));
+          this.doExport(studentArray);
+        }
+      },
+      doExport (studentArray) {
         require.ensure([], () => {
           const {exportJsonToExcel} = require('@/utils/Export2Excel');
           let tHeader = ['学号', ' 姓名', '性别', '身份证号', '学院名称', '专业名称','专业类别', '行政班级', '出生日期', '政治面貌', '民族', '籍贯', '来源地区',
-             '学制', '学习年限', '培育方向', '入学日期', '毕业中学', '邮箱', '联系方式', '家庭电话', '邮政编码', '乘车区间', '家庭地址', '特长'];
+            '学制', '学习年限', '培育方向', '入学日期', '毕业中学', '邮箱', '联系方式', '家庭电话', '邮政编码', '乘车区间', '家庭地址', '特长'];
           let filterVal = ['studentNo', 'studentName', 'sex', 'idcardNo', 'orgName', 'major', 'majorCategories', 'className', 'birthday', 'politicalStatus', 'nation', 'nativePlace', 'fromPlace',
-             'educationSystem', 'schoolingLength', 'cultivateDirection', 'acceptanceDate', 'middleSchool', 'email', 'mobileNo', 'familyTelNo', 'postcode', 'travelRange', 'address', 'skill'];
-          // deep clone
-          // let exportStakeholderList = JSON.parse(JSON.stringify(StakeholderList.data));
-          // studentList.forEach(item => {
-          // todo format data
-          // item.unsubscribed = item.unsubscribed === '1' ? 'YES' : 'NO';
-          // item.modifiedDate = item.modifiedDate.substring(0, item.modifiedDate.lastIndexOf('.')).replace('T', ' ');
-          // add the ['categoryName'] property
-          // item['categoryName'] = item.esgStakeholderCategory.categoryName;
-          // });
+            'educationSystem', 'schoolingLength', 'cultivateDirection', 'acceptanceDate', 'middleSchool', 'email', 'mobileNo', 'familyTelNo', 'postcode', 'travelRange', 'address', 'skill'];
           let data = this.formatJson(filterVal, studentArray);
-          exportJsonToExcel(tHeader, data, 'StudentList');
+          exportJsonToExcel(tHeader, data, '学生表');
         });
-        this.$loading({fullscreen: true}).close();
       },
       formatJson(filterVal, jsonData) {
         return jsonData.map(v => filterVal.map(j => v[j]));
@@ -520,7 +523,6 @@
       handleSizeChange(val) {
         this.pageable.pageSize = val;
         this.callStudentList(this.pageable);
-
         // this.stakeholderSearchInfo = JSON.parse(sessionStorage.getItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS));
         // this.stakeholderSearchInfo.pageSize = val;
         // sessionStorage.setItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS, JSON.stringify(this.stakeholderSearchInfo));

@@ -10,7 +10,7 @@
               <el-input v-model="searchTeacher.teacherNo"></el-input>
             </el-form-item>
             <el-form-item label="姓名">
-            <el-input v-model="searchTeacher.teacherName">'</el-input>
+              <el-input v-model="searchTeacher.teacherName">'</el-input>
             </el-form-item>
             <el-form-item label="性别">
               <el-radio-group v-model="searchTeacher.sex" size="small">
@@ -27,7 +27,8 @@
             </el-form-item>
             <el-form-item label="职称">
               <el-select v-model="searchTeacher.academicTitle" filterable placeholder="请选择">
-                <el-option v-for="item in academicTitleOptions" :key="item.name" :label="item.name" :value="item.name"></el-option>
+                <el-option v-for="item in academicTitleOptions" :key="item.name" :label="item.name"
+                           :value="item.name"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="教师资格">
@@ -195,7 +196,8 @@
                          layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
           </el-pagination>
           <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="500px" top="20px" @close='closeDialog'>
-            <el-form label-width="80px" label-position="left" :model="updateTeacher" class="dialog-form" ref="updateForm"><!--:rules="rules"-->
+            <el-form label-width="90px" label-position="left" :model="updateTeacher" class="dialog-form"
+                     ref="updateForm" :rules="rules">
               <el-form-item label="工号" prop="teacherNo">
                 <el-input v-model="updateTeacher.teacherNo" :disabled="teacherInfoEditable"></el-input>
               </el-form-item>
@@ -232,7 +234,7 @@
               <el-form-item label="职称">
                 <el-input v-model="updateTeacher.academicTitle"></el-input>
               </el-form-item>
-              <el-form-item label="教师类别">
+              <el-form-item label="教职工类别">
                 <el-input v-model="updateTeacher.category"></el-input>
               </el-form-item>
               <el-form-item label="学历">
@@ -248,18 +250,36 @@
                 <el-input v-model="updateTeacher.major"></el-input>
               </el-form-item>
               <el-form-item label="教师资格">
-                <el-input v-model="updateTeacher.qualificationFlag"></el-input>
+                <el-radio-group v-model="updateTeacher.qualificationFlag">
+                  <el-radio :label="true">有</el-radio>
+                  <el-radio :label="false">无</el-radio>
+                </el-radio-group>
               </el-form-item>
               <el-form-item label="在职状态">
-                <el-input v-model="updateTeacher.jobStatus"></el-input>
+                <el-radio-group v-model="updateTeacher.jobStatus">
+                  <el-radio label="在职">在职</el-radio>
+                  <el-radio label="离职">离职</el-radio>
+                </el-radio-group>
               </el-form-item>
-              <el-form-item label="是否实验室人员">
-                <el-input v-model="updateTeacher.isLab"></el-input>
+              <el-form-item label="可否监考">
+                <el-radio-group v-model="updateTeacher.invigilatorFlag">
+                  <el-radio :label="true">可以</el-radio>
+                  <el-radio :label="false">不可以</el-radio>
+                </el-radio-group>
               </el-form-item>
-              <el-form-item label="是否外聘">
-                <el-input v-model="updateTeacher.isOutHire"></el-input>
+              <el-form-item label="实验室人员">
+                <el-radio-group v-model="updateTeacher.isLab">
+                  <el-radio :label="true">是</el-radio>
+                  <el-radio :label="false">否</el-radio>
+                </el-radio-group>
               </el-form-item>
-              <el-form-item label="邮箱">
+              <el-form-item label="外聘">
+                <el-radio-group v-model="updateTeacher.isOutHire">
+                  <el-radio :label="true">是</el-radio>
+                  <el-radio :label="false">否</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="邮箱" prop="email">
                 <el-input type="email" v-model="updateTeacher.email"></el-input>
               </el-form-item>
               <el-form-item label="联系方式">
@@ -279,11 +299,12 @@
             <el-button type="primary" @click="handleSaveTeacher">保存</el-button>
           </span>
           </el-dialog>
-          <el-dialog title="上传学生信息" :visible.sync="uploadDialogVisible" width="30%" center :before-close="handleCloseUpload">
+          <el-dialog title="上传教师信息" :visible.sync="uploadDialogVisible" width="30%" center
+                     :before-close="handleCloseUpload">
             <el-upload
               class="upload-demo"
               ref="upload"
-              :action="studentUploadUrl"
+              :action="teacherUploadUrl"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               :on-change="handleChange"
@@ -295,7 +316,9 @@
               :auto-upload="false">
               <!--:headers="{'Authentication-Token': jwtToken}"-->
               <el-button type="primary" slot="trigger" size="small" plain>选择文件</el-button>
-              <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="submitUpload" plain>上传</el-button>
+              <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="submitUpload" plain>
+                上传
+              </el-button>
               <div slot="tip" class="el-upload__tip">仅支持 Excel 文件</div>
             </el-upload>
           </el-dialog>
@@ -307,8 +330,12 @@
 </template>
 
 <script>
-  // import {getStudentList, saveStudentInfo, findAllActiveStudents, findStdentsByConditions} from '@/service/student.service'
-  import { getTeacherInfo, getTeacherInfoPage, findTeachersByConditions } from '@/service/teacher.service'
+  import {
+    getTeacherInfo,
+    getTeacherInfoPage,
+    findTeachersByConditions,
+    saveTeacherInfo
+  } from '@/service/teacher.service'
 
   import Constant from '@/utils/Constant'
 
@@ -322,7 +349,6 @@
         totalCount: 0,
         loadingStatus: false,
         multipleSelection: [],
-        // studentList: [],
         teacherList: [],
         teacherInfoEditable: true,
         updateTeacher: {
@@ -345,26 +371,12 @@
           researchDirection: '',
           invigilatorFlag: '',
           qualificationFlag: '',
+          jobStatus: '',
           isLab: '',
           isOutHire: '',
           address: '',
           introduce: ''
         },
-        // searchStudent: {
-        //   studentNo: '',
-        //   studentName: '',
-        //   sex: '',
-        //   // birthdayFrom: '',
-        //   // birthdayTo: '',
-        //   politicalStatus: '',
-        //   nation: '',
-        //   orgName: '',
-        //   major: '',
-        //   className: '',
-        //   acceptanceYear: '',
-        //   currentPage: 1,
-        //   pageSize: 20
-        // },
         searchTeacher: {
           teacherNo: '',
           teacherName: '',
@@ -375,7 +387,7 @@
           jobStatus: '', // '在职状态：Y:在职；N：离职'
           isOutHire: '', // '是否外聘：Y：是；N：否'
           currentPage: 1,
-          pageSize: 2
+          pageSize: 20
         },
         dialogTitle: '',
         dialogVisible: false,
@@ -383,25 +395,21 @@
         academicTitleOptions: [],
         politicalOptions: Constant.POLITICALOPTIONS,
         nationOptions: Constant.NATIONOPTIONS,
-        // rules: {
-        //   studentNo: [
-        //     {required: true, message: '请输入学号', trigger: ['blur', 'change']}
-        //   ],
-        //   studentName: [
-        //     {required: true, message: '请输入姓名', trigger: ['blur', 'change']}
-        //   ],
-        //   idcardNo: [
-        //     {required: true, message: '请输入身份证号', trigger: ['blur', 'change']}
-        //   ],
-        //   email: [
-        //     {required: true, message: '请输入电子邮箱', trigger: 'blur'},
-        //     {type: 'email', message: '请输入正确的电子邮箱', trigger: ['blur', 'change']}
-        //   ],
-        //   sex: [
-        //     {required: true, message: '请选择性别', trigger: ['blur', 'change']}
-        //   ]
-        // },
-        studentUploadUrl: Constant.STUDENT_UPLOAD_URL,
+        rules: {
+          teacherNo: [
+            {required: true, message: '请输入工号', trigger: ['blur', 'change']}
+          ],
+          teacherName: [
+            {required: true, message: '请输入姓名', trigger: ['blur', 'change']}
+          ],
+          email: [
+            {type: 'email', message: '请输入正确的电子邮箱', trigger: ['blur', 'change']}
+          ],
+          sex: [
+            {required: true, message: '请选择性别', trigger: ['blur', 'change']}
+          ]
+        },
+        teacherUploadUrl: Constant.TEACHER_UPLOAD_URL,
         fileList: [],
         uploadDialogVisible: false,
       };
@@ -417,35 +425,34 @@
         this.$loading({fullscreen: true}).close();
       },
       handleSaveTeacher() {
-        // this.$refs.updateForm.validate((valid) => {
-        //   if (!valid) {
-        //     return false;
-        //   } else {
-        //     let idNoReg = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
-        //     if (!idNoReg.test(this.updateStudent.idcardNo)) {
-        //       this.$alert('请输入正确的身份证号码！');
-        //       return false;
-        //     }
-        //     this.saveStudent();
-        //   }
-        // });
+        this.$refs.updateForm.validate((valid) => {
+          if (!valid) {
+            return false;
+          } else {
+            this.saveTeacher();
+          }
+        });
       },
-      async saveStudent() {
-        // this.$loading({fullscreen: true});
-        // let responseData = await saveStudentInfo(this.updateStudent);
-        // if (responseData.code === Constant.POPUP_EXCEPTION_CODE && responseData.msg !== '') {
-        //   this.$alert(responseData.msg, {
-        //     confirmButtonText: 'OK'
-        //   });
-        // } else {
-        //   this.$message.success('数据保存成功！');
-        //   this.dialogVisible = false;
-        //   this.updateStudent = {};
-        //   // refresh data from DB
-        //   // todo 获取页码和页面数量
-        //   this.callStudentList(this.pageable);
-        // }
-        // this.$loading({fullscreen: true}).close();
+      async saveTeacher() {
+        this.$loading({fullscreen: true});
+        let teacher = this.decodeTeacherInfo(this.updateTeacher);
+        let responseData = await saveTeacherInfo(teacher);
+        if (responseData.code === Constant.POPUP_EXCEPTION_CODE && responseData.msg !== '') {
+          this.$alert(responseData.msg, {
+            confirmButtonText: 'OK'
+          });
+        } else {
+          this.$message.success('数据保存成功！');
+          this.dialogVisible = false;
+          this.updateTeacher = {};
+          // refresh data from DB
+          this.pageable = {
+            currentPage: 1,
+            pageSize: 20
+          };
+          this.callTeacherList(this.pageable);
+        }
+        this.$loading({fullscreen: true}).close();
       },
       handleCancel() {
         this.dialogVisible = false;
@@ -459,45 +466,53 @@
       closeDialog() {
         this.dialogVisible = false;
         this.$refs.updateForm.resetFields();
-        this.updateStudent = {};
+        this.updateTeacher = {};
       },
       showModifyDialog() {
-        // if (this.multipleSelection.length === 1) {
-        //   this.dialogTitle = '修改';
-        //   this.teacherInfoEditable = true;
-        //   // deep clone
-        //   this.updateStudent = JSON.parse(JSON.stringify(this.multipleSelection[0]));
-        //   this.dialogVisible = true;
-        // } else {
-        //   this.$message.warning('请选择一条要修改的记录');
-        // }
+        if (this.multipleSelection.length === 1) {
+          this.dialogTitle = '修改';
+          this.teacherInfoEditable = true;
+          // deep clone
+          this.updateTeacher = JSON.parse(JSON.stringify(this.multipleSelection[0]));
+          this.dialogVisible = true;
+        } else {
+          this.$message.warning('请选择一条要修改的记录');
+        }
       },
       async exportTableData() {
-        this.$loading({fullscreen: true});
-        // todo call findAll function or by criteria
-        let response = await findAllActiveStudents();
-        // let studentList = JSON.parse(JSON.stringify(this.studentList));
-        // deep clone
-        let studentArray = JSON.parse(JSON.stringify(response.data));
+        if (this.multipleSelection.length > 0) {
+          this.$confirm('是否导出当前所选的记录?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.doExport(this.multipleSelection);
+          }).catch(() => {
+            return;
+          });
+        } else {
+          // get all data
+          this.$loading({fullscreen: true});
+          let response = await getTeacherInfo();
+          // deep clone
+          let teacherList = JSON.parse(JSON.stringify(response.data));
+          this.doExport(teacherList);
+          this.$loading({fullscreen: true}).close();
+        }
+      },
+      doExport(teacherList) {
         require.ensure([], () => {
           const {exportJsonToExcel} = require('@/utils/Export2Excel');
-          let tHeader = ['学号', ' 姓名', '性别', '身份证号', '学院名称', '专业名称','专业类别', '行政班级', '出生日期', '政治面貌', '民族', '籍贯', '来源地区',
-             '学制', '学习年限', '培育方向', '入学日期', '毕业中学', '邮箱', '联系方式', '家庭电话', '邮政编码', '乘车区间', '家庭地址', '特长'];
-          let filterVal = ['studentNo', 'studentName', 'sex', 'idcardNo', 'orgName', 'major', 'majorCategories', 'className', 'birthday', 'politicalStatus', 'nation', 'nativePlace', 'fromPlace',
-             'educationSystem', 'schoolingLength', 'cultivateDirection', 'acceptanceDate', 'middleSchool', 'email', 'mobileNo', 'familyTelNo', 'postcode', 'travelRange', 'address', 'skill'];
+          let tHeader = ['职工号', ' 姓名', '性别', '出生日期', '学院名称', '联系电话', '邮箱地址', '联系地址', '教职工类别', '学历', '学位', '职务', '职称',
+            '可否监考', '教学研究方向', '教师简介', '专业名称', '毕业院校', '教师资格', '在职类别', '实验室人员', '外聘', '政治面貌', '民族'];
+
+          let filterVal = ['teacherNo', 'teacherName', 'sex', 'birthday', 'orgName', 'telNo', 'email', 'address', 'category', 'education', 'degree', 'duty', 'academicTitle',
+            'invigilatorFlag', 'researchDirection', 'introduce', 'major', 'graduateSchool', 'qualificationFlag', 'jobStatus', 'isLab', 'isOutHire', 'politicalStatus', 'nation'];
           // deep clone
-          // let exportStakeholderList = JSON.parse(JSON.stringify(StakeholderList.data));
-          // studentList.forEach(item => {
-          // todo format data
-          // item.unsubscribed = item.unsubscribed === '1' ? 'YES' : 'NO';
-          // item.modifiedDate = item.modifiedDate.substring(0, item.modifiedDate.lastIndexOf('.')).replace('T', ' ');
-          // add the ['categoryName'] property
-          // item['categoryName'] = item.esgStakeholderCategory.categoryName;
-          // });
-          let data = this.formatJson(filterVal, studentArray);
-          exportJsonToExcel(tHeader, data, 'StudentList');
+          let exportTeacherList = this.formatForExport(teacherList);
+          let data = this.formatJson(filterVal, exportTeacherList);
+          exportJsonToExcel(tHeader, data, '教职工表');
         });
-        this.$loading({fullscreen: true}).close();
       },
       formatJson(filterVal, jsonData) {
         return jsonData.map(v => filterVal.map(j => v[j]));
@@ -505,7 +520,6 @@
       handleSizeChange(val) {
         this.pageable.pageSize = val;
         this.callStudentList(this.pageable);
-
         // this.stakeholderSearchInfo = JSON.parse(sessionStorage.getItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS));
         // this.stakeholderSearchInfo.pageSize = val;
         // sessionStorage.setItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS, JSON.stringify(this.stakeholderSearchInfo));
@@ -525,11 +539,11 @@
       handleRowDBClick(row, event) {
         this.dialogTitle = '修改';
         this.teacherInfoEditable = true;
-        this.updateStudent = JSON.parse(JSON.stringify(row));
+        this.updateTeacher = JSON.parse(JSON.stringify(row));
         this.dialogVisible = true;
       },
       // for upload
-      handleCloseUpload (done) {
+      handleCloseUpload(done) {
         this.$refs.upload.clearFiles();
         done();
       },
@@ -541,7 +555,6 @@
           return false;
         }
         return true;
-
       },
       handleRemove(file, fileList) {
         this.fileList = fileList;
@@ -564,13 +577,12 @@
         this.$loading({fullscreen: true});
       },
       handleSuccess(response, file, fileList) {
-        console.log(response);
+        // console.log(response);
         if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
           this.$alert(response.msg, {
             confirmButtonText: 'OK'
           });
         } else {
-          // todo 异常情况
           this.$alert('上传成功', {
             confirmButtonText: 'OK'
           }).then(value => {
@@ -579,7 +591,7 @@
               currentPage: 1,
               pageSize: 20
             };
-            this.callStudentList(this.pageable);
+            this.callTeacherList(this.pageable);
           });
         }
         this.$refs.upload.clearFiles();
@@ -613,11 +625,11 @@
           academicTitleSet.add(teacher.academicTitle);
         });
         orgNameSet.forEach(orgName => {
-          let orgNameObj = { name: orgName };
+          let orgNameObj = {name: orgName};
           this.orgNameOptions.push(orgNameObj);
         });
         academicTitleSet.forEach(academicTitle => {
-          let academicTitleObj = { name: academicTitle };
+          let academicTitleObj = {name: academicTitle};
           this.academicTitleOptions.push(academicTitleObj);
         });
       },
@@ -625,43 +637,52 @@
         // format data
         teacherList.forEach(teacher => {
           // sex
-          if (teacher.sex === '0') {
-            teacher.sex = '男';
-          } else {
-            teacher.sex = '女';
-          }
+          teacher.sex = (teacher.sex === '0') ? '男' : '女';
           // invigilatorFlag
-          if (teacher.invigilatorFlag === 'T') {
-            teacher.invigilatorFlag = true;
-          } else {
-            teacher.invigilatorFlag = false;
-          }
+          teacher.invigilatorFlag = (teacher.invigilatorFlag === 'T') ? true : false;
           // jobStatus
-          if (teacher.jobStatus === 'Y') {
-            teacher.jobStatus = '在职';
-          } else {
-            teacher.jobStatus = '离职';
-          }
+          teacher.jobStatus = (teacher.jobStatus === 'Y') ? '在职' : '离职';
           // qualificationFlag
-          if (teacher.qualificationFlag === 'Y') {
-            teacher.qualificationFlag = true;
-          } else {
-            teacher.qualificationFlag = false;
-          }
+          teacher.qualificationFlag = (teacher.qualificationFlag === 'Y') ? true : false;
           // isLab
-          if (teacher.isLab === 'Y') {
-            teacher.isLab = true;
-          } else {
-            teacher.isLab = false;
-          }
+          teacher.isLab = (teacher.isLab === 'Y') ? true : false;
           // isOutHire
-          if (teacher.isOutHire === 'Y') {
-            teacher.isOutHire = true;
-          } else {
-            teacher.isOutHire = false;
-          }
+          teacher.isOutHire = (teacher.isOutHire === 'Y') ? true : false;
         });
         return teacherList;
+      },
+      formatForExport(teacherList) {
+        // format data
+        teacherList.forEach(teacher => {
+          // sex
+          teacher.sex = (teacher.sex === '0') ? '男' : '女';
+          // invigilatorFlag
+          teacher.invigilatorFlag = (teacher.invigilatorFlag === 'T') ? '可以' : '不可以';
+          // jobStatus
+          teacher.jobStatus = (teacher.jobStatus === 'Y') ? '在职' : '离职';
+          // qualificationFlag
+          teacher.qualificationFlag = (teacher.qualificationFlag === 'Y') ? '有' : '没有';
+          // isLab
+          teacher.isLab = (teacher.isLab === 'Y') ? '是' : '否';
+          // isOutHire
+          teacher.isOutHire = (teacher.isOutHire === 'Y') ? '是' : '否';
+        });
+        return teacherList;
+      },
+      decodeTeacherInfo(teacher) {
+        // sex
+        teacher.sex = (teacher.sex === '男') ? '0' : '1';
+        // invigilatorFlag
+        teacher.invigilatorFlag = (teacher.invigilatorFlag === true) ? 'T' : 'F';
+        // jobStatus
+        teacher.jobStatus = (teacher.jobStatus === '在职') ? 'Y' : 'N';
+        // qualificationFlag
+        teacher.qualificationFlag = (teacher.qualificationFlag === true) ? 'Y' : 'N';
+        // isLab
+        teacher.isLab = (teacher.isLab === true) ? 'Y' : 'N';
+        // isOutHire
+        teacher.isOutHire = (teacher.isOutHire === true) ? 'Y' : 'N';
+        return teacher;
       }
     },
     mounted() {
@@ -702,7 +723,7 @@
     width: 28px;
   }
 
-  .search-btn{
+  .search-btn {
     text-align: center;
     width: 100%;
   }
