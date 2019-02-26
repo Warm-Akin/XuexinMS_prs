@@ -4,7 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Login from '@/pages/Login'
 import StudentMaintenance from '@/pages/StudentMaintenance'
 import TeacherMaintenance from '@/pages/TeacherMaintenance'
-
+import CourseMaintenance from '@/pages/CourseMaintenance'
 
 Vue.use(Router)
 
@@ -28,6 +28,11 @@ const routes = [
     path: '/teacherMaintenance',
     name: 'TeacherMaintenance',
     component: TeacherMaintenance
+  },
+  {
+    path: '/courseMaintenance',
+    name: 'CourseMaintenance',
+    component: CourseMaintenance
   }
 ];
 

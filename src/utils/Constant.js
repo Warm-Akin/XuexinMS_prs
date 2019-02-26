@@ -16,11 +16,13 @@ const NATIONOPTIONS = [
 
 const STUDENT_UPLOAD_URL = `/xuexin/student/upload`;
 const TEACHER_UPLOAD_URL = `/xuexin/admin/teacher/upload`;
+const COURSE_UPLOAD_URL = `/xuexin/admin/course/upload`;
 
 export default {
   POPUP_EXCEPTION_CODE,
   POLITICALOPTIONS,
   NATIONOPTIONS,
   STUDENT_UPLOAD_URL,
-  TEACHER_UPLOAD_URL
+  TEACHER_UPLOAD_URL,
+  COURSE_UPLOAD_URL
 }

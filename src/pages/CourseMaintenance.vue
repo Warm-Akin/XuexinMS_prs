@@ -13,10 +13,10 @@
               <el-input v-model="searchCourse.courseName">'</el-input>
             </el-form-item>
             <el-form-item label="教师工号">
-              <el-input v-model="searchTeacher.teacherNo"></el-input>
+              <el-input v-model="searchCourse.teacherNo"></el-input>
             </el-form-item>
             <el-form-item label="教师姓名">
-              <el-input v-model="searchTeacher.teacherName"></el-input>
+              <el-input v-model="searchCourse.teacherName"></el-input>
             </el-form-item>
             <el-form-item label="学年">
               <el-select v-model="searchCourse.academicYear" filterable placeholder="请选择">
@@ -62,7 +62,7 @@
                 <span>{{scope.row.courseCode}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="课程名称" sortable prop="courseName" align="center" width="100">
+            <el-table-column label="课程名称" sortable prop="courseName" align="center" width="140">
               <template slot-scope="scope">
                 <span>{{scope.row.courseName}}</span>
               </template>
@@ -77,12 +77,12 @@
                 <span>{{scope.row.term}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="总学时" align="center" width="150" :show-overflow-tooltip="true">
+            <el-table-column label="总学时" align="center" width="100" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.totalHours}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="实验学时" align="center" width="150" :show-overflow-tooltip="true">
+            <el-table-column label="实验学时" align="center" width="100" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.labHours}}</span>
               </template>
@@ -92,12 +92,12 @@
                 <span>{{scope.row.category}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="限选人数" align="center" width="150" :show-overflow-tooltip="true">
+            <el-table-column label="限选人数" align="center" width="100" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.limitStudentNum}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="选课人数" align="center" width="150" :show-overflow-tooltip="true">
+            <el-table-column label="选课人数" align="center" width="100" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.studentNum}}</span>
               </template>
@@ -127,7 +127,7 @@
                 <span>{{scope.row.teacherName}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="教学班组成" align="center" width="150" :show-overflow-tooltip="true">
+            <el-table-column label="教学班组成" align="left" width="300">
               <template slot-scope="scope">
                 <span>{{scope.row.classInfo}}</span>
               </template>
@@ -146,113 +146,68 @@
           <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="500px" top="20px" @close='closeDialog'>
             <el-form label-width="90px" label-position="left" :model="updateCourse" class="dialog-form"
                      ref="updateForm" :rules="rules">
-              <el-form-item label="工号" prop="teacherNo">
-                <el-input v-model="updateCourse.teacherNo" :disabled="teacherInfoEditable"></el-input>
+              <el-form-item label="课程代码" prop="courseCode">
+                <el-input v-model="updateCourse.courseCode" :disabled="courseInfoEditable"></el-input>
               </el-form-item>
-              <el-form-item label="姓名" prop="teacherName">
+              <el-form-item label="课程名称" prop="courseName">
+                <el-input v-model="updateCourse.courseName"></el-input>
+              </el-form-item>
+              <el-form-item label="学年">
+                <el-input v-model="updateCourse.academicYear"></el-input>
+                <!--todo 学年选择-->
+                <!--<el-date-picker v-model="value5" type="year" placeholder="选择学年"></el-date-picker>-->
+                <!--<el-date-picker v-model="value5" type="year" placeholder="选择学年"></el-date-picker>-->
+              </el-form-item>
+              <el-form-item label="学期">
+                <el-radio-group v-model="updateCourse.term" prop="sex">
+                  <el-radio label="1">1</el-radio>
+                  <el-radio label="2">2</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="总学时">
+                <el-input v-model="updateCourse.totalHours" type="number"></el-input>
+              </el-form-item>
+              <el-form-item label="实验学时">
+                <el-input v-model="updateCourse.labHours" type="number"></el-input>
+              </el-form-item>
+              <el-form-item label="限选人数">
+                <el-input v-model="updateCourse.limitStudentNum" type="number"></el-input>
+              </el-form-item>
+              <el-form-item label="选课人数">
+                <el-input v-model="updateCourse.studentNum" type="number"></el-input>
+              </el-form-item>
+              <el-form-item label="学分">
+                <el-input v-model="updateCourse.credit" type="number"></el-input>
+              </el-form-item>
+              <el-form-item label="课程类别">
+                <el-input v-model="updateCourse.courseType"></el-input>
+              </el-form-item>
+              <el-form-item label="课程归属">
+                <el-input v-model="updateCourse.belongTo"></el-input>
+              </el-form-item>
+              <el-form-item label="教师工号">
+                <el-input v-model="updateCourse.teacherNo"></el-input>
+              </el-form-item>
+              <el-form-item label="教师姓名">
                 <el-input v-model="updateCourse.teacherName"></el-input>
               </el-form-item>
-              <el-form-item label="性别">
-                <el-radio-group v-model="updateCourse.sex" prop="sex">
-                  <el-radio label="男">男</el-radio>
-                  <el-radio label="女">女</el-radio>
-                </el-radio-group>
+              <el-form-item label="教学班组成">
+                <el-input v-model="updateCourse.classInfo" type="textarea" :autosize="{ minRows: 1, maxRows: 3}"></el-input>
               </el-form-item>
-              <el-form-item label="出生日期">
-                <el-date-picker v-model="updateCourse.birthday" type="date" placeholder="选择日期"></el-date-picker>
-              </el-form-item>
-              <el-form-item label="政治面貌">
-                <el-select v-model="updateCourse.politicalStatus" filterable placeholder="请选择">
-                  <el-option v-for="item in politicalOptions" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="民族">
-                <el-select v-model="updateCourse.nation" filterable placeholder="请选择">
-                  <el-option v-for="item in nationOptions" :key="item.name" :label="item.name"
-                             :value="item.name"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="学院名称">
-                <el-input v-model="updateCourse.orgName"></el-input>
-              </el-form-item>
-              <el-form-item label="职务">
-                <el-input v-model="updateCourse.duty"></el-input>
-              </el-form-item>
-              <el-form-item label="职称">
-                <el-input v-model="updateCourse.academicTitle"></el-input>
-              </el-form-item>
-              <el-form-item label="教职工类别">
-                <el-input v-model="updateCourse.category"></el-input>
-              </el-form-item>
-              <el-form-item label="学历">
-                <el-input v-model="updateCourse.education"></el-input>
-              </el-form-item>
-              <el-form-item label="学位">
-                <el-input v-model="updateCourse.degree"></el-input>
-              </el-form-item>
-              <el-form-item label="毕业院校">
-                <el-input v-model="updateCourse.graduateSchool"></el-input>
-              </el-form-item>
-              <el-form-item label="专业">
-                <el-input v-model="updateCourse.major"></el-input>
-              </el-form-item>
-              <el-form-item label="教师资格">
-                <el-radio-group v-model="updateCourse.qualificationFlag">
-                  <el-radio :label="true">有</el-radio>
-                  <el-radio :label="false">无</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="在职状态">
-                <el-radio-group v-model="updateCourse.jobStatus">
-                  <el-radio label="在职">在职</el-radio>
-                  <el-radio label="离职">离职</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="可否监考">
-                <el-radio-group v-model="updateCourse.invigilatorFlag">
-                  <el-radio :label="true">可以</el-radio>
-                  <el-radio :label="false">不可以</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="实验室人员">
-                <el-radio-group v-model="updateCourse.isLab">
-                  <el-radio :label="true">是</el-radio>
-                  <el-radio :label="false">否</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="外聘">
-                <el-radio-group v-model="updateCourse.isOutHire">
-                  <el-radio :label="true">是</el-radio>
-                  <el-radio :label="false">否</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="邮箱" prop="email">
-                <el-input type="email" v-model="updateCourse.email"></el-input>
-              </el-form-item>
-              <el-form-item label="联系方式">
-                <el-input v-model="updateCourse.telNo"></el-input>
-              </el-form-item>
-              <el-form-item label="联系地址">
-                <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}"
-                          v-model="updateCourse.address"></el-input>
-              </el-form-item>
-              <el-form-item label="教师简介">
-                <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 4}"
-                          v-model="updateCourse.introduce"></el-input>
+              <el-form-item label="备注">
+                <el-input v-model="updateCourse.memo"></el-input>
               </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-            <el-button @click="handleCancel">取消</el-button>
-            <el-button type="primary" @click="handleSaveTeacher">保存</el-button>
-          </span>
+              <el-button @click="handleCancel">取消</el-button>
+              <el-button type="primary" @click="handleSaveCourse">保存</el-button>
+            </span>
           </el-dialog>
-          <el-dialog title="上传教师信息" :visible.sync="uploadDialogVisible" width="30%" center
-                     :before-close="handleCloseUpload">
+          <el-dialog title="上传教师信息" :visible.sync="uploadDialogVisible" width="30%" center :before-close="handleCloseUpload">
             <el-upload
               class="upload-demo"
               ref="upload"
-              :action="teacherUploadUrl"
+              :action="courseUploadUrl"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               :on-change="handleChange"
@@ -264,9 +219,7 @@
               :auto-upload="false">
               <!--:headers="{'Authentication-Token': jwtToken}"-->
               <el-button type="primary" slot="trigger" size="small" plain>选择文件</el-button>
-              <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="submitUpload" plain>
-                上传
-              </el-button>
+              <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="submitUpload" plain>上传</el-button>
               <div slot="tip" class="el-upload__tip">仅支持 Excel 文件</div>
             </el-upload>
           </el-dialog>
@@ -278,13 +231,7 @@
 </template>
 
 <script>
-  import {
-    getTeacherInfo,
-    getTeacherInfoPage,
-    findTeachersByConditions,
-    saveTeacherInfo
-  } from '@/service/teacher.service'
-
+  import { initCourseInfo, getCourseInfoPage, findCoursesByConditions, saveCourseInfo } from '@/service/course.service'
   import Constant from '@/utils/Constant'
 
   export default {
@@ -298,7 +245,7 @@
         loadingStatus: false,
         multipleSelection: [],
         courseList: [],
-        teacherInfoEditable: true,
+        courseInfoEditable: true,
         updateCourse: {
           courseCode: '',
           courseName: '',
@@ -306,8 +253,8 @@
           term: '',
           totalHours: '',
           labHours: '',
-          selectedCourseNo: '',
           limitStudentNum: '',
+          selectedCourseNo: '',
           studentNum: '',
           credit: '',
           courseType: '',
@@ -317,18 +264,6 @@
           classInfo: '',
           memo: ''
         },
-        // searchTeacher: {
-        //   teacherNo: '',
-        //   teacherName: '',
-        //   sex: '',
-        //   orgName: '',
-        //   academicTitle: '', // 职称
-        //   qualificationFlag: '', // '教师资格标志：Y:有；N：无'
-        //   jobStatus: '', // '在职状态：Y:在职；N：离职'
-        //   isOutHire: '', // '是否外聘：Y：是；N：否'
-        //   currentPage: 1,
-        //   pageSize: 20
-        // },
         searchCourse: {
           courseCode: '',
           courseName: '',
@@ -351,47 +286,40 @@
         politicalOptions: Constant.POLITICALOPTIONS,
         nationOptions: Constant.NATIONOPTIONS,
         rules: {
-          teacherNo: [
-            {required: true, message: '请输入工号', trigger: ['blur', 'change']}
+          courseCode: [
+            {required: true, message: '请输入课程代码', trigger: ['blur', 'change']}
           ],
-          teacherName: [
-            {required: true, message: '请输入姓名', trigger: ['blur', 'change']}
-          ],
-          email: [
-            {type: 'email', message: '请输入正确的电子邮箱', trigger: ['blur', 'change']}
-          ],
-          sex: [
-            {required: true, message: '请选择性别', trigger: ['blur', 'change']}
+          courseName: [
+            {required: true, message: '请输入课程名称', trigger: ['blur', 'change']}
           ]
         },
-        teacherUploadUrl: Constant.TEACHER_UPLOAD_URL,
+        courseUploadUrl: Constant.COURSE_UPLOAD_URL,
         fileList: [],
-        uploadDialogVisible: false,
+        uploadDialogVisible: false
       };
     },
     methods: {
-      async callTeacherList(pageable) {
+      async callCourseList(pageable) {
         this.$loading({fullscreen: true});
-        let teachers = await getTeacherInfoPage(pageable);
-        let teacherList = teachers.data.pageResultList;
+        let courseInfo = await getCourseInfoPage(pageable);
+        this.courseList = courseInfo.data.pageResultList;
         // format data
-        this.courseList = this.formatList(teacherList);
-        this.totalCount = teachers.data.total;
+        // this.courseList = this.formatList(courseList);
+        this.totalCount = courseInfo.data.total;
         this.$loading({fullscreen: true}).close();
       },
-      handleSaveTeacher() {
+      handleSaveCourse() {
         this.$refs.updateForm.validate((valid) => {
           if (!valid) {
             return false;
           } else {
-            this.saveTeacher();
+            this.saveCourse();
           }
         });
       },
-      async saveTeacher() {
+      async saveCourse() {
         this.$loading({fullscreen: true});
-        let teacher = this.decodeTeacherInfo(this.updateCourse);
-        let responseData = await saveTeacherInfo(teacher);
+        let responseData = await saveCourseInfo(this.updateCourse);
         if (responseData.code === Constant.POPUP_EXCEPTION_CODE && responseData.msg !== '') {
           this.$alert(responseData.msg, {
             confirmButtonText: 'OK'
@@ -405,7 +333,8 @@
             currentPage: 1,
             pageSize: 20
           };
-          this.callTeacherList(this.pageable);
+          this.callCourseList(this.pageable);
+          this.init();
         }
         this.$loading({fullscreen: true}).close();
       },
@@ -416,7 +345,7 @@
       showAddDialog() {
         this.dialogTitle = '添加';
         this.dialogVisible = true;
-        this.teacherInfoEditable = false;
+        this.courseInfoEditable = false;
       },
       closeDialog() {
         this.dialogVisible = false;
@@ -426,7 +355,7 @@
       showModifyDialog() {
         if (this.multipleSelection.length === 1) {
           this.dialogTitle = '修改';
-          this.teacherInfoEditable = true;
+          this.courseInfoEditable = true;
           // deep clone
           this.updateCourse = JSON.parse(JSON.stringify(this.multipleSelection[0]));
           this.dialogVisible = true;
@@ -448,25 +377,24 @@
         } else {
           // get all data
           this.$loading({fullscreen: true});
-          let response = await getTeacherInfo();
+          let response = await initCourseInfo();
           // deep clone
           let teacherList = JSON.parse(JSON.stringify(response.data));
           this.doExport(teacherList);
           this.$loading({fullscreen: true}).close();
         }
       },
-      doExport(teacherList) {
+      doExport(courseList) {
         require.ensure([], () => {
           const {exportJsonToExcel} = require('@/utils/Export2Excel');
-          let tHeader = ['职工号', ' 姓名', '性别', '出生日期', '学院名称', '联系电话', '邮箱地址', '联系地址', '教职工类别', '学历', '学位', '职务', '职称',
-            '可否监考', '教学研究方向', '教师简介', '专业名称', '毕业院校', '教师资格', '在职类别', '实验室人员', '外聘', '政治面貌', '民族'];
-
-          let filterVal = ['teacherNo', 'teacherName', 'sex', 'birthday', 'orgName', 'telNo', 'email', 'address', 'category', 'education', 'degree', 'duty', 'academicTitle',
-            'invigilatorFlag', 'researchDirection', 'introduce', 'major', 'graduateSchool', 'qualificationFlag', 'jobStatus', 'isLab', 'isOutHire', 'politicalStatus', 'nation'];
+          let tHeader = ['课程代码', ' 课程名称', '学年', '学期', '总学时', '实验学时', '限选人数', '选课人数', '学分', '课程性质',
+            '课程归属', '教师工号', '教师姓名', '教学班组成', '备注'];
+          let filterVal = ['courseCode', 'courseName', 'academicYear', 'term', 'totalHours', 'labHours', 'limitStudentNum', 'selectedCourseNo', 'studentNum',
+            'credit', 'courseType', 'belongTo', 'teacherNo', 'teacherName', 'classInfo', 'memo'];
           // deep clone
-          let exportTeacherList = this.formatForExport(teacherList);
+          let exportTeacherList = courseList;
           let data = this.formatJson(filterVal, exportTeacherList);
-          exportJsonToExcel(tHeader, data, '教职工表');
+          exportJsonToExcel(tHeader, data, '开课课程信息表');
         });
       },
       formatJson(filterVal, jsonData) {
@@ -474,7 +402,7 @@
       },
       handleSizeChange(val) {
         this.pageable.pageSize = val;
-        this.callStudentList(this.pageable);
+        this.callCourseList(this.pageable);
         // this.stakeholderSearchInfo = JSON.parse(sessionStorage.getItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS));
         // this.stakeholderSearchInfo.pageSize = val;
         // sessionStorage.setItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS, JSON.stringify(this.stakeholderSearchInfo));
@@ -482,7 +410,7 @@
       },
       handleCurrentChange(val) {
         this.pageable.currentPage = val;
-        this.callStudentList(this.pageable);
+        this.callCourseList(this.pageable);
         // this.stakeholderSearchInfo = JSON.parse(sessionStorage.getItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS));
         // this.stakeholderSearchInfo.currentPage = val;
         // sessionStorage.setItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS, JSON.stringify(this.stakeholderSearchInfo));
@@ -493,7 +421,7 @@
       },
       handleRowDBClick(row, event) {
         this.dialogTitle = '修改';
-        this.teacherInfoEditable = true;
+        this.courseInfoEditable = true;
         this.updateCourse = JSON.parse(JSON.stringify(row));
         this.dialogVisible = true;
       },
@@ -546,7 +474,8 @@
               currentPage: 1,
               pageSize: 20
             };
-            this.callTeacherList(this.pageable);
+            this.callCourseList(this.pageable);
+            this.init();
           });
         }
         this.$refs.upload.clearFiles();
@@ -564,129 +493,86 @@
       },
       async queryCourse() {
         this.loadingStatus = true;
-        let teacherListData = await findTeachersByConditions(this.searchTeacher);
-        let teacherList = teacherListData.data.pageResultList;
-        this.courseList = this.formatList(teacherList);
-        this.totalCount = teacherListData.data.total;
+        let courseListData = await findCoursesByConditions(this.searchCourse);
+        this.courseList = courseListData.data.pageResultList;
+        // let courseList = courseListData.data.pageResultList;
+        // this.courseList = courseList;
+        // this.courseList = this.formatList(courseList);
+        this.totalCount = courseListData.data.total;
         this.loadingStatus = false;
       },
       async init() {
-        let teachersData = await getTeacherInfo();
-        let teacherList = teachersData.data;
-        let orgNameSet = new Set();
-        let academicTitleSet = new Set();
-        teacherList.forEach(teacher => {
-          orgNameSet.add(teacher.orgName);
-          academicTitleSet.add(teacher.academicTitle);
+        this.academicYearOptions = [];
+        this.courseTypeOptions = [];
+        this.creditOptions = [];
+        let courseData = await initCourseInfo();
+        let courseList = courseData.data;
+        let academicYearSet = new Set();
+        let courseTypeSet = new Set();
+        let creditSet = new Set();
+        courseList.forEach(course => {
+          academicYearSet.add(course.academicYear);
+          courseTypeSet.add(course.courseType);
+          creditSet.add(course.credit);
         });
-        orgNameSet.forEach(orgName => {
-          let orgNameObj = {name: orgName};
-          this.orgNameOptions.push(orgNameObj);
+        academicYearSet.forEach(academicYear => {
+          let academicYearObj = {name: academicYear};
+          this.academicYearOptions.push(academicYearObj);
         });
-        academicTitleSet.forEach(academicTitle => {
-          let academicTitleObj = {name: academicTitle};
-          this.academicTitleOptions.push(academicTitleObj);
+        courseTypeSet.forEach(courseType => {
+          let courseTypeObj = {name: courseType};
+          this.courseTypeOptions.push(courseTypeObj);
         });
+        creditSet.forEach(credit => {
+          let creditObj = {name: credit};
+          this.creditOptions.push(creditObj);
+        });
+        // todo sort
+        this.creditOptions.sort(this.sortArray);
+        console.log(this.creditOptions)
       },
-      formatList(teacherList) {
-        // format data
-        teacherList.forEach(teacher => {
-          // sex
-          teacher.sex = (teacher.sex === '0') ? '男' : '女';
-          // invigilatorFlag
-          teacher.invigilatorFlag = (teacher.invigilatorFlag === 'T') ? true : false;
-          // jobStatus
-          teacher.jobStatus = (teacher.jobStatus === 'Y') ? '在职' : '离职';
-          // qualificationFlag
-          teacher.qualificationFlag = (teacher.qualificationFlag === 'Y') ? true : false;
-          // isLab
-          teacher.isLab = (teacher.isLab === 'Y') ? true : false;
-          // isOutHire
-          teacher.isOutHire = (teacher.isOutHire === 'Y') ? true : false;
-        });
-        return teacherList;
-      },
-      formatForExport(teacherList) {
-        // format data
-        teacherList.forEach(teacher => {
-          // sex
-          teacher.sex = (teacher.sex === '0') ? '男' : '女';
-          // invigilatorFlag
-          teacher.invigilatorFlag = (teacher.invigilatorFlag === 'T') ? '可以' : '不可以';
-          // jobStatus
-          teacher.jobStatus = (teacher.jobStatus === 'Y') ? '在职' : '离职';
-          // qualificationFlag
-          teacher.qualificationFlag = (teacher.qualificationFlag === 'Y') ? '有' : '没有';
-          // isLab
-          teacher.isLab = (teacher.isLab === 'Y') ? '是' : '否';
-          // isOutHire
-          teacher.isOutHire = (teacher.isOutHire === 'Y') ? '是' : '否';
-        });
-        return teacherList;
-      },
-      decodeTeacherInfo(teacher) {
-        // sex
-        teacher.sex = (teacher.sex === '男') ? '0' : '1';
-        // invigilatorFlag
-        teacher.invigilatorFlag = (teacher.invigilatorFlag === true) ? 'T' : 'F';
-        // jobStatus
-        teacher.jobStatus = (teacher.jobStatus === '在职') ? 'Y' : 'N';
-        // qualificationFlag
-        teacher.qualificationFlag = (teacher.qualificationFlag === true) ? 'Y' : 'N';
-        // isLab
-        teacher.isLab = (teacher.isLab === true) ? 'Y' : 'N';
-        // isOutHire
-        teacher.isOutHire = (teacher.isOutHire === true) ? 'Y' : 'N';
-        return teacher;
+      sortArray(a, b){
+        return b - a;
       }
     },
     mounted() {
-      document.title = "教师信息管理";
+      document.title = "开课课程信息管理";
       this.init();
-      this.callTeacherList(this.pageable);
+      this.callCourseList(this.pageable);
     }
   }
 </script>
 
 <style scoped>
-
   .text-align-left {
     text-align: left;
   }
-
   .page-title {
     font-size: 20px;
   }
-
   .margin-top {
     margin-top: 20px;
   }
-
   .table-nav {
     position: fixed;
     bottom: 40px;
   }
-
   .line {
     width: 1px;
     height: 700px;
     background-color: #e6e6e6;
     margin-left: 20px;
   }
-
   .radio-margin {
     width: 28px;
   }
-
   .search-btn {
     text-align: center;
     width: 100%;
   }
-
   > > > .el-input.is-disabled .el-input__inner {
     background-color: #FFFFFF;
     border-color: #66b1ff;
     color: #c0c4cc;
   }
-
 </style>
