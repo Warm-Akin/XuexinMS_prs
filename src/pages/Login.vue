@@ -1,26 +1,34 @@
 <template>
   <div class="main-content">
-    <div class="login-form">
-      <el-form :model="user" ref="userInfoForm" label-width="100px">
-        <el-form-item label="用户名" class="label-region">
-          <el-input type="text" v-model="user.employName" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" class="label-region">
-          <el-input type="password" v-model="user.password" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('userInfoForm')" class="btn-margin">登录</el-button>
-          <el-button @click="resetForm('userInfoForm')" class="btn-margin">重置</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+    <!--<div class="decoration">-->
+      <div class="login-form" @keydown.enter="submitForm('userInfoForm')">
+        <el-form :model="user" ref="userInfoForm" label-width="100px">
+          <el-form-item label="用户名" class="label-region">
+            <el-input type="text" v-model="user.employName" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" class="label-region">
+            <el-input type="password" v-model="user.password" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('userInfoForm')" class="btn-margin">登录</el-button>
+            <el-button @click="resetForm('userInfoForm')" class="btn-margin">重置</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    <!--</div>-->
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
+  import Footer from '@/components/Footer.vue';
   import {checkLoginService} from '@/service/user.service';
+  import Constant from '@/utils/Constant'
 
   export default {
+    components: {
+      Footer
+    },
     data () {
       return {
         user: {
@@ -57,8 +65,15 @@
         };
       },
       async check () {
-        let result = await checkLoginService(this.user);
-        return result.data;
+        let responseData = await checkLoginService(this.user);
+        if (responseData.code === Constant.POPUP_EXCEPTION_CODE && responseData.msg !== '') {
+          this.$alert(responseData.msg, {
+            confirmButtonText: 'OK'
+          });
+        } else {
+          // login success
+          this.$router.push('/studentMaintenance');
+        }
       }
     },
     mounted() {
@@ -69,14 +84,16 @@
 
 <style scoped>
   .main-content {
-    margin: 0;
-    padding: 0;
+    /*margin: 0;*/
+    /*padding: 0;*/
     background-image: url("../assets/computer.jpg");
     background-size: cover;
     background-position: center;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 715px;
+    height: 100%;
   }
 
   .login-form {
@@ -84,12 +101,21 @@
     position: relative;
     margin-left: 30%;
     top: 30%;
+    background: black;
+    opacity: 0.75;
+    padding: 2% 5% 1% 0;
+    /*padding-right: 5%;*/
   }
 
   .btn-margin {
     width: 45%;
     margin-left: 3%;
   }
+
+  /*.decoration {*/
+    /*background: gray;*/
+    /*opacity: 0.75;*/
+  /*}*/
 
   >>> .el-form-item__label {
     color: #FFFFFF;

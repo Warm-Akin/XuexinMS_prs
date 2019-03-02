@@ -206,7 +206,7 @@
           <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="500px" top="20px" @close='closeDialog'>
             <el-form label-width="80px" label-position="left" :model="updateStudent" class="dialog-form" ref="updateForm" :rules="rules">
               <el-form-item label="学号" prop="studentNo">
-                <el-input v-model="updateStudent.studentNo" :disabled="stuInfoEditable"></el-input>
+                <el-input v-model="updateStudent.studentNo" :disabled="formEditable"></el-input>
               </el-form-item>
               <el-form-item label="姓名" prop="studentName">
                 <el-input v-model="updateStudent.studentName"></el-input>
@@ -239,30 +239,30 @@
                 <el-input v-model="updateStudent.fromPlace"></el-input>
               </el-form-item>
               <el-form-item label="系">
-                <el-input v-model="updateStudent.department" :disabled="stuInfoEditable"></el-input>
+                <el-input v-model="updateStudent.department" :disabled="formEditable"></el-input>
               </el-form-item>
               <el-form-item label="学院名称">
-                <el-input v-model="updateStudent.orgName" :disabled="stuInfoEditable"></el-input>
+                <el-input v-model="updateStudent.orgName" :disabled="formEditable"></el-input>
               </el-form-item>
               <el-form-item label="专业类别">
-                <el-input v-model="updateStudent.majorCategories" :disabled="stuInfoEditable"></el-input>
+                <el-input v-model="updateStudent.majorCategories" :disabled="formEditable"></el-input>
               </el-form-item>
               <el-form-item label="专业名称">
-                <el-input v-model="updateStudent.major" :disabled="stuInfoEditable"></el-input>
+                <el-input v-model="updateStudent.major" :disabled="formEditable"></el-input>
               </el-form-item>
               <el-form-item label="培育方向">
-                <el-input v-model="updateStudent.cultivateDirection" :disabled="stuInfoEditable"></el-input>
+                <el-input v-model="updateStudent.cultivateDirection" :disabled="formEditable"></el-input>
               </el-form-item>
               <el-form-item label="行政班级">
-                <el-input v-model="updateStudent.className" :disabled="stuInfoEditable"></el-input>
+                <el-input v-model="updateStudent.className" :disabled="formEditable"></el-input>
               </el-form-item>
               <el-form-item label="学制">
                 <el-input-number v-model="updateStudent.educationSystem" :min="1" :max="10"
-                                 :disabled="stuInfoEditable"></el-input-number>
+                                 :disabled="formEditable"></el-input-number>
               </el-form-item>
               <el-form-item label="入学日期">
                 <el-date-picker v-model="updateStudent.acceptanceDate" type="date" placeholder="选择日期"
-                                :disabled="stuInfoEditable"></el-date-picker>
+                                :disabled="formEditable"></el-date-picker>
               </el-form-item>
               <el-form-item label="毕业中学">
                 <el-input v-model="updateStudent.middleSchool"></el-input>
@@ -319,15 +319,19 @@
         </el-col>
       </el-col>
     </el-row>
+    <Footer></Footer>
   </div>
-
 </template>
 
 <script>
+  import Footer from '@/components/Footer.vue';
   import {getStudentList, saveStudentInfo, findAllActiveStudents, findStdentsByConditions} from '@/service/student.service'
   import Constant from '@/utils/Constant'
 
   export default {
+    components: {
+      Footer
+    },
     data() {
       return {
         pageable: {
@@ -338,7 +342,7 @@
         loadingStatus: false,
         multipleSelection: [],
         studentList: [],
-        teacherInfoEditable: true,
+        formEditable: true,
         updateStudent: {
           studentNo: '',
           studentName: '',
@@ -469,7 +473,7 @@
       showAddDialog() {
         this.dialogTitle = '添加';
         this.dialogVisible = true;
-        this.teacherInfoEditable = false;
+        this.formEditable = false;
       },
       closeDialog() {
         this.dialogVisible = false;
@@ -479,7 +483,7 @@
       showModifyDialog() {
         if (this.multipleSelection.length === 1) {
           this.dialogTitle = '修改';
-          this.teacherInfoEditable = true;
+          this.formEditable = true;
           // deep clone
           this.updateStudent = JSON.parse(JSON.stringify(this.multipleSelection[0]));
           this.dialogVisible = true;
@@ -541,7 +545,7 @@
       },
       handleRowDBClick(row, event) {
         this.dialogTitle = '修改';
-        this.teacherInfoEditable = true;
+        this.formEditable = true;
         this.updateStudent = JSON.parse(JSON.stringify(row));
         this.dialogVisible = true;
       },

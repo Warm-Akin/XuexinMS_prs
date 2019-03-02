@@ -325,21 +325,19 @@
         </el-col>
       </el-col>
     </el-row>
+    <Footer></Footer>
   </div>
-
 </template>
 
 <script>
-  import {
-    getTeacherInfo,
-    getTeacherInfoPage,
-    findTeachersByConditions,
-    saveTeacherInfo
-  } from '@/service/teacher.service'
-
+  import Footer from '@/components/Footer.vue';
+  import {getTeacherInfo, getTeacherInfoPage, findTeachersByConditions, saveTeacherInfo} from '@/service/teacher.service'
   import Constant from '@/utils/Constant'
 
   export default {
+    components: {
+      Footer
+    },
     data() {
       return {
         pageable: {
@@ -350,7 +348,7 @@
         loadingStatus: false,
         multipleSelection: [],
         teacherList: [],
-        teacherInfoEditable: true,
+        formEditable: true,
         updateTeacher: {
           teacherNo: '',
           teacherName: '',
@@ -461,7 +459,7 @@
       showAddDialog() {
         this.dialogTitle = '添加';
         this.dialogVisible = true;
-        this.teacherInfoEditable = false;
+        this.formEditable = false;
       },
       closeDialog() {
         this.dialogVisible = false;
@@ -471,7 +469,7 @@
       showModifyDialog() {
         if (this.multipleSelection.length === 1) {
           this.dialogTitle = '修改';
-          this.teacherInfoEditable = true;
+          this.formEditable = true;
           // deep clone
           this.updateTeacher = JSON.parse(JSON.stringify(this.multipleSelection[0]));
           this.dialogVisible = true;
@@ -538,7 +536,7 @@
       },
       handleRowDBClick(row, event) {
         this.dialogTitle = '修改';
-        this.teacherInfoEditable = true;
+        this.formEditable = true;
         this.updateTeacher = JSON.parse(JSON.stringify(row));
         this.dialogVisible = true;
       },

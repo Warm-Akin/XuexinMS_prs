@@ -1,0 +1,298 @@
+<template>
+  <div class="main-content">
+    <el-row>
+      <el-col :span="24">
+        <el-col :span="3">
+          <Menu></Menu>
+        </el-col>
+        <el-col :xl="1" :lg="1" class="margin-top">
+          <div class="line"></div>
+        </el-col>
+        <el-col :span="20">
+          <el-form label-width="80px" label-position="left" :model="updateStudent" class="dialog-form" ref="updateForm"
+                   :rules="rules">
+            <el-row>
+              <el-col :span="9">
+                <el-form-item label="学号" prop="studentNo">
+                  <el-input v-model="updateStudent.studentNo" :disabled="formEditable"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="1">&nbsp;</el-col>
+              <el-col :span="9">
+                <el-form-item label="姓名" prop="studentName">
+                  <el-input v-model="updateStudent.studentName"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="9">
+                <el-form-item label="身份证号" prop="idcardNo">
+                  <el-input v-model="updateStudent.idcardNo"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="1">&nbsp;</el-col>
+              <el-col :span="9">
+                <el-form-item label="性别">
+                  <el-radio-group v-model="updateStudent.sex" prop="sex">
+                    <el-radio label="男">男</el-radio>
+                    <el-radio label="女">女</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="9">
+                <el-form-item label="政治面貌">
+                  <el-select v-model="updateStudent.politicalStatus" filterable placeholder="请选择">
+                    <el-option v-for="item in politicalOptions" :key="item.value" :label="item.label"
+                               :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="1">&nbsp;</el-col>
+              <el-col :span="9">
+                <el-form-item label="民族">
+                  <el-select v-model="updateStudent.nation" filterable placeholder="请选择">
+                    <el-option v-for="item in nationOptions" :key="item.name" :label="item.name"
+                               :value="item.name"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="9">
+                <el-form-item label="籍贯">
+                  <el-input v-model="updateStudent.nativePlace"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="1">&nbsp;</el-col>
+              <!--<el-col :span="9">-->
+                <!--<el-form-item label="来源地区">-->
+                  <!--<el-input v-model="updateStudent.fromPlace"></el-input>-->
+                <!--</el-form-item>-->
+              <!--</el-col>-->
+            </el-row>
+            <el-row>
+              <!--<el-col :span="9">-->
+                <!--<el-form-item label="系">-->
+                  <!--<el-input v-model="updateStudent.department" :disabled="formEditable"></el-input>-->
+                <!--</el-form-item>-->
+              <!--</el-col>-->
+              <el-col :span="1">&nbsp;</el-col>
+              <el-col :span="9">
+                <el-form-item label="学院名称">
+                  <el-input v-model="updateStudent.orgName" :disabled="formEditable"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="9">
+                <el-form-item label="专业类别">
+                  <el-input v-model="updateStudent.majorCategories" :disabled="formEditable"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="1">&nbsp;</el-col>
+              <el-col :span="9">
+                <el-form-item label="专业名称">
+                  <el-input v-model="updateStudent.major" :disabled="formEditable"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="9">
+                <el-form-item label="培育方向">
+                  <el-input v-model="updateStudent.cultivateDirection" :disabled="formEditable"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="1">&nbsp;</el-col>
+              <el-col :span="9">
+                <el-form-item label="行政班级">
+                  <el-input v-model="updateStudent.className" :disabled="formEditable"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!--<el-row>-->
+              <!--<el-col :span="9">-->
+                <!--<el-form-item label="学制">-->
+                  <!--<el-input-number v-model="updateStudent.educationSystem" :min="1" :max="10"-->
+                                   <!--:disabled="formEditable"></el-input-number>-->
+                <!--</el-form-item>-->
+              <!--</el-col>-->
+              <!--<el-col :span="1">&nbsp;</el-col>-->
+              <!--<el-col :span="9">-->
+                <!--<el-form-item label="入学日期">-->
+                  <!--<el-date-picker v-model="updateStudent.acceptanceDate" type="date" placeholder="选择日期"-->
+                                  <!--:disabled="formEditable"></el-date-picker>-->
+                <!--</el-form-item>-->
+              <!--</el-col>-->
+            <!--</el-row>-->
+            <el-row>
+              <!--<el-col :span="9">-->
+                <!--<el-form-item label="毕业中学">-->
+                  <!--<el-input v-model="updateStudent.middleSchool"></el-input>-->
+                <!--</el-form-item>-->
+              <!--</el-col>-->
+              <el-col :span="1">&nbsp;</el-col>
+              <el-col :span="9">
+                <el-form-item label="邮箱">
+                  <el-input type="email" v-model="updateStudent.email"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="9">
+                <el-form-item label="手机号码">
+                  <el-input v-model="updateStudent.mobileNo"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="1">&nbsp;</el-col>
+              <el-col :span="9">
+                <el-form-item label="家庭电话">
+                  <el-input v-model="updateStudent.familyTelNo"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!--<el-row>-->
+              <!--<el-col :span="9">-->
+                <!--<el-form-item label="邮政编码">-->
+                  <!--<el-input v-model="updateStudent.postcode"></el-input>-->
+                <!--</el-form-item>-->
+              <!--</el-col>-->
+              <!--<el-col :span="1">&nbsp;</el-col>-->
+              <!--<el-col :span="9">-->
+                <!--<el-form-item label="乘车区间">-->
+                  <!--<el-input v-model="updateStudent.travelRange"></el-input>-->
+                <!--</el-form-item>-->
+              <!--</el-col>-->
+            <!--</el-row>-->
+            <el-row>
+              <el-col :span="9">
+                <el-form-item label="家庭住址">
+                  <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 3}"
+                            v-model="updateStudent.address"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="1">&nbsp;</el-col>
+              <el-col :span="9">
+                <el-form-item label="特长">
+                  <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 4}"
+                            v-model="updateStudent.skill"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row style="margin-bottom: 15px;">
+              <!--<el-col :span="9">-->
+              <!--<el-button type="primary" slot="trigger" size="small" plain>选择文件</el-button>-->
+              <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="submitUpload" plain>
+                保存
+              </el-button>
+            </el-row>
+            <el-row>&nbsp;</el-row>
+          </el-form>
+        </el-col>
+      </el-col>
+    </el-row>
+    <Footer></Footer>
+  </div>
+</template>
+
+<script>
+  import Footer from '@/components/Footer.vue';
+  import Menu from '@/components/ResumeMenu.vue';
+
+  export default {
+    components: {
+      Footer, Menu
+    },
+    data() {
+      return {
+        updateStudent: {
+          studentNo: '',
+          studentName: '',
+          sex: '',
+          birthday: '',
+          politicalStatus: '',
+          nation: '',
+          nativePlace: '',
+          fromPlace: '',
+          idcardNo: '',
+          orgName: '',
+          department: '',
+          major: '',
+          majorField: '',
+          majorCategories: '',
+          cultivateDirection: '',
+          className: '',
+          educationSystem: '',
+          schoolingLength: '',
+          acceptanceDate: '',
+          middleSchool: '',
+          mobileNo: '',
+          familyTelNo: '',
+          email: '',
+          postcode: '',
+          travelRange: '',
+          address: '',
+          skill: '',
+          selfDescription: '',
+          awards: '',
+          schoolStatus: '',
+          dqszj: '',
+          photopath: '',
+          graduateFlag: '',
+          alumniFlag: '',
+          createTime: '',
+          creator: '',
+          password: '',
+          parentOrgId: '',
+          score: '',
+          grade: ''
+        },
+        rules: {
+          studentNo: [
+            {required: true, message: '请输入学号', trigger: ['blur', 'change']}
+          ],
+          studentName: [
+            {required: true, message: '请输入姓名', trigger: ['blur', 'change']}
+          ],
+          idcardNo: [
+            {required: true, message: '请输入身份证号', trigger: ['blur', 'change']}
+          ],
+          email: [
+            {required: true, message: '请输入电子邮箱', trigger: 'blur'},
+            {type: 'email', message: '请输入正确的电子邮箱', trigger: ['blur', 'change']}
+          ],
+          sex: [
+            {required: true, message: '请选择性别', trigger: ['blur', 'change']}
+          ]
+        }
+      }
+    },
+    methods: {}
+  }
+</script>
+
+<style scoped>
+
+  .main-content {
+    /*position: relative;*/
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    clear: both;
+  }
+
+  /*.margin-top {*/
+  /*margin-top: 20px;*/
+  /*}*/
+
+  .line {
+    width: 1px;
+    height: 700px;
+    background-color: #e6e6e6;
+    margin-left: 15px;
+  }
+
+</style>

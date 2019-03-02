@@ -5,6 +5,9 @@ import Login from '@/pages/Login'
 import StudentMaintenance from '@/pages/StudentMaintenance'
 import TeacherMaintenance from '@/pages/TeacherMaintenance'
 import CourseMaintenance from '@/pages/CourseMaintenance'
+import Menu from '@/components/ResumeMenu'
+import PersonalMaintenance from '@/pages/PersonalMaintenance'
+
 
 Vue.use(Router)
 
@@ -33,6 +36,16 @@ const routes = [
     path: '/courseMaintenance',
     name: 'CourseMaintenance',
     component: CourseMaintenance
+  },
+  {
+    path: '/menu',
+    name: 'Menu',
+    component: Menu
+  },
+  {
+    path: '/personal',
+    name: 'PersonalMaintenance',
+    component: PersonalMaintenance
   }
 ];
 

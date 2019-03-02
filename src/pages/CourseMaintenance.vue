@@ -226,15 +226,19 @@
         </el-col>
       </el-col>
     </el-row>
+    <Footer></Footer>
   </div>
-
 </template>
 
 <script>
+  import Footer from '@/components/Footer.vue';
   import { initCourseInfo, getCourseInfoPage, findCoursesByConditions, saveCourseInfo } from '@/service/course.service'
   import Constant from '@/utils/Constant'
 
   export default {
+    components: {
+      Footer
+    },
     data() {
       return {
         pageable: {
