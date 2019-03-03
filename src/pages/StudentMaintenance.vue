@@ -325,7 +325,7 @@
 
 <script>
   import Footer from '@/components/Footer.vue';
-  import {getStudentList, saveStudentInfo, findAllActiveStudents, findStdentsByConditions} from '@/service/student.service'
+  import {getStudentList, saveStudentInfo, findAllActiveStudents, findStudentByConditions} from '@/service/student.service'
   import Constant from '@/utils/Constant'
 
   export default {
@@ -618,7 +618,7 @@
       },
       async queryStudent() {
         this.loadingStatus = true;
-        let studentListData = await findStdentsByConditions(this.searchStudent);
+        let studentListData = await findStudentByConditions(this.searchStudent);
         this.studentList = studentListData.data.pageResultList;
         this.totalCount = studentListData.data.total;
         this.loadingStatus = false;

@@ -1,4 +1,4 @@
-import { getAll, saveStudent, getAllActiveStudents, getActiveStudentsByConditions } from '@/repository/student.repository';
+import { getAll, saveStudent, getAllActiveStudents, getActiveStudentsByConditions, getStudentByStuNo } from '@/repository/student.repository';
 
   async function getStudentList (params) {
     const data = await getAll(params);
@@ -15,8 +15,13 @@ async function findAllActiveStudents () {
   return data || [];
 }
 
-async function findStdentsByConditions (params) {
+async function findStudentByConditions (params) {
   const data = await getActiveStudentsByConditions(params);
+  return data || [];
+}
+
+async function getStudentInfo (studentNo) {
+  const data = await getStudentByStuNo(studentNo);
   return data || [];
 }
 
@@ -24,5 +29,6 @@ export {
   getStudentList,
   saveStudentInfo,
   findAllActiveStudents,
-  findStdentsByConditions
+  findStudentByConditions,
+  getStudentInfo
 };

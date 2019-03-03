@@ -24,6 +24,7 @@
   import Footer from '@/components/Footer.vue';
   import {checkLoginService} from '@/service/user.service';
   import Constant from '@/utils/Constant'
+  import Cookies from "js-cookie";
 
   export default {
     components: {
@@ -66,12 +67,18 @@
       },
       async check () {
         let responseData = await checkLoginService(this.user);
+        console.log(responseData.data);
         if (responseData.code === Constant.POPUP_EXCEPTION_CODE && responseData.msg !== '') {
           this.$alert(responseData.msg, {
             confirmButtonText: 'OK'
           });
         } else {
           // login success
+          Cookies.set("userType", responseData.data.userType);
+          Cookies.set("user", this.user.employName);
+          sessionStorage.setItem("userType", responseData.data.userType);
+          sessionStorage.setItem("user", this.user.employName);
+          // Cookies.set("password", this.user.password);
           this.$router.push('/studentMaintenance');
         }
       }
@@ -104,7 +111,7 @@
     background: black;
     opacity: 0.75;
     padding: 2% 5% 1% 0;
-    /*padding-right: 5%;*/
+    border-radius: 10px;
   }
 
   .btn-margin {
