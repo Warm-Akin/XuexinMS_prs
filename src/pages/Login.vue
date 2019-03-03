@@ -1,6 +1,5 @@
 <template>
   <div class="main-content">
-    <!--<div class="decoration">-->
       <div class="login-form" @keydown.enter="submitForm('userInfoForm')">
         <el-form :model="user" ref="userInfoForm" label-width="100px">
           <el-form-item label="用户名" class="label-region">
@@ -15,7 +14,6 @@
           </el-form-item>
         </el-form>
       </div>
-    <!--</div>-->
     <Footer></Footer>
   </div>
 </template>

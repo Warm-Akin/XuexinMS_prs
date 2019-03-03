@@ -38,7 +38,7 @@
                 <el-col :span="1">&nbsp;</el-col>
                 <el-col :span="9">
                   <el-form-item label="性别">
-                    <el-radio-group v-model="updateStudent.sex" prop="sex" :disabled="absoluteDisable">
+                    <el-radio-group v-model="updateStudent.sex" :disabled="absoluteDisable">
                       <el-radio label="男">男</el-radio>
                       <el-radio label="女">女</el-radio>
                     </el-radio-group>
@@ -48,7 +48,7 @@
               <el-row>
                 <el-col :span="9">
                   <el-form-item label="政治面貌">
-                    <el-select v-model="updateStudent.politicalStatus" filterable placeholder="请选择" :disabled="relativeDisable">
+                    <el-select v-model="updateStudent.politicalStatus" filterable placeholder="请选择" :disabled="absoluteDisable">
                       <el-option v-for="item in politicalOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                   </el-form-item>
@@ -56,40 +56,22 @@
                 <el-col :span="1">&nbsp;</el-col>
                 <el-col :span="9">
                   <el-form-item label="民族">
-                    <el-select v-model="updateStudent.nation" filterable placeholder="请选择" :disabled="relativeDisable">
+                    <el-select v-model="updateStudent.nation" filterable placeholder="请选择" :disabled="absoluteDisable">
                       <el-option v-for="item in nationOptions" :key="item.name" :label="item.name" :value="item.name"></el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
-                <el-col :span="19">
-                  <el-form-item label="籍贯">
-                    <el-input v-model="updateStudent.nativePlace" :disabled="relativeDisable"></el-input>
-                  </el-form-item>
-                </el-col>
-                <!--<el-col :span="1">&nbsp;</el-col>-->
-                <!--<el-col :span="9">-->
-                <!--<el-form-item label="来源地区">-->
-                <!--<el-input v-model="updateStudent.fromPlace"></el-input>-->
-                <!--</el-form-item>-->
-                <!--</el-col>-->
-              </el-row>
-              <el-row>
-                <!--<el-col :span="9">-->
-                <!--<el-form-item label="系">-->
-                <!--<el-input v-model="updateStudent.department" :disabled="formEditable"></el-input>-->
-                <!--</el-form-item>-->
-                <!--</el-col>-->
                 <el-col :span="9">
                   <el-form-item label="学院名称">
-                    <el-input v-model="updateStudent.orgName" :disabled="relativeDisable"></el-input>
+                    <el-input v-model="updateStudent.orgName" :disabled="absoluteDisable"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="1">&nbsp;</el-col>
                 <el-col :span="9">
                   <el-form-item label="专业名称">
-                    <el-input v-model="updateStudent.major" :disabled="relativeDisable"></el-input>
+                    <el-input v-model="updateStudent.major" :disabled="absoluteDisable"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -108,7 +90,7 @@
                 <!--</el-col>-->
                 <el-col :span="9">
                   <el-form-item label="行政班级">
-                    <el-input v-model="updateStudent.className" :disabled="relativeDisable"></el-input>
+                    <el-input v-model="updateStudent.className" :disabled="absoluteDisable"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="1">&nbsp;</el-col>
@@ -180,6 +162,13 @@
                   </el-form-item>
                 </el-col>
               </el-row>
+              <el-row>
+                <el-col :span="19">
+                  <el-form-item label="籍贯">
+                    <el-input v-model="updateStudent.nativePlace" :disabled="relativeDisable"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
               <el-row style="margin-bottom: 15px;">
                 <!--<el-col :span="9">-->
                 <!--<el-button type="primary" slot="trigger" size="small" plain>选择文件</el-button>-->
@@ -200,7 +189,7 @@
   import Menu from '@/components/ResumeMenu.vue';
   // import Cookies from "js-cookie";
   import Constant from '@/utils/Constant';
-  import { getStudentInfo }from '@/service/student.service';
+  import { getStudentInfo, updatePersonalInfo }from '@/service/student.service';
 
   export default {
     components: {
@@ -218,39 +207,38 @@
           politicalStatus: '',
           nation: '',
           nativePlace: '',
-          fromPlace: '',
+          // fromPlace: '',
           idcardNo: '',
           orgName: '',
-          department: '',
+          // department: '',
           major: '',
-          majorField: '',
-          majorCategories: '',
-          cultivateDirection: '',
+          // majorField: '',
+          // majorCategories: '',
+          // cultivateDirection: '',
           className: '',
-          educationSystem: '',
-          schoolingLength: '',
-          acceptanceDate: '',
-          middleSchool: '',
+          // schoolingLength: '',
+          // acceptanceDate: '',
+          // middleSchool: '',
           mobileNo: '',
           familyTelNo: '',
           email: '',
-          postcode: '',
-          travelRange: '',
+          // postcode: '',
+          // travelRange: '',
           address: '',
-          skill: '',
-          selfDescription: '',
-          awards: '',
-          schoolStatus: '',
-          dqszj: '',
-          photopath: '',
-          graduateFlag: '',
-          alumniFlag: '',
-          createTime: '',
-          creator: '',
-          password: '',
-          parentOrgId: '',
-          score: '',
-          grade: ''
+          // skill: '',
+          // selfDescription: '',
+          // awards: '',
+          // schoolStatus: '',
+          // dqszj: '',
+          // photopath: '',
+          // graduateFlag: '',
+          // alumniFlag: '',
+          // createTime: '',
+          // creator: '',
+          // password: '',
+          // parentOrgId: '',
+          // score: '',
+          // grade: ''
         },
         rules: {
           studentNo: [
@@ -265,9 +253,6 @@
           email: [
             {required: true, message: '请输入电子邮箱', trigger: 'blur'},
             {type: 'email', message: '请输入正确的电子邮箱', trigger: ['blur', 'change']}
-          ],
-          sex: [
-            {required: true, message: '请选择性别', trigger: ['blur', 'change']}
           ]
         },
         politicalOptions: Constant.POLITICALOPTIONS,
@@ -281,7 +266,18 @@
       handleCancel() {
         this.relativeDisable = true;
       },
-      handleSave() {
+      async handleSave() {
+        let response = await updatePersonalInfo(this.updateStudent);
+        if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
+          this.$alert(response.msg, {
+            confirmButtonText: 'OK'
+          });
+        } else {
+          this.$message.success('数据更新成功！');
+          this.$loading({fullscreen: true});
+          this.getUserInformation(this.updateStudent.studentNo);
+          this.$loading({fullscreen: true}).close();
+        }
         this.relativeDisable = true;
       },
       init() {
@@ -290,6 +286,7 @@
         let userName = sessionStorage.getItem("user");
         let userType = sessionStorage.getItem("userType");
         if (userType !== '1') {
+          // todo
           // access deny page
           this.$router.push('/login');
         } else {
@@ -303,6 +300,7 @@
       }
     },
     mounted() {
+      document.title = '个人信息';
       this.init();
     }
   }

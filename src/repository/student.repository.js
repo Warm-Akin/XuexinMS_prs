@@ -30,10 +30,17 @@ async function getStudentByStuNo (params) {
   return body.data;
 }
 
+async function updateStudentInfo (params) {
+  const url = `/xuexin/student/update`;
+  const body = await post(url, params);
+  return body.data;
+}
+
 export {
   getAll,
   saveStudent,
   getAllActiveStudents,
   getActiveStudentsByConditions,
-  getStudentByStuNo
+  getStudentByStuNo,
+  updateStudentInfo
 };

@@ -625,7 +625,7 @@
       }
     },
     mounted() {
-      document.title = "学生信息管理";
+      document.title = '学生信息管理';
       this.callStudentList(this.pageable);
     }
   }
