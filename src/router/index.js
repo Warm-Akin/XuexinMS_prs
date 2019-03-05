@@ -7,6 +7,7 @@ import TeacherMaintenance from '@/pages/TeacherMaintenance'
 import CourseMaintenance from '@/pages/CourseMaintenance'
 import Menu from '@/components/ResumeMenu'
 import PersonalMaintenance from '@/pages/PersonalMaintenance'
+import ResumeStepOne from '@/pages/ResumeStepOne'
 
 
 Vue.use(Router)
@@ -46,6 +47,11 @@ const routes = [
     path: '/personal',
     name: 'PersonalMaintenance',
     component: PersonalMaintenance
+  },
+  {
+    path: '/resumeStepOne',
+    name: 'ResumeStepOne',
+    component: ResumeStepOne
   }
 ];
 

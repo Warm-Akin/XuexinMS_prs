@@ -36,11 +36,18 @@ async function updateStudentInfo (params) {
   return body.data;
 }
 
+async function getResumeByStuNo (params) {
+  const url = `/xuexin/student/findResumeByStudentNo/${params}`;
+  const body = await get(url);
+  return body.data;
+}
+
 export {
   getAll,
   saveStudent,
   getAllActiveStudents,
   getActiveStudentsByConditions,
   getStudentByStuNo,
-  updateStudentInfo
+  updateStudentInfo,
+  getResumeByStuNo
 };

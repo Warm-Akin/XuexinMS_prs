@@ -5,7 +5,7 @@
         <el-col :span="3">
           <Menu></Menu>
         </el-col>
-        <el-col :xl="1" :lg="1" class="margin-top">
+        <el-col :span="1" class="margin-top">
           <div class="line"></div>
         </el-col>
         <el-col :span="20">
@@ -187,6 +187,7 @@
 <script>
   import Footer from '@/components/Footer.vue';
   import Menu from '@/components/ResumeMenu.vue';
+  // import store from '@/store/store';
   // import Cookies from "js-cookie";
   import Constant from '@/utils/Constant';
   import { getStudentInfo, updatePersonalInfo }from '@/service/student.service';
@@ -299,6 +300,9 @@
         this.updateStudent = response.data;
       }
     },
+  created() {
+    this.$store.dispatch('commitMenuIndex', 'personal');
+  },
     mounted() {
       document.title = '个人信息';
       this.init();
@@ -309,23 +313,23 @@
 <style scoped>
 
   .main-content {
-    /*position: relative;*/
+    position: relative;
     top: 0;
-    left: 0;
+    left: 200px;
     margin: 0;
     padding: 0;
     clear: both;
   }
 
   /*.margin-top {*/
-  /*margin-top: 20px;*/
+    /*margin-top: 20px;*/
   /*}*/
 
   .line {
     width: 1px;
     height: 700px;
     background-color: #e6e6e6;
-    margin-left: 15px;
+    margin-left: 10px;
   }
 
 </style>

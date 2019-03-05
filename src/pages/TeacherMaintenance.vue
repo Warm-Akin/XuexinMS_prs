@@ -55,7 +55,7 @@
           </el-form>
           <el-button type="primary" icon="el-icon-search" class="search-btn" @click="queryTeacher">搜索</el-button>
         </el-col>
-        <el-col :xl="1" :lg="1" class="margin-top">
+        <el-col :span="1" class="margin-top">
           <div class="line"></div>
         </el-col>
         <el-col :span='18' class="margin-top"><!--:xl="18" :lg="17"-->
