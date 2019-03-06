@@ -37,7 +37,7 @@ async function updateStudentInfo (params) {
 }
 
 async function getResumeByStuNo (params) {
-  const url = `/xuexin/student/findResumeByStudentNo/${params}`;
+  const url = `/xuexin/student/resume/findResumeByStudentNo/${params}`;
   const body = await get(url);
   return body.data;
 }
