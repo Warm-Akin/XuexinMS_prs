@@ -17,6 +17,7 @@ const NATIONOPTIONS = [
 const STUDENT_UPLOAD_URL = `/xuexin/student/upload`;
 const TEACHER_UPLOAD_URL = `/xuexin/admin/teacher/upload`;
 const COURSE_UPLOAD_URL = `/xuexin/admin/course/upload`;
+const PHOTO_UPLOAD_URL = `/xuexin/student/resume/upload`;
 
 export default {
   POPUP_EXCEPTION_CODE,
@@ -24,5 +25,6 @@ export default {
   NATIONOPTIONS,
   STUDENT_UPLOAD_URL,
   TEACHER_UPLOAD_URL,
-  COURSE_UPLOAD_URL
+  COURSE_UPLOAD_URL,
+  PHOTO_UPLOAD_URL
 }

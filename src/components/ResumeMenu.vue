@@ -17,8 +17,8 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="resumeStepOne">步骤一</el-menu-item>
-            <el-menu-item index="1-2">步骤二</el-menu-item>
-            <el-menu-item index="1-3">步骤三</el-menu-item>
+            <el-menu-item index="resumeStepTwo">步骤二</el-menu-item>
+            <el-menu-item index="resumeStepThree">步骤三</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-menu-item index="export">
