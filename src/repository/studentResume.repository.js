@@ -6,7 +6,14 @@ async function saveStudentResume (params) {
   return body.data;
 }
 
+async function downloadStudentResume (params) {
+  const url = `/xuexin/student/resume/export/${params}`;
+  const body = await get(url);
+  return body.data;
+}
+
 
 export {
-  saveStudentResume
+  saveStudentResume,
+  downloadStudentResume
 };

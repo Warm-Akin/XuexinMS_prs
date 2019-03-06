@@ -9,6 +9,7 @@ import Menu from '@/components/ResumeMenu'
 import PersonalMaintenance from '@/pages/PersonalMaintenance'
 import ResumeStepOne from '@/pages/ResumeStepOne'
 import ResumeStepTwo from '@/pages/ResumeStepTwo'
+import ResumeStepThree from '@/pages/ResumeStepThree'
 
 Vue.use(Router)
 
@@ -57,7 +58,13 @@ const routes = [
     path: '/resumeStepTwo',
     name: 'ResumeStepTwo',
     component: ResumeStepTwo
+  },
+  {
+    path: '/resumeStepThree',
+    name: 'ResumeStepThree',
+    component: ResumeStepThree
   }
+
 ];
 
 const router = new Router({ routes });

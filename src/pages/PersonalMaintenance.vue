@@ -233,7 +233,7 @@
           // awards: '',
           // schoolStatus: '',
           // dqszj: '',
-          // photopath: '',
+          // photoPath: '',
           // graduateFlag: '',
           // alumniFlag: '',
           // createTime: '',

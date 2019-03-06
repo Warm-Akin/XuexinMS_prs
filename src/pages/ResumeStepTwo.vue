@@ -36,6 +36,7 @@
   import Footer from '@/components/Footer.vue';
   import Menu from '@/components/ResumeMenu.vue';
   import Constant from '@/utils/Constant';
+  import { getUserResumeInfo } from '@/service/student.service';
 
   export default {
     components: {
@@ -49,7 +50,7 @@
           jobWant: '',
           studentName: '',
           orgName: '',
-          schoolName: '北京理工大学珠海学院',
+          schoolName: '',
           major: '',
           majorInfo: '',
           englishLevel: '',
@@ -75,6 +76,7 @@
           });
         } else {
           this.imageUrl = URL.createObjectURL(file.raw);
+          console.log('URL => ', this.imageUrl);
           this.$message.success('图片上传成功');
         }
       },
@@ -88,6 +90,24 @@
           this.$message.error('上传头像图片大小不能超过 5MB!');
         }
         return isCorrectType && isLt5M;
+      },
+      async init() {
+        let response = await getUserResumeInfo(this.userName);
+        this.studentResume = response.data;
+        let blobObj = this.convertBase64UrlToBlob(this.studentResume.photoPath);
+        this.imageUrl = URL.createObjectURL(blobObj);
+        // this.imageUrl = this.studentResume.photoPath;
+        console.log('URL  ', this.imageUrl);
+      },
+      convertBase64UrlToBlob(urlData){
+        var bytes = window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte
+        //处理异常,将ascii码小于0的转换为大于0
+        var ab = new ArrayBuffer(bytes.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < bytes.length; i++) {
+          ia[i] = bytes.charCodeAt(i);
+        }
+        return new Blob( [ab] , {type : 'image/jpeg'});
       }
     },
     created() {
@@ -97,6 +117,7 @@
     },
     mounted() {
       document.title = '步骤二';
+      // this.init();
     }
   }
 </script>

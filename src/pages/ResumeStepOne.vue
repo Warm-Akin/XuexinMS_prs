@@ -126,7 +126,7 @@
                   </el-col>
                 </el-row>
                 <el-row style="margin-bottom: 50px;">
-                  <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="handleSave" :disabled="relativeDisable">保存</el-button>
+                  <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="handleSave">保存</el-button>
                 </el-row>
               </el-form>
             </el-row>
@@ -256,7 +256,6 @@
       async getUserResume(userName) {
         let response = await getUserResumeInfo(userName);
         this.studentResume = response.data;
-        console.log(this.studentResume);
       }
     },
     created() {
