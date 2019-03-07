@@ -27,6 +27,7 @@
   import Footer from '@/components/Footer.vue';
   import Menu from '@/components/ResumeMenu.vue';
   import { downloadResumePdf } from '@/service/studentResume.service';
+  import axios from 'axios';
 
   export default {
     components: {
@@ -39,8 +40,31 @@
     },
     methods: {
       async downloadResume() {
-        let response = await downloadResumePdf(this.userName);
-        console.log(response)
+        // let response = await downloadResumePdf(this.userName);
+
+
+        axios.get(`/xuexin/student/resume/export?studentNo=` + this.userName, {
+          responseType: `blob`
+        }).then(response => {
+          console.log(response);
+          if (response.status === 200 && response.data.size !== 0) { // request success
+            let blob = new Blob([response.data], { // use Blob to handle response
+              type: 'application/pdf'
+            });
+            let objectUrl = URL.createObjectURL(blob); // create a url object
+            let link = document.createElement('a'); // create an a tag: <a></a>
+            link.href = objectUrl; // set href
+            let fileName = 'Resume-test'; // download file's name
+            link.setAttribute('download', fileName); // set link attribute
+            document.body.appendChild(link); // put the link on the end of the body
+            link.click();
+            this.$loading({fullscreen: true}).close();
+          } else {
+            this.$message.error('导出失败，请重试');
+            this.$loading({fullscreen: true}).close();
+          }
+        });
+        // console.log(response)
       }
     },
     created() {
