@@ -7,9 +7,11 @@ import router from './router';
 import ElementUI from 'element-ui';
 import store from './store/store';
 import 'element-ui/lib/theme-chalk/index.css';
+import VueCropper from 'vue-cropper';
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+Vue.use(VueCropper);
 
 /* eslint-disable no-new */
 new Vue({

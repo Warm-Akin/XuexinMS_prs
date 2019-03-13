@@ -13,6 +13,9 @@
             <el-button @click="resetForm('userInfoForm')" class="btn-margin">重置</el-button>
           </el-form-item>
         </el-form>
+        <el-row class="register-button">
+          <el-button size="small" class="btn-register">企业注册</el-button>
+        </el-row>
       </div>
     <Footer></Footer>
   </div>
@@ -89,8 +92,6 @@
 
 <style scoped>
   .main-content {
-    /*margin: 0;*/
-    /*padding: 0;*/
     background-image: url("../assets/computer.jpg");
     background-size: cover;
     background-position: center;
@@ -115,6 +116,27 @@
   .btn-margin {
     width: 45%;
     margin-left: 3%;
+  }
+
+  .register-button {
+    position: relative;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+    right: 0;
+    right: -10%;
+  }
+
+  .btn-register {
+    border: 0;
+    background: #000000;
+    color: white;
+  }
+
+  .btn-register :hover {
+    color: #409EFF;
+    font-weight: bolder;
   }
 
   /*.decoration {*/
