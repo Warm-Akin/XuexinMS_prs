@@ -12,22 +12,9 @@
           <el-col :span="20">
             <el-row class="content-title">上传简历照片</el-row>
             <el-row>&nbsp;</el-row>
-            <!--<el-row>-->
-            <!--<el-upload-->
-            <!--class="avatar-uploader"-->
-            <!--:action="uploadPhotoUrl"-->
-            <!--:show-file-list="false"-->
-            <!--:on-success="handleAvatarSuccess"-->
-            <!--:before-upload="beforeAvatarUpload">-->
-            <!--<img v-if="imageUrl" :src="imageUrl" class="avatar">-->
-            <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
-            <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过5MB</div>-->
-            <!--</el-upload>-->
-            <!--</el-row>-->
             <el-row>
-              <el-button type="primary" @click="changeClick">选择图片</el-button>
-              <input type="file" id="true-button" accept="image/png, image/jpeg, image/jpg"
-                     @change="uploadImg($event,1)"/>
+              <el-button type="primary" @click="changeClick">{{buttonText}}</el-button>
+              <input type="file" id="true-button" accept="image/png, image/jpeg, image/jpg" @change="uploadImg($event,1)"/>
             </el-row>
             <el-row class="cropper-content">
               <div class="cropper">
@@ -60,6 +47,9 @@
               <el-col :span="8" class="upload-button">
                 <el-button type="primary" @click="uploadImage">上传</el-button>
               </el-col>
+            </el-row>
+            <el-row>
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
             </el-row>
           </el-col>
         </el-col>
@@ -103,16 +93,11 @@
           threeInfo: ''
         },
         uploadPhotoUrl: '',
-        // imageUrl: '',
-        // todo
-        // headImg: '',
-        //剪切图片上传
-        // crap: false,
         previews: {},
         imageOption: {
           img: '',
-          outputSize: 1, // 剪切后的图片质量（0.1-1）
-          full: true, // 输出原图比例截图 props名full
+          outputSize: 1, // 剪切后的图片质量（0.1 - 1）
+          full: true, // 输出原图比例截图
           outputType: 'png', // 剪切后图片类型
           canMove: true,
           original: false,
@@ -123,23 +108,11 @@
           fixedBox: true // 固定截图框大小
         },
         fileName: '',
-        imageUrl: ''
-        // imgFile: '',
-        // uploadImgRealPath: '' //上传后的图片的地址（不带服务器域名）
+        imageUrl: '',
+        buttonText: '选择图片'
       }
     },
     methods: {
-      handleAvatarSuccess(response, file) {
-        if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
-          this.$alert(response.msg, {
-            confirmButtonText: 'OK'
-          });
-        } else {
-          this.imageUrl = URL.createObjectURL(file.raw);
-          console.log('URL => ', this.imageUrl);
-          this.$message.success('图片上传成功');
-        }
-      },
       beforeAvatarUpload(file) {
         const isCorrectType = (file.type === 'image/png' || file.type === 'image/jpeg');
         const isLt5M = file.size / (1024 * 1024 * 1024 * 1024 * 1024) < 5;
@@ -155,47 +128,12 @@
         let response = await getUserResumeInfo(this.userName);
         this.studentResume = response.data;
         let photoPath = this.studentResume.photoPath;
-        this.initPhoto(photoPath);
-        // let blobObj = this.convertBase64UrlToBlob(this.studentResume.photoPath);
-        // this.imageUrl = URL.createObjectURL(blobObj);
-        // this.imageUrl = this.studentResume.photoPath;
-        // console.log('URL  ', this.imageUrl);
-      },
-      initPhoto(photoPath) {
-        let image = new Image();
-        image.crossOrigin = '';
-        image.src = photoPath;
-        let imageBase64 = this.getBase64Image(image);
-        console.log('base64==>', imageBase64);
-        let blobObj = this.convertBase64UrlToBlob(imageBase64);
-        this.imageUrl = URL.createObjectURL(blobObj);
-        // this.imageUrl = this.studentResume.photoPath;
-        console.log('URL  ', this.imageUrl);
-      },
-      convertBase64UrlToBlob(urlData) {
-        var bytes = window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte
-        //处理异常,将ascii码小于0的转换为大于0
-        var ab = new ArrayBuffer(bytes.length);
-        var ia = new Uint8Array(ab);
-        for (var i = 0; i < bytes.length; i++) {
-          ia[i] = bytes.charCodeAt(i);
+        if (photoPath !== '') {
+          this.buttonText = '重新上传照片';
         }
-        return new Blob([ab], {type: 'image/jpeg'});
       },
-      getBase64Image(img) {
-        let canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        let ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-        let ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
-        let dataURL = canvas.toDataURL("image/"+ext);
-        return dataURL;
-      },
-      // todo add
       uploadImg(e, num) {
         // e => changeEvent, num => image's count
-        console.log('uploadImg');
         let file = e.target.files[0];
         let validFlag = this.beforeAvatarUpload(file);
         if (!validFlag) {
@@ -207,7 +145,7 @@
         reader.onload = (e) => {
           let data;
           if (typeof e.target.result === 'object') {
-            // 把Array Buffer转化为blob 如果是base64不需要
+            // 把Array Buffer转化为blob 如果是base64则不需要
             data = window.URL.createObjectURL(new Blob([e.target.result]));
           }
           else {
@@ -218,7 +156,7 @@
           } else if (num === 2) {
             this.example2.img = data;
           }
-        }
+        };
         // 转化为base64
         // reader.readAsDataURL(file)
         // 转化为blob
@@ -226,8 +164,6 @@
       },
       // 实时预览函数
       realTime(data) {
-        console.log('preview');
-        console.log(data)
         this.previews = data
       },
       imgLoad(msg) {
@@ -236,12 +172,8 @@
       },
       //上传图片（点击上传按钮）
       uploadImage() {
-        console.log('uploadImage')
         let formData = new FormData();
         this.$refs.cropper.getCropBlob((data) => {
-          // let img = window.URL.createObjectURL(data);
-          // this.model = true;
-          // this.modelSrc = img;
           // 最后一个参数this.fileName给Blob对象取名
           formData.append("file", data, this.fileName);
           axios.post(this.uploadPhotoUrl, formData, {
@@ -249,8 +181,6 @@
             processData: false,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
           }).then((response) => {
-            console.log('upload===')
-            console.log(response);
             let res = response.data;
             if ((res.code === Constant.POPUP_EXCEPTION_CODE || res.code === 'ERROR') && res.msg !== '') {
               this.$alert(res.msg, {

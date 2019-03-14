@@ -18,62 +18,68 @@
             <el-row>
               <el-form label-width="80px" label-position="left" :model="updateStudent" class="dialog-form" ref="updateForm" :rules="rules">
                 <el-row>
+                  <!--3行 右侧作为图片区域-->
                   <el-col :span="9">
-                    <el-form-item label="学号" prop="studentNo">
-                      <el-input v-model="updateStudent.studentNo" :disabled="absoluteDisable"></el-input>
-                    </el-form-item>
+                    <el-row>
+                      <el-col>
+                        <el-form-item label="身份证号" prop="idcardNo">
+                          <el-input v-model="updateStudent.idcardNo" :disabled="absoluteDisable"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col>
+                        <el-form-item label="政治面貌">
+                          <el-select v-model="updateStudent.politicalStatus" filterable placeholder="请选择" :disabled="absoluteDisable">
+                            <el-option v-for="item in politicalOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col>
+                        <el-form-item label="学院名称">
+                          <el-input v-model="updateStudent.orgName" :disabled="absoluteDisable"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
                   </el-col>
-                  <el-col :span="1">&nbsp;</el-col>
-                  <el-col :span="9">
-                    <el-form-item label="姓名" prop="studentName">
-                      <el-input v-model="updateStudent.studentName" :disabled="absoluteDisable"></el-input>
-                    </el-form-item>
+                  <el-col :span="1">
+                    <el-row>&nbsp;</el-row>
                   </el-col>
-                </el-row>
-                <el-row>
                   <el-col :span="9">
-                    <el-form-item label="身份证号" prop="idcardNo">
-                      <el-input v-model="updateStudent.idcardNo" :disabled="absoluteDisable"></el-input>
-                    </el-form-item>
+                    <el-row>
+                      <el-col>
+                        <el-form-item label="性别">
+                          <el-radio-group v-model="updateStudent.sex" :disabled="absoluteDisable">
+                            <el-radio label="男">男</el-radio>
+                            <el-radio label="女">女</el-radio>
+                          </el-radio-group>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col>
+                        <el-form-item label="民族">
+                          <el-select v-model="updateStudent.nation" filterable placeholder="请选择" :disabled="absoluteDisable">
+                            <el-option v-for="item in nationOptions" :key="item.name" :label="item.name" :value="item.name"></el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col>
+                        <el-form-item label="专业名称">
+                          <el-input v-model="updateStudent.major" :disabled="absoluteDisable"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
                   </el-col>
-                  <el-col :span="1">&nbsp;</el-col>
-                  <el-col :span="9">
-                    <el-form-item label="性别">
-                      <el-radio-group v-model="updateStudent.sex" :disabled="absoluteDisable">
-                        <el-radio label="男">男</el-radio>
-                        <el-radio label="女">女</el-radio>
-                      </el-radio-group>
-                    </el-form-item>
+                  <el-col :span="1">
+                    <el-row>&nbsp;</el-row>
                   </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="9">
-                    <el-form-item label="政治面貌">
-                      <el-select v-model="updateStudent.politicalStatus" filterable placeholder="请选择" :disabled="absoluteDisable">
-                        <el-option v-for="item in politicalOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="1">&nbsp;</el-col>
-                  <el-col :span="9">
-                    <el-form-item label="民族">
-                      <el-select v-model="updateStudent.nation" filterable placeholder="请选择" :disabled="absoluteDisable">
-                        <el-option v-for="item in nationOptions" :key="item.name" :label="item.name" :value="item.name"></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="9">
-                    <el-form-item label="学院名称">
-                      <el-input v-model="updateStudent.orgName" :disabled="absoluteDisable"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="1">&nbsp;</el-col>
-                  <el-col :span="9">
-                    <el-form-item label="专业名称">
-                      <el-input v-model="updateStudent.major" :disabled="absoluteDisable"></el-input>
-                    </el-form-item>
+                  <el-col :span="2">
+                    <img v-if="imageUrl" :src="imageUrl" class="photo-avatar">
                   </el-col>
                 </el-row>
                 <!--<el-row>-->
@@ -171,11 +177,8 @@
                   </el-col>
                 </el-row>
                 <el-row style="margin-bottom: 15px;">
-                  <!--<el-col :span="9">-->
-                  <!--<el-button type="primary" slot="trigger" size="small" plain>选择文件</el-button>-->
                   <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="handleSave" :disabled="relativeDisable">保存</el-button>
                 </el-row>
-                <!--<el-row>&nbsp;</el-row>-->
               </el-form>
             </el-row>
           </el-col>
@@ -189,10 +192,9 @@
 <script>
   import Footer from '@/components/Footer.vue';
   import Menu from '@/components/ResumeMenu.vue';
-  // import store from '@/store/store';
-  // import Cookies from "js-cookie";
   import Constant from '@/utils/Constant';
   import { getStudentInfo, updatePersonalInfo }from '@/service/student.service';
+  import axios from 'axios';
 
   export default {
     components: {
@@ -260,6 +262,8 @@
         },
         politicalOptions: Constant.POLITICALOPTIONS,
         nationOptions: Constant.NATIONOPTIONS,
+        imageUrl: '',
+        studentNo: ''
       }
     },
     methods: {
@@ -284,10 +288,9 @@
         this.relativeDisable = true;
       },
       init() {
-        // let userName = Cookies.get("user");
-        // let userType = Cookies.get("userType");
         let userName = sessionStorage.getItem("user");
         let userType = sessionStorage.getItem("userType");
+        this.studentNo = userName;
         if (userType !== '1') {
           // todo
           // access deny page
@@ -300,6 +303,14 @@
       async getUserInformation (userName) {
         let response = await getStudentInfo(userName);
         this.updateStudent = response.data;
+      },
+      initImage() {
+        axios.get(`/xuexin/student/resume/findImageByStudentNo/${this.studentNo}`, {responseType: 'arraybuffer'}).then(response => {
+          let bytes = new Uint8Array(response.data);
+          let blob = new Blob([bytes], { type: "image/jpeg" });
+          let url = URL.createObjectURL(blob);
+          this.imageUrl = url;
+        });
       }
     },
   created() {
@@ -308,6 +319,7 @@
     mounted() {
       document.title = '个人信息';
       this.init();
+      this.initImage();
     }
   }
 </script>
@@ -332,15 +344,19 @@
     width: 100%;
   }
 
-  /*.margin-top {*/
-    /*margin-top: 20px;*/
-  /*}*/
-
   .line {
     width: 1px;
     height: 700px;
     background-color: #e6e6e6;
     margin-left: 10px;
+  }
+
+  .photo-avatar {
+    position: relative;
+    width: 140px;
+    height: 190px;
+    display: block;
+    background: aqua;
   }
 
 </style>
