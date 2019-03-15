@@ -10,6 +10,8 @@ import PersonalMaintenance from '@/pages/PersonalMaintenance'
 import ResumeStepOne from '@/pages/ResumeStepOne'
 import ResumeStepTwo from '@/pages/ResumeStepTwo'
 import ResumeStepThree from '@/pages/ResumeStepThree'
+import CompanyRegister from '@/pages/CompanyRegister'
+import TestPage from '@/pages/TestPage'
 
 Vue.use(Router)
 
@@ -63,6 +65,16 @@ const routes = [
     path: '/resumeStepThree',
     name: 'ResumeStepThree',
     component: ResumeStepThree
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: CompanyRegister
+  },
+  {
+    path: '/test',
+    name: 'TestPage',
+    component: TestPage
   }
 
 ];

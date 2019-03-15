@@ -109,7 +109,7 @@
         },
         fileName: '',
         imageUrl: '',
-        buttonText: '选择图片'
+        buttonText: '选择图片上传'
       }
     },
     methods: {
@@ -128,7 +128,7 @@
         let response = await getUserResumeInfo(this.userName);
         this.studentResume = response.data;
         let photoPath = this.studentResume.photoPath;
-        if (photoPath !== '') {
+        if (photoPath !== '' && photoPath !== null) {
           this.buttonText = '重新上传照片';
         }
       },

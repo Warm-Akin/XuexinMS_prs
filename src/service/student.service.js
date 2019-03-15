@@ -1,10 +1,10 @@
 import { getAll, saveStudent, getAllActiveStudents, getActiveStudentsByConditions, getStudentByStuNo, updateStudentInfo,
   getResumeByStuNo } from '@/repository/student.repository';
 
-  async function getStudentList (params) {
-    const data = await getAll(params);
-    return data || [];
-  }
+async function getStudentList (params) {
+  const data = await getAll(params);
+  return data || [];
+}
 
 async function saveStudentInfo (params) {
   const data = await saveStudent(params);

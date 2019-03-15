@@ -14,7 +14,7 @@
           </el-form-item>
         </el-form>
         <el-row class="register-button">
-          <el-button size="small" class="btn-register">企业注册</el-button>
+          <el-button size="small" class="btn-register" @click="gotoRegister">企业注册</el-button>
         </el-row>
       </div>
     <Footer></Footer>
@@ -82,6 +82,9 @@
           // Cookies.set("password", this.user.password);
           this.$router.push('/studentMaintenance');
         }
+      },
+      gotoRegister() {
+        this.$router.push('/register');
       }
     },
     mounted() {

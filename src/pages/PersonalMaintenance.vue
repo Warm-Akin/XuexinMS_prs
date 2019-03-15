@@ -307,20 +307,22 @@
       initImage() {
         axios.get(`/xuexin/student/resume/findImageByStudentNo/${this.studentNo}`, {responseType: 'arraybuffer'}).then(response => {
           let bytes = new Uint8Array(response.data);
-          let blob = new Blob([bytes], { type: "image/jpeg" });
-          let url = URL.createObjectURL(blob);
-          this.imageUrl = url;
+          if (bytes.length > 0) {
+            let blob = new Blob([bytes], { type: "image/jpeg" });
+            let url = URL.createObjectURL(blob);
+            this.imageUrl = url;
+          }
         });
       }
     },
   created() {
     this.$store.dispatch('commitMenuIndex', 'personal');
   },
-    mounted() {
-      document.title = '个人信息';
-      this.init();
-      this.initImage();
-    }
+  mounted() {
+    document.title = '个人信息';
+    this.init();
+    this.initImage();
+  }
   }
 </script>
 
@@ -356,7 +358,6 @@
     width: 140px;
     height: 190px;
     display: block;
-    background: aqua;
   }
 
 </style>
