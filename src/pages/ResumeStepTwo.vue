@@ -202,7 +202,7 @@
       this.uploadPhotoUrl = Constant.PHOTO_UPLOAD_URL + `/${this.userName}`;
     },
     mounted() {
-      document.title = '步骤二';
+      document.title = '上传简历图片';
       this.init();
     }
   }

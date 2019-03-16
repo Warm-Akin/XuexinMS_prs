@@ -263,7 +263,7 @@
       this.userName = sessionStorage.getItem('user');
     },
     mounted() {
-      document.title = '步骤一';
+      document.title = '简历基本信息';
       // let width = document.body.clientWidth - 200;
       // console.log('width', width);
       // // $(".main-content").css('width', width + 'px');

@@ -72,7 +72,7 @@
       this.userName = sessionStorage.getItem('user');
     },
     mounted() {
-      document.title = '步骤三';
+      document.title = '选择模板';
     }
   }
 </script>

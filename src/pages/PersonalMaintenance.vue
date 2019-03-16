@@ -22,8 +22,15 @@
                   <el-col :span="9">
                     <el-row>
                       <el-col>
-                        <el-form-item label="身份证号" prop="idcardNo">
-                          <el-input v-model="updateStudent.idcardNo" :disabled="absoluteDisable"></el-input>
+                        <el-form-item label="姓名" prop="studentName">
+                          <el-input v-model="updateStudent.studentName" :disabled="absoluteDisable"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col>
+                        <el-form-item label="学号" prop="studentNo">
+                          <el-input v-model="updateStudent.studentNo" :disabled="absoluteDisable"></el-input>
                         </el-form-item>
                       </el-col>
                     </el-row>
@@ -55,6 +62,13 @@
                             <el-radio label="男">男</el-radio>
                             <el-radio label="女">女</el-radio>
                           </el-radio-group>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col>
+                        <el-form-item label="身份证号" prop="idcardNo">
+                          <el-input v-model="updateStudent.idcardNo" :disabled="absoluteDisable"></el-input>
                         </el-form-item>
                       </el-col>
                     </el-row>

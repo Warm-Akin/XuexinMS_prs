@@ -1,0 +1,50 @@
+<template>
+  <el-row class="menu-bar">
+    <el-menu class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"
+             :router="true" :default-active="menuRouter">
+      <el-menu-item index="companyBasic">
+        <i class="el-icon-document"></i>
+        <span slot="title">公司基本信息</span>
+      </el-menu-item>
+      <el-menu-item index="showResume">
+        <i class="el-icon-search"></i>
+        <span slot="title">查看学生简历</span>
+      </el-menu-item>
+      <el-menu-item index="companyPayment">
+        <i class="el-icon-setting"></i>
+        <span slot="title">会员缴费</span>
+      </el-menu-item>
+    </el-menu>
+  </el-row>
+</template>
+
+<script>
+  export default {
+    name: "company-menu",
+    data() {
+      return {
+        menuRouter: ''
+      }
+    },
+    mounted() {
+      this.menuRouter = this.$store.state.companyMenuIndex;
+    }
+  }
+</script>
+
+<style>
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    /*min-height: 800px;*/
+    width: 200px;
+  }
+</style>
+
+<style scoped>
+  .menu-bar {
+    background-color: #545c64;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+</style>

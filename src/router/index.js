@@ -13,6 +13,9 @@ import ResumeStepThree from '@/pages/ResumeStepThree'
 import CompanyRegister from '@/pages/CompanyRegister'
 import Payment from '@/pages/Payment'
 import TestPage from '@/pages/TestPage'
+import CompanyMenu from '@/components/CompanyMenu'
+import CompanyBasic from '@/pages/CompanyBasic'
+import ShowResume from '@/pages/ShowResume'
 
 Vue.use(Router)
 
@@ -78,9 +81,24 @@ const routes = [
     component: Payment
   },
   {
+    path: '/companyBasic',
+    name: 'CompanyBasic',
+    component: CompanyBasic
+  },
+  {
+    path: '/showResume',
+    name: 'ShowResume',
+    component: ShowResume
+  },
+  {
     path: '/test',
     name: 'TestPage',
     component: TestPage
+  },
+  {
+    path: '/cmenu',
+    name: 'CompanyMenu',
+    component: CompanyMenu
   }
 
 ];
