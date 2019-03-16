@@ -25,7 +25,7 @@
   import Footer from '@/components/Footer.vue';
   import {checkLoginService} from '@/service/user.service';
   import Constant from '@/utils/Constant'
-  import Cookies from "js-cookie";
+  // import Cookies from "js-cookie";
 
   export default {
     components: {
@@ -42,10 +42,10 @@
     methods: {
       submitForm (formName) {
         if (this.user.employName.length === 0 ) {
-          this.$message.error('请输入用户名！');
+          this.$message.error('请输入用户名');
           return;
         } else if (this.user.password.length === 0) {
-          this.$message.error('请输入密码！');
+          this.$message.error('请输入密码');
           return;
         } else {
           this.$refs[formName].validate((valid) => {
@@ -75,8 +75,8 @@
           });
         } else {
           // login success
-          Cookies.set("userType", responseData.data.userType);
-          Cookies.set("user", this.user.employName);
+          // Cookies.set("userType", responseData.data.userType);
+          // Cookies.set("user", this.user.employName);
           sessionStorage.setItem("userType", responseData.data.userType);
           sessionStorage.setItem("user", this.user.employName);
           // Cookies.set("password", this.user.password);
@@ -95,7 +95,7 @@
 
 <style scoped>
   .main-content {
-    background-image: url("../assets/computer.jpg");
+    background-image: url("../assets/Keyboard.jpg");
     background-size: cover;
     background-position: center;
     position: absolute;
@@ -108,7 +108,7 @@
   .login-form {
     width: 40%;
     position: relative;
-    margin-left: 30%;
+    margin-left: 28%;
     top: 30%;
     background: black;
     opacity: 0.75;

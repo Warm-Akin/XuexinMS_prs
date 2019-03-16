@@ -1,9 +1,7 @@
 <template>
   <div class="content">
     <el-row>
-      <el-row class="action-bar">
-        <i class="el-icon-back go-back" @click="goBackLogin"></i>
-      </el-row>
+      <ActionBar></ActionBar>
       <el-row>&nbsp;</el-row>
       <el-row class="register-form">
         <span class="form-title"><i class="el-icon-edit"></i>企业注册</span>
@@ -87,12 +85,13 @@
 
 <script>
   import Footer from '@/components/Footer.vue';
+  import ActionBar from '@/components/ActionBar.vue';
   import Constant from '@/utils/Constant';
   import { registerCompany } from '@/service/company.service';
 
   export default {
     components: {
-      Footer
+      Footer, ActionBar
     },
     data () {
       return {
@@ -127,9 +126,6 @@
       }
     },
     methods: {
-      goBackLogin() {
-        this.$router.push('/login');
-      },
       handleSave() {
         this.$refs.registerForm.validate((valid) => {
           if (!valid) {
@@ -188,20 +184,6 @@
     height: 100%;
     overflow-y: scroll;
     clear: both;
-  }
-
-  .action-bar {
-    background: #333333;
-    padding-left: 10px;
-    vertical-align: middle;
-    line-height: 35px;
-    color: white;
-    height: 35px;
-    font-size: 20px;
-  }
-
-  .go-back {
-    cursor: pointer;
   }
 
   .form-title {
