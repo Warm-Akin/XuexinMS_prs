@@ -9,59 +9,63 @@
         <span class="form-title"><i class="el-icon-edit"></i>企业注册</span>
         <el-form :model="companyInfo" ref="registerForm" :rules="rules">
           <el-row>
-            <el-col :span="11">
+            <el-col :span="22">
               <el-form-item label="统一社会信用码/工商注册码" prop="soleCode">
                 <el-input v-model="companyInfo.soleCode"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="1">&nbsp;</el-col>
-            <el-col :span="11">
+          </el-row>
+          <el-row>
+            <el-col :span="22">
               <el-form-item label="公司名称" prop="companyName">
                 <el-input type="email" v-model="companyInfo.companyName"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="11">
+            <el-col :span="22">
               <el-form-item label="法人名称">
                 <el-input v-model="companyInfo.legalName"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="1">&nbsp;</el-col>
-            <el-col :span="11">
+          </el-row>
+          <el-row>
+            <el-col :span="22">
               <el-form-item label="法人联系电话">
                 <el-input type="email" v-model="companyInfo.legalPhone"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="11">
+            <el-col :span="22">
               <el-form-item label="legalCertcode(待定)">
                 <el-input v-model="companyInfo.legalCertcode"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="1">&nbsp;</el-col>
-            <el-col :span="11">
+          </el-row>
+          <el-row>
+            <el-col :span="22">
               <el-form-item label="公司电话">
                 <el-input type="email" v-model="companyInfo.companyPhone"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="23">
+            <el-col :span="22">
               <el-form-item label="公司地址">
-                <el-input v-model="companyInfo.companyAddress"></el-input>
+                <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 4}" v-model="companyInfo.companyAddress"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="11">
+            <el-col :span="22">
               <el-form-item label="备注">
-                <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 3}" v-model="companyInfo.remark"></el-input>
+                <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 4}" v-model="companyInfo.remark"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="1">&nbsp;</el-col>
-            <el-col :span="11">
+          </el-row>
+          <el-row>
+            <el-col :span="22">
               <el-form-item label="登录密码" prop="password"><!--onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" 禁止输入空格-->
                 <el-input type="password" v-model="companyInfo.password" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"></el-input>
               </el-form-item>
@@ -129,6 +133,7 @@
       handleSave() {
         this.$refs.registerForm.validate((valid) => {
           if (!valid) {
+            this.$message.error('您的输入有误，请检查后重试');
             return false;
           } else {
             this.callSaveInfo();
@@ -173,7 +178,7 @@
 <style scoped>
 
   .content {
-    background-image: url("../assets/Hippopx.jpg");
+    background-image: url("../assets/Code.jpg");
     background-size: cover;
     background-position: center;
     position: absolute;
@@ -201,27 +206,26 @@
 
   .form-title {
     font-family: 微软雅黑;
-    font-size: larger;
+    font-size: 25px;
     font-weight: bold;
-    line-height: 30px;
     color: #E6A23C;
+    position: relative;
+    left: 34%;
   }
 
   .register-form {
     position: relative;
-    width: 90%;
-    left: 5%;
+    width: 60%;
+    left: 20%;
     padding-left: 2.5%;
     padding-top: 1%;
+    background: #333333;
     opacity: 0.8;
+    border-radius: 10px;
   }
 
   >>>.el-form-item__label {
     color: white;
-  }
-
-  >>>.el-form-item__error {
-    color: red;
   }
 
 </style>

@@ -16,9 +16,9 @@
             <span>简历制作</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="resumeStepOne">步骤一</el-menu-item>
-            <el-menu-item index="resumeStepTwo">步骤二</el-menu-item>
-            <el-menu-item index="resumeStepThree">步骤三</el-menu-item>
+            <el-menu-item index="resumeStepOne">简历基本信息</el-menu-item>
+            <el-menu-item index="resumeStepTwo">上传简历照片</el-menu-item>
+            <el-menu-item index="resumeStepThree">选择模板</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-menu-item index="export">

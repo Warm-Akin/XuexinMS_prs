@@ -11,6 +11,7 @@ import ResumeStepOne from '@/pages/ResumeStepOne'
 import ResumeStepTwo from '@/pages/ResumeStepTwo'
 import ResumeStepThree from '@/pages/ResumeStepThree'
 import CompanyRegister from '@/pages/CompanyRegister'
+import Payment from '@/pages/Payment'
 import TestPage from '@/pages/TestPage'
 
 Vue.use(Router)
@@ -70,6 +71,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: CompanyRegister
+  },
+  {
+    path: '/payment',
+    name: 'Payment',
+    component: Payment
   },
   {
     path: '/test',
