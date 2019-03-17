@@ -1,10 +1,10 @@
 <template>
   <div>
+    <InfoMenu></InfoMenu>
     <el-row class="text-align-left">
       <el-col :span="24">
         <el-col :xl="22" :lg="22" :offset="1" class="page-title">开课课程信息管理</el-col>
-        <el-col :span="4" class="margin-top">
-          <!--:xl="3" :lg="4" :offset="1"-->
+        <el-col :span="4" class="margin-top search-form">
           <el-form label-width="70px" label-position="left" :model="searchCourse" ref="searchForm">
             <el-form-item label="课程代码">
               <el-input v-model="searchCourse.courseCode"></el-input>
@@ -43,26 +43,26 @@
           </el-form>
           <el-button type="primary" icon="el-icon-search" class="search-btn" @click="queryCourse">搜索</el-button>
         </el-col>
-        <el-col :xl="1" :lg="1" class="margin-top">
+        <el-col :span="1" class="margin-top">
           <div class="line"></div>
         </el-col>
-        <el-col :span='18' class="margin-top"><!--:xl="18" :lg="17"-->
+        <el-col :span='18' class="margin-top table-body">
           <el-button class="el-button--primary" plain round @click="showAddDialog">添加</el-button>
           <el-button class="el-button--primary" plain round @click="showModifyDialog">修改</el-button>
           <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">上传</el-button>
           <el-button class="el-button--primary" plain round @click="exportTableData">导出</el-button>
           <el-table class="stakeholder-table" :data="courseList"
-                    ref="multipleTable" stripe max-height="700" @row-dblclick="handleRowDBClick"
-                    style="width: 100%" highlight-current-row @selection-change="handleSelectionChange"
+                    ref="multipleTable" stripe max-height="530" @row-dblclick="handleRowDBClick"
+                    style="width: 120%" highlight-current-row @selection-change="handleSelectionChange"
                     :default-sort="{prop: 'teacherNo', order: 'ascending'}"
                     v-loading="loadingStatus">
-            <el-table-column type="selection" width="40"></el-table-column>
-            <el-table-column label="课程代码" sortable prop="courseCode" align="center" width="150">
+            <el-table-column type="selection" width="40" fixed></el-table-column>
+            <el-table-column label="课程代码" sortable prop="courseCode" align="center" width="160">
               <template slot-scope="scope">
                 <span>{{scope.row.courseCode}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="课程名称" sortable prop="courseName" align="center" width="140">
+            <el-table-column label="课程名称" sortable prop="courseName" align="center" width="160">
               <template slot-scope="scope">
                 <span>{{scope.row.courseName}}</span>
               </template>
@@ -226,18 +226,20 @@
         </el-col>
       </el-col>
     </el-row>
+    <el-row style="margin-top: 1%;">&nbsp;</el-row>
     <Footer></Footer>
   </div>
 </template>
 
 <script>
-  import Footer from '@/components/Footer.vue';
+  import Footer from '@/components/Footer';
+  import InfoMenu from '@/components/InformationMenu';
   import { initCourseInfo, getCourseInfoPage, findCoursesByConditions, saveCourseInfo } from '@/service/course.service'
   import Constant from '@/utils/Constant'
 
   export default {
     components: {
-      Footer
+      Footer, InfoMenu
     },
     data() {
       return {
@@ -551,30 +553,55 @@
   .text-align-left {
     text-align: left;
   }
+
   .page-title {
     font-size: 20px;
   }
+
   .margin-top {
     margin-top: 20px;
   }
-  .table-nav {
-    position: fixed;
+
+  .search-form {
     bottom: 40px;
   }
+
+  .table-nav {
+    /*position: fixed;*/
+    /*bottom: 40px;*/
+  }
+
   .line {
     width: 1px;
-    height: 700px;
+    height: 600px;
     background-color: #e6e6e6;
     margin-left: 20px;
   }
+
   .radio-margin {
     width: 28px;
   }
+
   .search-btn {
     text-align: center;
     width: 100%;
   }
-  > > > .el-input.is-disabled .el-input__inner {
+
+  @media screen and (max-width: 970px) {
+    .search-form {
+      display: none;
+    }
+
+    .line {
+      display: none;
+    }
+
+    .table-body {
+      width: 100%;
+    }
+  }
+
+  >>> .el-input.is-disabled .el-input__inner {
     background-color: #FFFFFF;
     border-color: #66b1ff;
     color: #c0c4cc;

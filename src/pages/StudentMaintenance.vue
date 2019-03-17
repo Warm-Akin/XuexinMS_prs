@@ -1,10 +1,10 @@
 <template>
   <div>
+    <InfoMenu></InfoMenu>
     <el-row class="text-align-left">
       <el-col :span="24">
         <el-col :xl="22" :lg="22" :offset="1" class="page-title">学生基本信息管理</el-col>
-        <el-col :span="4" class="margin-top">
-          <!--:xl="3" :lg="4" :offset="1"-->
+        <el-col :span="4" class="margin-top search-form">
           <el-form label-width="70px" label-position="left" :model="searchStudent" ref="searchForm">
             <el-form-item label="学号">
               <el-input v-model="searchStudent.studentNo"></el-input>
@@ -19,12 +19,6 @@
                 <el-radio label="" class="radio-margin">不限</el-radio>
               </el-radio-group>
             </el-form-item>
-            <!--<el-form-item label="出生日期">-->
-                <!--<el-date-picker style="width: 100%" v-model="searchStudent.birthdayFrom" type="date"></el-date-picker>-->
-            <!--</el-form-item>-->
-            <!--<el-form-item label="至">-->
-              <!--<el-date-picker style="width: 100%" v-model="searchStudent.birthdayTo" type="date" placeholder="选择日期"></el-date-picker>-->
-            <!--</el-form-item>-->
             <el-form-item label="政治面貌">
               <el-select v-model="searchStudent.politicalStatus" filterable placeholder="请选择">
                 <el-option v-for="item in politicalOptions" :key="item.value" :label="item.label" :value="item.value">
@@ -55,17 +49,17 @@
         <el-col :span="1" class="margin-top">
           <div class="line"></div>
         </el-col>
-        <el-col :span='18' class="margin-top"><!--:xl="18" :lg="17"-->
+        <el-col :span='18' class="margin-top table-body"><!--:xl="18" :lg="17"-->
           <el-button class="el-button--primary" plain round @click="showAddDialog">添加</el-button>
           <el-button class="el-button--primary" plain round @click="showModifyDialog">修改</el-button>
           <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">上传</el-button>
           <el-button class="el-button--primary" plain round @click="exportTableData">导出</el-button>
           <el-table class="stakeholder-table" :data="studentList"
-                    ref="multipleTable" stripe max-height="700" @row-dblclick="handleRowDBClick"
+                    ref="multipleTable" stripe max-height="530" @row-dblclick="handleRowDBClick"
                     style="width: 100%" highlight-current-row @selection-change="handleSelectionChange"
                     :default-sort="{prop: 'studentNo', order: 'ascending'}"
                     v-loading="loadingStatus">
-            <el-table-column type="selection" width="40"></el-table-column>
+            <el-table-column type="selection" width="40" fixed></el-table-column>
             <el-table-column label="学号" sortable prop="studentNo" align="center" width="150">
               <template slot-scope="scope">
                 <span>{{scope.row.studentNo}}</span>
@@ -319,18 +313,20 @@
         </el-col>
       </el-col>
     </el-row>
+    <el-row style="margin-top: 1%;">&nbsp;</el-row>
     <Footer></Footer>
   </div>
 </template>
 
 <script>
-  import Footer from '@/components/Footer.vue';
+  import Footer from '@/components/Footer';
+  import InfoMenu from '@/components/InformationMenu';
   import {getStudentList, saveStudentInfo, findAllActiveStudents, findStudentByConditions} from '@/service/student.service'
   import Constant from '@/utils/Constant'
 
   export default {
     components: {
-      Footer
+      Footer, InfoMenu
     },
     data() {
       return {
@@ -646,15 +642,19 @@
   }
 
   .table-nav {
-    position: fixed;
-    bottom: 40px;
+    /*position: fixed;*/
+    /*bottom: 40px;*/
   }
 
   .line {
     width: 1px;
-    height: 700px;
+    height: 600px;
     background-color: #e6e6e6;
     margin-left: 20px;
+  }
+
+  .search-form {
+    bottom: 40px;
   }
 
   .radio-margin {
@@ -666,7 +666,21 @@
     width: 100%;
   }
 
-  > > > .el-input.is-disabled .el-input__inner {
+  @media screen and (max-width: 900px) {
+    .search-form {
+      display: none;
+    }
+
+    .line {
+      display: none;
+    }
+
+    .table-body {
+      width: 100%;
+    }
+  }
+
+  >>> .el-input.is-disabled .el-input__inner {
     background-color: #FFFFFF;
     border-color: #66b1ff;
     color: #c0c4cc;
