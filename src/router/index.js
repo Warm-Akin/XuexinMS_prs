@@ -12,11 +12,10 @@ import ResumeStepTwo from '@/pages/ResumeStepTwo'
 import ResumeStepThree from '@/pages/ResumeStepThree'
 import CompanyRegister from '@/pages/CompanyRegister'
 import Payment from '@/pages/Payment'
-import TestPage from '@/pages/TestPage'
-import CompanyMenu from '@/components/CompanyMenu'
 import CompanyBasic from '@/pages/CompanyBasic'
 import ShowResume from '@/pages/ShowResume'
 import CompanyPayment from '@/pages/CompanyPayment'
+import CompanyPassword from '@/pages/CompanyPassword'
 
 
 Vue.use(Router)
@@ -98,16 +97,10 @@ const routes = [
     component: CompanyPayment
   },
   {
-    path: '/test',
-    name: 'TestPage',
-    component: TestPage
-  },
-  {
-    path: '/cmenu',
-    name: 'CompanyMenu',
-    component: CompanyMenu
+    path: '/companyPassword',
+    name: 'CompanyPassword',
+    component: CompanyPassword
   }
-
 ];
 
 const router = new Router({ routes });

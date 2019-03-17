@@ -63,6 +63,7 @@
     margin-top: 25px;
     margin-left: 2%;
     padding-left: 10px;
+    padding-right: 5%;
     font-family: 微软雅黑;
     font-weight: bolder;
     font-size: 20px;

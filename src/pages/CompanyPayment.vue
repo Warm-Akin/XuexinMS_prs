@@ -8,6 +8,7 @@
         <div class="line"></div>
       </el-col>
       <el-col :span="20">
+        <el-row class="content-title"><i class="el-icon-success"></i> 会员缴费项目</el-row>
         <PaymentContent></PaymentContent>
       </el-col>
     </el-row>
@@ -56,5 +57,12 @@
     height: 700px;
     background-color: #e6e6e6;
     margin-left: 10px;
+  }
+
+  .content-title {
+    margin-top: 1%;
+    font-weight: bold;
+    line-height: 40px;
+    margin-bottom: 5px;
   }
 </style>

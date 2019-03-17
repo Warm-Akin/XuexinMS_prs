@@ -14,6 +14,10 @@
         <i class="el-icon-setting"></i>
         <span slot="title">会员缴费</span>
       </el-menu-item>
+      <el-menu-item index="companyPassword">
+        <i class="el-icon-message"></i>
+        <span slot="title">修改密码</span>
+      </el-menu-item>
     </el-menu>
   </el-row>
 </template>
@@ -34,7 +38,7 @@
 
 <style>
   .el-menu-vertical-demo:not(.el-menu--collapse) {
-    /*min-height: 800px;*/
+    min-height: 730px;
     width: 200px;
   }
 </style>
