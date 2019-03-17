@@ -16,6 +16,8 @@ import TestPage from '@/pages/TestPage'
 import CompanyMenu from '@/components/CompanyMenu'
 import CompanyBasic from '@/pages/CompanyBasic'
 import ShowResume from '@/pages/ShowResume'
+import CompanyPayment from '@/pages/CompanyPayment'
+
 
 Vue.use(Router)
 
@@ -89,6 +91,11 @@ const routes = [
     path: '/showResume',
     name: 'ShowResume',
     component: ShowResume
+  },
+  {
+    path: '/companyPayment',
+    name: 'CompanyPayment',
+    component: CompanyPayment
   },
   {
     path: '/test',

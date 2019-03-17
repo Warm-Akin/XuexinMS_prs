@@ -8,7 +8,7 @@
         <div class="line"></div>
       </el-col>
       <el-col :span="20">
-        主要内容
+        <PaymentContent></PaymentContent>
       </el-col>
     </el-row>
     <Footer></Footer>
@@ -18,10 +18,11 @@
 <script>
   import Footer from '@/components/Footer';
   import CompanyMenu from '@/components/CompanyMenu';
+  import PaymentContent from '@/components/PaymentContent';
 
   export default {
     components: {
-      Footer, CompanyMenu
+      Footer, CompanyMenu, PaymentContent
     },
     // data() {
     //
@@ -48,7 +49,6 @@
     overflow-y: scroll;
     padding: 0;
     clear: both;
-    border: 2px solid red;
   }
 
   .line {
