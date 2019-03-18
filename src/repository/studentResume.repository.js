@@ -12,8 +12,15 @@ async function downloadStudentResume (params) {
   return body.data;
 }
 
+async function getAllResumeInfo (params) {
+  const url = `/xuexin/company/resume/findAll/${params.currentPage}/${params.pageSize}`;
+  const body = await get(url);
+  return body.data;
+}
+
 
 export {
   saveStudentResume,
-  downloadStudentResume
+  downloadStudentResume,
+  getAllResumeInfo
 };

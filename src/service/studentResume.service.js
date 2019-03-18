@@ -1,4 +1,4 @@
-import { saveStudentResume, downloadStudentResume } from '@/repository/studentResume.repository';
+import { saveStudentResume, downloadStudentResume, getAllResumeInfo } from '@/repository/studentResume.repository';
 
 async function saveResumeInfo (params) {
   const data = await saveStudentResume(params);
@@ -10,7 +10,13 @@ async function downloadResumePdf (params) {
   return data || [];
 }
 
+async function getResumeInfo (params) {
+  const data = await getAllResumeInfo(params);
+  return data || [];
+}
+
 export {
   saveResumeInfo,
-  downloadResumePdf
+  downloadResumePdf,
+  getResumeInfo
 };
