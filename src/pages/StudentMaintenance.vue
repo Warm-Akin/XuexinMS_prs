@@ -49,13 +49,13 @@
         <el-col :span="1" class="margin-top">
           <div class="line"></div>
         </el-col>
-        <el-col :span='18' class="margin-top table-body"><!--:xl="18" :lg="17"-->
+        <el-col :span='18' class="margin-top table-body">
           <el-button class="el-button--primary" plain round @click="showAddDialog">添加</el-button>
           <el-button class="el-button--primary" plain round @click="showModifyDialog">修改</el-button>
           <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">上传</el-button>
           <el-button class="el-button--primary" plain round @click="exportTableData">导出</el-button>
           <el-table class="stakeholder-table" :data="studentList"
-                    ref="multipleTable" stripe max-height="530" @row-dblclick="handleRowDBClick"
+                    ref="multipleTable" stripe max-height="515" @row-dblclick="handleRowDBClick"
                     style="width: 100%" highlight-current-row @selection-change="handleSelectionChange"
                     :default-sort="{prop: 'studentNo', order: 'ascending'}"
                     v-loading="loadingStatus">
@@ -648,7 +648,7 @@
 
   .line {
     width: 1px;
-    height: 600px;
+    height: 580px;
     background-color: #e6e6e6;
     margin-left: 20px;
   }
@@ -685,5 +685,32 @@
     border-color: #66b1ff;
     color: #c0c4cc;
   }
+
+  >>>.el-form-item {
+    margin-bottom: 16px;
+  }
+
+  >>>.el-menu--horizontal>.el-submenu .el-submenu__title {
+    height: 40px;
+    line-height: 40px;
+    /*border-bottom: 2px solid transparent;*/
+    color: #909399;
+  }
+
+  /*>>>.el-submenu__title {*/
+    /*font-size: 14px;*/
+    /*color: #303133;*/
+    /*padding: 0 20px;*/
+    /*cursor: pointer;*/
+  /*}*/
+
+  /*>>>.el-menu-item, .el-submenu__title {*/
+    /*height: 56px;*/
+    /*line-height: 56px;*/
+    /*position: relative;*/
+    /*-webkit-box-sizing: border-box;*/
+    /*white-space: nowrap;*/
+    /*list-style: none;*/
+  /*}*/
 
 </style>

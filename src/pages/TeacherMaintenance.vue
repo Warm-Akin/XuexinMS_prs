@@ -64,7 +64,7 @@
           <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">上传</el-button>
           <el-button class="el-button--primary" plain round @click="exportTableData">导出</el-button>
           <el-table class="stakeholder-table" :data="teacherList"
-                    ref="multipleTable" stripe max-height="530" @row-dblclick="handleRowDBClick"
+                    ref="multipleTable" stripe max-height="515" @row-dblclick="handleRowDBClick"
                     style="width: 100%" highlight-current-row @selection-change="handleSelectionChange"
                     :default-sort="{prop: 'teacherNo', order: 'ascending'}"
                     v-loading="loadingStatus">
@@ -711,14 +711,9 @@
     bottom: 40px;
   }
 
-  .table-nav {
-    /*position: fixed;*/
-    /*bottom: 40px;*/
-  }
-
   .line {
     width: 1px;
-    height: 600px;
+    height: 580px;
     background-color: #e6e6e6;
     margin-left: 20px;
   }
@@ -750,6 +745,12 @@
     background-color: #FFFFFF;
     border-color: #66b1ff;
     color: #c0c4cc;
+  }
+
+  >>>.el-menu--horizontal>.el-submenu .el-submenu__title {
+    height: 40px;
+    line-height: 40px;
+    color: #909399;
   }
 
 </style>

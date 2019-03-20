@@ -3,7 +3,7 @@
     <InfoMenu></InfoMenu>
     <el-row class="text-align-left">
       <el-col :span="24">
-        <el-col :xl="22" :lg="22" :offset="1" class="page-title">开课课程信息管理</el-col>
+        <el-col :xl="22" :lg="22" :offset="1" class="page-title">学生选课及成绩明细管理</el-col>
         <el-col :span="4" class="margin-top search-form">
           <el-form label-width="70px" label-position="left" :model="searchCourse" ref="searchForm">
             <el-form-item label="课程代码">
@@ -51,13 +51,43 @@
           <el-button class="el-button--primary" plain round @click="showModifyDialog">修改</el-button>
           <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">上传</el-button>
           <el-button class="el-button--primary" plain round @click="exportTableData">导出</el-button>
-          <el-table class="stakeholder-table" :data="courseList"
+          <el-table class="stakeholder-table" :data="stuCourseScoreDetailList"
                     ref="multipleTable" stripe max-height="515" @row-dblclick="handleRowDBClick"
                     style="width: 120%" highlight-current-row @selection-change="handleSelectionChange"
-                    :default-sort="{prop: 'teacherNo', order: 'ascending'}"
+                    :default-sort="{prop: 'studentNo', order: 'ascending'}"
                     v-loading="loadingStatus">
             <el-table-column type="selection" width="40" fixed></el-table-column>
-            <el-table-column label="课程代码" sortable prop="courseCode" align="center" width="160">
+            <el-table-column label="学号" sortable prop="studentNo" align="center" width="160">
+              <template slot-scope="scope">
+                <span>{{scope.row.studentNo}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="姓名" sortable prop="studentName" align="center" width="160">
+              <template slot-scope="scope">
+                <span>{{scope.row.studentName }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="学院" align="center" width="160">
+              <template slot-scope="scope">
+                <span>{{scope.row.orgName }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="班级" sortable prop="className" align="center" width="160">
+              <template slot-scope="scope">
+                <span>{{scope.row.className }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="专业" sortable prop="major" align="center" width="160">
+              <template slot-scope="scope">
+                <span>{{scope.row.major }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="选课课号" sortable prop="selectedCourseNo" align="center" width="160">
+              <template slot-scope="scope">
+                <span>{{scope.row.selectedCourseNo }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="课程代码" align="center" width="160">
               <template slot-scope="scope">
                 <span>{{scope.row.courseCode}}</span>
               </template>
@@ -77,62 +107,63 @@
                 <span>{{scope.row.term}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="总学时" align="center" width="100" :show-overflow-tooltip="true">
+            <!-- todo checkBox-->
+            <el-table-column label="是否补考" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.totalHours}}</span>
+                <span>{{scope.row.retakeFlag}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="实验学时" align="center" width="100" :show-overflow-tooltip="true">
+            <el-table-column label="平时成绩" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.labHours}}</span>
+                <span>{{scope.row.usualScore}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="选课课号" align="center" width="150" :show-overflow-tooltip="true">
+            <el-table-column label="期中成绩" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.category}}</span>
+                <span>{{scope.row.retakeFlag}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="限选人数" align="center" width="100" :show-overflow-tooltip="true">
+            <el-table-column label="期末成绩" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.limitStudentNum}}</span>
+                <span>{{scope.row.endScore}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="选课人数" align="center" width="100" :show-overflow-tooltip="true">
+            <el-table-column label="实验成绩" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.studentNum}}</span>
+                <span>{{scope.row.labScore}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="学分" align="center" width="150" :show-overflow-tooltip="true">
+            <el-table-column label="总评成绩" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.credit}}</span>
+                <span>{{scope.row.finalScore}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="课程性质" align="center" width="150" :show-overflow-tooltip="true">
+            <el-table-column label="折算成绩" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.courseType}}</span>
+                <span>{{scope.row.convertScore}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="课程归属" align="center" width="150" :show-overflow-tooltip="true">
+            <el-table-column label="补考成绩" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.belongTo}}</span>
+                <span>{{scope.row.resitScore}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="教师工号" align="center" width="150" :show-overflow-tooltip="true">
+            <el-table-column label="补考备注" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.teacherNo}}</span>
+                <span>{{scope.row.resitMemo}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="教师姓名" align="center" width="150" :show-overflow-tooltip="true">
+            <el-table-column label="重修成绩" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.teacherName}}</span>
+                <span>{{scope.row.repairScore}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="教学班组成" align="left" width="300">
+            <el-table-column label="绩点" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.classInfo}}</span>
+                <span>{{scope.row.gradePoint}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="备注" align="center" width="150" :show-overflow-tooltip="true">
+            <el-table-column label="备注" align="center" width="120">
               <template slot-scope="scope">
                 <span>{{scope.row.memo}}</span>
               </template>
@@ -154,9 +185,6 @@
               </el-form-item>
               <el-form-item label="学年">
                 <el-input v-model="updateCourse.academicYear"></el-input>
-                <!--todo 学年选择-->
-                <!--<el-date-picker v-model="value5" type="year" placeholder="选择学年"></el-date-picker>-->
-                <!--<el-date-picker v-model="value5" type="year" placeholder="选择学年"></el-date-picker>-->
               </el-form-item>
               <el-form-item label="学期">
                 <el-radio-group v-model="updateCourse.term" prop="sex">
@@ -234,6 +262,7 @@
 <script>
   import Footer from '@/components/Footer';
   import InfoMenu from '@/components/InformationMenu';
+  import { getStudentCourseDetailPage } from '@/service/studentCourseDetail.service'
   import { initCourseInfo, getCourseInfoPage, findCoursesByConditions, saveCourseInfo } from '@/service/course.service'
   import Constant from '@/utils/Constant'
 
@@ -250,6 +279,7 @@
         totalCount: 0,
         loadingStatus: false,
         multipleSelection: [],
+        stuCourseScoreDetailList: [],
         courseList: [],
         courseInfoEditable: true,
         updateCourse: {
@@ -305,13 +335,13 @@
       };
     },
     methods: {
-      async callCourseList(pageable) {
+      async callStudentCourseDetails(pageable) {
         this.$loading({fullscreen: true});
-        let courseInfo = await getCourseInfoPage(pageable);
-        this.courseList = courseInfo.data.pageResultList;
+        let response = await getStudentCourseDetailPage(pageable);
+        this.stuCourseScoreDetailList = response.data.pageResultList;
         // format data
         // this.courseList = this.formatList(courseList);
-        this.totalCount = courseInfo.data.total;
+        this.totalCount = response.data.total;
         this.$loading({fullscreen: true}).close();
       },
       handleSaveCourse() {
@@ -542,9 +572,9 @@
       }
     },
     mounted() {
-      document.title = "开课课程信息管理";
-      this.init();
-      this.callCourseList(this.pageable);
+      document.title = "学生选课及成绩明细";
+      // this.init();
+      this.callStudentCourseDetails(this.pageable);
     }
   }
 </script>

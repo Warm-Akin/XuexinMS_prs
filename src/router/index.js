@@ -16,7 +16,7 @@ import CompanyBasic from '@/pages/CompanyBasic'
 import ShowResume from '@/pages/ShowResume'
 import CompanyPayment from '@/pages/CompanyPayment'
 import CompanyPassword from '@/pages/CompanyPassword'
-
+import StudentCourseScoreDetail from '@/pages/StudentCourseScoreDetail'
 
 Vue.use(Router)
 
@@ -100,6 +100,11 @@ const routes = [
     path: '/companyPassword',
     name: 'CompanyPassword',
     component: CompanyPassword
+  },
+  {
+    path: '/studentCourseScoreDetail',
+    name: 'StudentCourseScoreDetail',
+    component: StudentCourseScoreDetail
   }
 ];
 
