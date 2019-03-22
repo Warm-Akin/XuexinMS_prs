@@ -685,6 +685,9 @@
         return teacher;
       }
     },
+    created() {
+      this.$store.dispatch('commitInformationMenuIndex', 'teacherMaintenance');
+    },
     mounted() {
       document.title = "教师信息管理";
       this.init();

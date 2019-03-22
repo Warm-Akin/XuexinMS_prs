@@ -541,6 +541,9 @@
         return b - a;
       }
     },
+    created() {
+      this.$store.dispatch('commitInformationMenuIndex', 'courseMaintenance');
+    },
     mounted() {
       document.title = "开课课程信息管理";
       this.init();

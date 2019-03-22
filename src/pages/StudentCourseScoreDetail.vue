@@ -282,6 +282,43 @@
         stuCourseScoreDetailList: [],
         courseList: [],
         courseInfoEditable: true,
+        stuCourseScoreDetail: {
+          courseCode: '',
+          courseName: '',
+          studentId: '',
+          studentNo: '',
+          studentName: '',
+          orgId: '',
+          orgName: '',
+          className: '',
+          majorCode: '',
+          major: '',
+          retakeFlag: '',
+          usualScore: '',
+          middleScore: '',
+          endScore: '',
+          labScore: '',
+          finalScore: '',
+          convertScore: '',
+          resitScore: '',
+          resitMemo: '',
+          repairScore: '',
+          gradePoint: '',
+          memo: '',
+          createTime: '',
+          creator: '',
+          parentOrgId: '',
+          totalHours: '',
+          grade: '',
+          academicYear: '',
+          term: '',
+          teacherNo: '',
+          teacherName: '',
+          selectedCourseNo: '',
+          courseType: '',
+          credit: '',
+          active: ''
+        },
         updateCourse: {
           courseCode: '',
           courseName: '',
@@ -570,6 +607,9 @@
       sortArray(a, b){
         return b - a;
       }
+    },
+    created() {
+      this.$store.dispatch('commitInformationMenuIndex', 'studentCourseScoreDetail');
     },
     mounted() {
       document.title = "学生选课及成绩明细";

@@ -620,6 +620,9 @@
         this.loadingStatus = false;
       }
     },
+    created() {
+      this.$store.dispatch('commitInformationMenuIndex', 'studentMaintenance');
+    },
     mounted() {
       document.title = '学生信息管理';
       this.callStudentList(this.pageable);
