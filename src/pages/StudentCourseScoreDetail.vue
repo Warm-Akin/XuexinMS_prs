@@ -110,7 +110,7 @@
             <!-- todo checkBox-->
             <el-table-column label="是否补考" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.retakeFlag}}</span>
+                <el-checkbox v-model="scope.row.qualificationFlag" disabled></el-checkbox>
               </template>
             </el-table-column>
             <el-table-column label="平时成绩" align="center" width="120">
@@ -120,7 +120,7 @@
             </el-table-column>
             <el-table-column label="期中成绩" align="center" width="120">
               <template slot-scope="scope">
-                <span>{{scope.row.retakeFlag}}</span>
+                <span>{{scope.row.middleScore}}</span>
               </template>
             </el-table-column>
             <el-table-column label="期末成绩" align="center" width="120">
@@ -174,62 +174,176 @@
                          :page-sizes="[20,40, 100, 200, 500]" :page-size="pageable.pageSize"
                          layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
           </el-pagination>
-          <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="500px" top="20px" @close='closeDialog'>
-            <el-form label-width="90px" label-position="left" :model="updateCourse" class="dialog-form"
+          <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="800px" top="20px" @close='closeDialog'>
+            <el-form label-width="90px" label-position="left" :model="stuCourseScoreDetail" class="dialog-form"
                      ref="updateForm" :rules="rules">
-              <el-form-item label="课程代码" prop="courseCode">
-                <el-input v-model="updateCourse.courseCode" :disabled="courseInfoEditable"></el-input>
-              </el-form-item>
-              <el-form-item label="课程名称" prop="courseName">
-                <el-input v-model="updateCourse.courseName"></el-input>
-              </el-form-item>
-              <el-form-item label="学年">
-                <el-input v-model="updateCourse.academicYear"></el-input>
-              </el-form-item>
-              <el-form-item label="学期">
-                <el-radio-group v-model="updateCourse.term" prop="sex">
-                  <el-radio label="1">1</el-radio>
-                  <el-radio label="2">2</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="总学时">
-                <el-input v-model="updateCourse.totalHours" type="number"></el-input>
-              </el-form-item>
-              <el-form-item label="实验学时">
-                <el-input v-model="updateCourse.labHours" type="number"></el-input>
-              </el-form-item>
-              <el-form-item label="限选人数">
-                <el-input v-model="updateCourse.limitStudentNum" type="number"></el-input>
-              </el-form-item>
-              <el-form-item label="选课人数">
-                <el-input v-model="updateCourse.studentNum" type="number"></el-input>
-              </el-form-item>
-              <el-form-item label="学分">
-                <el-input v-model="updateCourse.credit" type="number"></el-input>
-              </el-form-item>
-              <el-form-item label="课程类别">
-                <el-input v-model="updateCourse.courseType"></el-input>
-              </el-form-item>
-              <el-form-item label="课程归属">
-                <el-input v-model="updateCourse.belongTo"></el-input>
-              </el-form-item>
-              <el-form-item label="教师工号">
-                <el-input v-model="updateCourse.teacherNo"></el-input>
-              </el-form-item>
-              <el-form-item label="教师姓名">
-                <el-input v-model="updateCourse.teacherName"></el-input>
-              </el-form-item>
-              <el-form-item label="教学班组成">
-                <el-input v-model="updateCourse.classInfo" type="textarea" :autosize="{ minRows: 1, maxRows: 3}"></el-input>
-              </el-form-item>
-              <el-form-item label="备注">
-                <el-input v-model="updateCourse.memo"></el-input>
-              </el-form-item>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="学号">
+                    <!--<el-select v-model="stuCourseScoreDetail.studentNo" clearable filterable remote reserve-keyword-->
+                      <!--placeholder="请输入学号" :remote-method="filterStudentNo" :loading="loadingStatus">-->
+                      <!--<el-option v-for="item in studentNoOption" :key="item.value" :label="item.label" :value="item.value"></el-option>-->
+                    <!--</el-select>-->
+                    <el-select v-model="stuCourseScoreDetail.studentNo" clearable filterable remote reserve-keyword
+                               placeholder="请输入学号" :remote-method="filterStudentNo" :loading="loadingStatus" @change="filterListByStudentNo" @clear="clearDetail">
+                      <el-option v-for="item in selectOptionList" :key="item.stuId" :label="item.studentNo" :value="item.studentNo"></el-option>
+                    </el-select>
+                    <!--<el-input v-model="stuCourseScoreDetail.studentNo"></el-input>-->
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">&nbsp;</el-col>
+                <el-col :span="11">
+                  <el-form-item label="选课课号">
+                    <el-input v-model="stuCourseScoreDetail.selectedCourseNo"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="姓名" prop="studentName">
+                    <el-select v-model="stuCourseScoreDetail.studentName" clearable filterable remote reserve-keyword
+                               placeholder="请输入姓名" :remote-method="filterStudentName" :loading="loadingStatus" @clear="clearDetail" @change="filterListByStudentName">
+                      <el-option v-for="item in selectOptionList" :key="item.stuId" :label="item.studentName" :value="item.studentName"></el-option>
+                    </el-select>
+                    <!--<el-input v-model="stuCourseScoreDetail.studentName"></el-input>-->
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">&nbsp;</el-col>
+                <el-col :span="11">
+                  <el-form-item label="课程代码" prop="courseCode">
+                    <el-input v-model="stuCourseScoreDetail.courseCode"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="学院名称" prop="orgName">
+                    <el-input v-model="stuCourseScoreDetail.orgName" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">&nbsp;</el-col>
+                <el-col :span="11">
+                  <el-form-item label="课程名称" prop="courseName">
+                    <el-input v-model="stuCourseScoreDetail.courseName"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="专业名称">
+                    <el-input v-model="stuCourseScoreDetail.major" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">&nbsp;</el-col>
+                <el-col :span="11">
+                  <el-form-item label="学年">
+                    <el-input v-model="stuCourseScoreDetail.academicYear"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="班级" prop="className">
+                    <el-input v-model="stuCourseScoreDetail.className"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">&nbsp;</el-col>
+                <el-col :span="11">
+                  <el-form-item label="学期">
+                    <el-radio-group v-model="stuCourseScoreDetail.term" prop="term">
+                      <el-radio label="1">1</el-radio>
+                      <el-radio label="2">2</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="平时成绩">
+                    <el-input v-model="stuCourseScoreDetail.usualScore" type="number"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">&nbsp;</el-col>
+                <el-col :span="11">
+                  <el-form-item label="期中成绩">
+                    <el-input v-model="stuCourseScoreDetail.middleScore" type="number"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="期末成绩">
+                    <el-input v-model="stuCourseScoreDetail.endScore" type="number"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">&nbsp;</el-col>
+                <el-col :span="11">
+                  <el-form-item label="实验成绩">
+                    <el-input v-model="stuCourseScoreDetail.labScore" type="number"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="总评成绩">
+                    <el-input v-model="stuCourseScoreDetail.finalScore" type="number"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">&nbsp;</el-col>
+                <el-col :span="11">
+                  <el-form-item label="折算成绩">
+                    <el-input v-model="stuCourseScoreDetail.convertScore" type="number"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="是否补考">
+                    <el-radio-group v-model="stuCourseScoreDetail.retakeFlag">
+                      <el-radio :label="true">是</el-radio>
+                      <el-radio :label="false">否</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">&nbsp;</el-col>
+                <el-col :span="11">
+                  <el-form-item label="补考成绩">
+                    <el-input v-model="stuCourseScoreDetail.resitScore" type="number"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="重修成绩">
+                    <el-input v-model="stuCourseScoreDetail.repairScore" type="number"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">&nbsp;</el-col>
+                <el-col :span="11">
+                  <el-form-item label="绩点">
+                    <el-input v-model="stuCourseScoreDetail.gradePoint" type="number"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="23">
+                  <el-form-item label="补考备注">
+                    <el-input v-model="stuCourseScoreDetail.resitMemo" type="textarea" :autosize="{ minRows: 1, maxRows: 3}"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="23">
+                  <el-form-item label="备注">
+                    <el-input v-model="stuCourseScoreDetail.memo" type="textarea" :autosize="{ minRows: 1, maxRows: 3}"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
             </el-form>
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="handleCancel">取消</el-button>
-              <el-button type="primary" @click="handleSaveCourse">保存</el-button>
-            </span>
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="handleCancel">取消</el-button>
+                <el-button type="primary" @click="handleSaveCourse">保存</el-button>
+              </span>
           </el-dialog>
           <el-dialog title="上传教师信息" :visible.sync="uploadDialogVisible" width="30%" center :before-close="handleCloseUpload">
             <el-upload
@@ -264,6 +378,7 @@
   import InfoMenu from '@/components/InformationMenu';
   import { getStudentCourseDetailPage } from '@/service/studentCourseDetail.service'
   import { initCourseInfo, getCourseInfoPage, findCoursesByConditions, saveCourseInfo } from '@/service/course.service'
+  import { findAllActiveStudents } from '@/service/student.service'
   import Constant from '@/utils/Constant'
 
   export default {
@@ -280,6 +395,11 @@
         loadingStatus: false,
         multipleSelection: [],
         stuCourseScoreDetailList: [],
+        studentList: [],
+        studentNoList: [],
+        studentNoOption: [],
+        selectOptionList: [],
+        studentNameOption: [],
         courseList: [],
         courseInfoEditable: true,
         stuCourseScoreDetail: {
@@ -375,11 +495,74 @@
       async callStudentCourseDetails(pageable) {
         this.$loading({fullscreen: true});
         let response = await getStudentCourseDetailPage(pageable);
-        this.stuCourseScoreDetailList = response.data.pageResultList;
+        let stuCourseScoreDetailList = response.data.pageResultList;
         // format data
-        // this.courseList = this.formatList(courseList);
+        this.stuCourseScoreDetailList = this.formatList(stuCourseScoreDetailList);
         this.totalCount = response.data.total;
         this.$loading({fullscreen: true}).close();
+      },
+      formatList(dataList) {
+        dataList.forEach(data => {
+          data.retakeFlag = (data.retakeFlag === 'N' || data.retakeFlag === 'n') ? false : true;
+        });
+        return dataList;
+      },
+      async getAllStudents() {
+        let response = await findAllActiveStudents();
+        let studentList = response.data;
+        this.studentList = studentList;
+        this.studentNoList = studentList.map(item => {
+          return { value: item.studentNo, label: item.studentNo};
+        });
+      },
+      filterStudentNo(query) {
+        if (query !== '') {
+          this.loadingStatus = true;
+          setTimeout(() => {
+            this.loadingStatus = false;
+            this.selectOptionList = this.studentList.filter(item => {
+              return item.studentNo.toLowerCase().indexOf(query.toLowerCase()) > -1;
+            });
+          }, 200);
+        } else {
+          this.selectOptionList = [];
+        }
+      },
+      filterListByStudentNo(value) {
+        if (value !== '') {
+          this.selectOptionList = this.selectOptionList.filter(item => {
+            return item.studentNo.toLowerCase().indexOf(value.toLowerCase()) > -1;
+          });
+        } else {
+          this.selectOptionList = [];
+        }
+      },
+      filterListByStudentName(value) {
+        if (value !== '') {
+          this.selectOptionList = this.selectOptionList.filter(item => {
+            return item.studentName.toLowerCase().indexOf(value.toLowerCase()) > -1;
+          });
+        } else {
+          this.selectOptionList = [];
+        }
+      },
+      clearDetail() {
+        this.stuCourseScoreDetail.studentNo = '';
+        this.stuCourseScoreDetail.studentName = '';
+      },
+      filterStudentName(query) {
+        if (query !== '') {
+          this.loadingStatus = true;
+          setTimeout(() => {
+            this.loadingStatus = false;
+            this.selectOptionList = this.studentList.filter(item => {
+              return item.studentName.indexOf(query) > -1;
+            });
+            console.log('name', this.selectOptionList);
+          }, 200);
+        } else {
+          this.selectOptionList = [];
+        }
       },
       handleSaveCourse() {
         this.$refs.updateForm.validate((valid) => {
@@ -423,14 +606,14 @@
       closeDialog() {
         this.dialogVisible = false;
         this.$refs.updateForm.resetFields();
-        this.updateCourse = {};
+        this.stuCourseScoreDetail = {};
       },
       showModifyDialog() {
         if (this.multipleSelection.length === 1) {
           this.dialogTitle = '修改';
-          this.courseInfoEditable = true;
+          // this.courseInfoEditable = true;
           // deep clone
-          this.updateCourse = JSON.parse(JSON.stringify(this.multipleSelection[0]));
+          this.stuCourseScoreDetail = JSON.parse(JSON.stringify(this.multipleSelection[0]));
           this.dialogVisible = true;
         } else {
           this.$message.warning('请选择一条要修改的记录');
@@ -494,8 +677,8 @@
       },
       handleRowDBClick(row, event) {
         this.dialogTitle = '修改';
-        this.courseInfoEditable = true;
-        this.updateCourse = JSON.parse(JSON.stringify(row));
+        // this.courseInfoEditable = true;
+        this.stuCourseScoreDetail = JSON.parse(JSON.stringify(row));
         this.dialogVisible = true;
       },
       // for upload
@@ -602,11 +785,20 @@
         });
         // todo sort
         this.creditOptions.sort(this.sortArray);
-        console.log(this.creditOptions)
+        // console.log(this.creditOptions)
       },
       sortArray(a, b){
         return b - a;
       }
+    },
+    computed: {
+      //   if (this.stuCourseScoreDetail.studentName !== '') {
+      //     this.studentList.filter(item => {
+      //       return item.studentName.indexOf(this.stuCourseScoreDetail.studentName) > -1;
+      //     });
+      //   }
+        // return [];
+      // }
     },
     created() {
       this.$store.dispatch('commitInformationMenuIndex', 'studentCourseScoreDetail');
@@ -615,6 +807,7 @@
       document.title = "学生选课及成绩明细";
       // this.init();
       this.callStudentCourseDetails(this.pageable);
+      this.getAllStudents();
     }
   }
 </script>
@@ -682,5 +875,9 @@
     line-height: 40px;
     /*border-bottom: 2px solid transparent;*/
     color: #909399;
+  }
+
+  >>>.el-select {
+    width: 100%;
   }
 </style>

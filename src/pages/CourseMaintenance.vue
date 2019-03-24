@@ -159,7 +159,7 @@
                 <!--<el-date-picker v-model="value5" type="year" placeholder="选择学年"></el-date-picker>-->
               </el-form-item>
               <el-form-item label="学期">
-                <el-radio-group v-model="updateCourse.term" prop="sex">
+                <el-radio-group v-model="updateCourse.term" prop="term">
                   <el-radio label="1">1</el-radio>
                   <el-radio label="2">2</el-radio>
                 </el-radio-group>

@@ -138,30 +138,22 @@
       },
       async callSaveInfo() {
         let response = await registerCompany(this.companyInfo);
-        // console.log(response)
+        console.log(response)
         if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
           this.$alert(response.msg, {
             confirmButtonText: 'OK'
           });
         } else {
           // success and goto 付费页面
-          // this.$confirm('注册成功, 是否继续?', '提示', {
-          //   confirmButtonText: '确定',
-          //   cancelButtonText: '取消',
-          //   type: 'warning'
-          // }).then(() => {
-          //   this.$message({
-          //     type: 'success',
-          //     message: '删除成功!'
-          //   });
-          // }).catch(() => {
-          //   this.$message({
-          //     type: 'info',
-          //     message: '已取消删除'
-          //   });
-          // });
-          // this.$message.success('');
-          this.$router.push('');
+          this.$confirm('注册成功, 是否继续?', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'success'
+          }).then(() => {
+            this.$router.push('/payment');
+          }).catch(() => {
+            this.$router.push('/login');
+          });
         }
       }
     },
