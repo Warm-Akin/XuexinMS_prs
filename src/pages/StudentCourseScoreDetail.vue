@@ -180,21 +180,21 @@
               <el-row>
                 <el-col :span="11">
                   <el-form-item label="学号">
-                    <!--<el-select v-model="stuCourseScoreDetail.studentNo" clearable filterable remote reserve-keyword-->
-                      <!--placeholder="请输入学号" :remote-method="filterStudentNo" :loading="loadingStatus">-->
-                      <!--<el-option v-for="item in studentNoOption" :key="item.value" :label="item.label" :value="item.value"></el-option>-->
-                    <!--</el-select>-->
                     <el-select v-model="stuCourseScoreDetail.studentNo" clearable filterable remote reserve-keyword
-                               placeholder="请输入学号" :remote-method="filterStudentNo" :loading="loadingStatus" @change="filterListByStudentNo" @clear="clearDetail">
+                               placeholder="请输入学号" :remote-method="filterStudentNo" :loading="loadingStatus"
+                               @change="filterListByStudentNo" @clear="clearStudentDetail" :disabled="relativeDisable">
                       <el-option v-for="item in selectOptionList" :key="item.stuId" :label="item.studentNo" :value="item.studentNo"></el-option>
                     </el-select>
-                    <!--<el-input v-model="stuCourseScoreDetail.studentNo"></el-input>-->
                   </el-form-item>
                 </el-col>
                 <el-col :span="1">&nbsp;</el-col>
                 <el-col :span="11">
-                  <el-form-item label="选课课号">
-                    <el-input v-model="stuCourseScoreDetail.selectedCourseNo"></el-input>
+                  <el-form-item label="选课课号" prop="selectedCourseNo">
+                    <el-select v-model="stuCourseScoreDetail.selectedCourseNo" clearable filterable remote reserve-keyword
+                               placeholder="请输入选课课号" :remote-method="filterSelectedCourseNo" :loading="loadingStatus"
+                               :disabled="relativeDisable" @change="filterListBySelectedCourseNo" @clear="clearCourseDetail">
+                      <el-option v-for="item in courseInfoOptionList" :key="item.courseId" :label="item.selectedCourseNo" :value="item.selectedCourseNo"></el-option>
+                    </el-select>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -202,55 +202,64 @@
                 <el-col :span="11">
                   <el-form-item label="姓名" prop="studentName">
                     <el-select v-model="stuCourseScoreDetail.studentName" clearable filterable remote reserve-keyword
-                               placeholder="请输入姓名" :remote-method="filterStudentName" :loading="loadingStatus" @clear="clearDetail" @change="filterListByStudentName">
+                               placeholder="请输入姓名" :remote-method="filterStudentName" :loading="loadingStatus"
+                               @clear="clearStudentDetail" @change="filterListByStudentName" :disabled="relativeDisable">
                       <el-option v-for="item in selectOptionList" :key="item.stuId" :label="item.studentName" :value="item.studentName"></el-option>
                     </el-select>
-                    <!--<el-input v-model="stuCourseScoreDetail.studentName"></el-input>-->
                   </el-form-item>
                 </el-col>
                 <el-col :span="1">&nbsp;</el-col>
                 <el-col :span="11">
                   <el-form-item label="课程代码" prop="courseCode">
-                    <el-input v-model="stuCourseScoreDetail.courseCode"></el-input>
+                    <el-select v-model="stuCourseScoreDetail.courseCode" clearable filterable remote reserve-keyword
+                               placeholder="请输入课程代码" :remote-method="filterCourseCode" :loading="loadingStatus"
+                               :disabled="relativeDisable" @clear="clearCourseDetail" @change="filterListByCourseCode">
+                      <el-option v-for="item in courseCodeOptionList" :key="item.courseId" :label="item.courseCode" :value="item.courseCode"></el-option>
+                    </el-select>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="11">
                   <el-form-item label="学院名称" prop="orgName">
-                    <el-input v-model="stuCourseScoreDetail.orgName" ></el-input>
+                    <el-input v-model="stuCourseScoreDetail.orgName" :disabled="absoluteDisable"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="1">&nbsp;</el-col>
                 <el-col :span="11">
                   <el-form-item label="课程名称" prop="courseName">
-                    <el-input v-model="stuCourseScoreDetail.courseName"></el-input>
+                    <el-select v-model="stuCourseScoreDetail.courseName" clearable filterable remote reserve-keyword
+                               placeholder="请输入课程名称" :remote-method="filterCourseName" :loading="loadingStatus"
+                               :disabled="relativeDisable" @clear="clearCourseDetail" @change="filterListByCourseName">
+                      <el-option v-for="item in courseNameOptionList" :key="item.courseId" :label="item.courseName" :value="item.courseName"></el-option>
+                    </el-select>
+                    <!--<el-input v-model="stuCourseScoreDetail.courseName" :disabled="relativeDisable"></el-input>-->
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="11">
                   <el-form-item label="专业名称">
-                    <el-input v-model="stuCourseScoreDetail.major" ></el-input>
+                    <el-input v-model="stuCourseScoreDetail.major" :disabled="absoluteDisable"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="1">&nbsp;</el-col>
                 <el-col :span="11">
-                  <el-form-item label="学年">
-                    <el-input v-model="stuCourseScoreDetail.academicYear"></el-input>
+                  <el-form-item label="学年" prop="academicYear">
+                    <el-input v-model="stuCourseScoreDetail.academicYear" :disabled="relativeDisable"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="11">
                   <el-form-item label="班级" prop="className">
-                    <el-input v-model="stuCourseScoreDetail.className"></el-input>
+                    <el-input v-model="stuCourseScoreDetail.className" :disabled="absoluteDisable"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="1">&nbsp;</el-col>
                 <el-col :span="11">
-                  <el-form-item label="学期">
-                    <el-radio-group v-model="stuCourseScoreDetail.term" prop="term">
+                  <el-form-item label="学期" prop="term">
+                    <el-radio-group v-model="stuCourseScoreDetail.term" :disabled="relativeDisable">
                       <el-radio label="1">1</el-radio>
                       <el-radio label="2">2</el-radio>
                     </el-radio-group>
@@ -377,8 +386,9 @@
   import Footer from '@/components/Footer';
   import InfoMenu from '@/components/InformationMenu';
   import { getStudentCourseDetailPage } from '@/service/studentCourseDetail.service'
-  import { initCourseInfo, getCourseInfoPage, findCoursesByConditions, saveCourseInfo } from '@/service/course.service'
+  // import { initCourseInfo, getCourseInfoPage, findCoursesByConditions, saveCourseInfo } from '@/service/course.service'
   import { findAllActiveStudents } from '@/service/student.service'
+  import { initCourseInfo } from '@/service/course.service'
   import Constant from '@/utils/Constant'
 
   export default {
@@ -396,10 +406,14 @@
         multipleSelection: [],
         stuCourseScoreDetailList: [],
         studentList: [],
-        studentNoList: [],
-        studentNoOption: [],
+        courseInfoList: [],
+        courseInfoOptionList: [],
+        courseCodeOptionList: [],
+        courseNameOptionList: [],
+        absoluteDisable: true,
+        relativeDisable: true,
+        // studentNoList: [],
         selectOptionList: [],
-        studentNameOption: [],
         courseList: [],
         courseInfoEditable: true,
         stuCourseScoreDetail: {
@@ -474,16 +488,23 @@
         academicYearOptions: [],
         courseTypeOptions: [],
         creditOptions: [],
-        // orgNameOptions: [],
-        // academicTitleOptions: [],
         politicalOptions: Constant.POLITICALOPTIONS,
         nationOptions: Constant.NATIONOPTIONS,
         rules: {
+          selectedCourseNo: [
+            {required: true, message: '请输入选课课号', trigger: ['blur', 'change']}
+          ],
           courseCode: [
             {required: true, message: '请输入课程代码', trigger: ['blur', 'change']}
           ],
           courseName: [
             {required: true, message: '请输入课程名称', trigger: ['blur', 'change']}
+          ],
+          term: [
+            {required: true, message: '请选择学期', trigger: ['blur', 'change']}
+          ],
+          academicYear: [
+            {required: true, message: '请输入学年', trigger: ['blur', 'change']}
           ]
         },
         courseUploadUrl: Constant.COURSE_UPLOAD_URL,
@@ -511,9 +532,9 @@
         let response = await findAllActiveStudents();
         let studentList = response.data;
         this.studentList = studentList;
-        this.studentNoList = studentList.map(item => {
-          return { value: item.studentNo, label: item.studentNo};
-        });
+        // this.studentNoList = studentList.map(item => {
+        //   return { value: item.studentNo, label: item.studentNo};
+        // });
       },
       filterStudentNo(query) {
         if (query !== '') {
@@ -533,22 +554,14 @@
           this.selectOptionList = this.selectOptionList.filter(item => {
             return item.studentNo.toLowerCase().indexOf(value.toLowerCase()) > -1;
           });
+          let selectItem = this.selectOptionList[0];
+          this.stuCourseScoreDetail.studentName = selectItem.studentName;
+          this.stuCourseScoreDetail.major = selectItem.major;
+          this.stuCourseScoreDetail.orgName = selectItem.orgName;
+          this.stuCourseScoreDetail.className = selectItem.className;
         } else {
           this.selectOptionList = [];
         }
-      },
-      filterListByStudentName(value) {
-        if (value !== '') {
-          this.selectOptionList = this.selectOptionList.filter(item => {
-            return item.studentName.toLowerCase().indexOf(value.toLowerCase()) > -1;
-          });
-        } else {
-          this.selectOptionList = [];
-        }
-      },
-      clearDetail() {
-        this.stuCourseScoreDetail.studentNo = '';
-        this.stuCourseScoreDetail.studentName = '';
       },
       filterStudentName(query) {
         if (query !== '') {
@@ -558,11 +571,161 @@
             this.selectOptionList = this.studentList.filter(item => {
               return item.studentName.indexOf(query) > -1;
             });
-            console.log('name', this.selectOptionList);
           }, 200);
         } else {
           this.selectOptionList = [];
         }
+      },
+      filterListByStudentName(value) {
+        if (value !== '') {
+          this.selectOptionList = this.selectOptionList.filter(item => {
+            return item.studentName.toLowerCase().indexOf(value.toLowerCase()) > -1;
+          });
+          let selectItem = this.selectOptionList[0];
+          this.stuCourseScoreDetail.studentNo = selectItem.studentNo;
+          this.stuCourseScoreDetail.major = selectItem.major;
+          this.stuCourseScoreDetail.orgName = selectItem.orgName;
+          this.stuCourseScoreDetail.className = selectItem.className;
+        } else {
+          this.selectOptionList = [];
+        }
+      },
+      clearStudentDetail() {
+        this.stuCourseScoreDetail.studentNo = '';
+        this.stuCourseScoreDetail.studentName = '';
+        this.stuCourseScoreDetail.major = '';
+        this.stuCourseScoreDetail.orgName = '';
+        this.stuCourseScoreDetail.className = '';
+        this.selectOptionList = [];
+      },
+      filterSelectedCourseNo(query) {
+        if (query !== '') {
+          this.loadingStatus = true;
+          setTimeout(() => {
+            this.loadingStatus = false;
+            this.courseInfoOptionList = this.courseInfoList.filter(item => {
+              return item.selectedCourseNo.toLowerCase().indexOf(query.toLowerCase()) > -1;
+            });
+          }, 200);
+        } else {
+          this.courseInfoOptionList = [];
+        }
+      },
+      filterListBySelectedCourseNo(value) {
+        if (value !== '') {
+          this.courseInfoOptionList = this.courseInfoOptionList.filter(item => {
+            return item.selectedCourseNo.toLowerCase().indexOf(value.toLowerCase()) > -1;
+          });
+          let selectItem = this.courseInfoOptionList[0];
+          this.stuCourseScoreDetail.courseCode = selectItem.courseCode;
+          this.stuCourseScoreDetail.courseName = selectItem.courseName;
+          this.stuCourseScoreDetail.academicYear = selectItem.academicYear;
+          this.stuCourseScoreDetail.term = selectItem.term;
+        } else {
+          this.courseInfoOptionList = [];
+        }
+      },
+      filterCourseCode(query) {
+        if (query !== '') {
+          this.courseInfoOptionList = this.courseInfoList.filter(item => {
+            return item.courseCode.toLowerCase().indexOf(query.toLowerCase()) > -1;
+          });
+          this.removeDuplicateCourseCode(this.courseInfoOptionList, query);
+        } else {
+          this.courseInfoOptionList = [];
+          this.courseCodeOptionList = [];
+        }
+      },
+      removeDuplicateCourseCode(sourceList, query) {
+        // remove the duplicate courseCode
+        let courseInfoMap = new Map();
+        this.courseCodeOptionList = [];
+        sourceList.map(item => {
+          courseInfoMap.set(item.courseCode, item);
+        });
+        courseInfoMap.forEach((value, key) => {
+          this.courseCodeOptionList.push(value);
+        });
+        setTimeout(() => {
+          this.courseCodeOptionList = this.courseCodeOptionList.filter(item => {
+            return item.courseCode.toLowerCase().indexOf(query.toLowerCase()) > -1;
+          });
+        }, 200);
+      },
+      filterCourseName(query) {
+        if (query !== '') {
+          this.courseInfoOptionList = this.courseInfoList.filter(item => {
+            return item.courseName.toLowerCase().indexOf(query.toLowerCase()) > -1;
+          });
+          this.removeDuplicateCourseName(this.courseInfoOptionList, query);
+        } else {
+          this.courseInfoOptionList = [];
+          this.courseNameOptionList = [];
+        }
+      },
+      removeDuplicateCourseName(sourceList, query) {
+        // remove the duplicate courseName
+        let courseInfoMap = new Map();
+        this.courseNameOptionList = [];
+        sourceList.map(item => {
+          courseInfoMap.set(item.courseName, item);
+        });
+        courseInfoMap.forEach((value, key) => {
+          this.courseNameOptionList.push(value);
+        });
+        setTimeout(() => {
+          this.courseNameOptionList = this.courseNameOptionList.filter(item => {
+            return item.courseName.toLowerCase().indexOf(query.toLowerCase()) > -1;
+          });
+        }, 200);
+      },
+      filterListByCourseCode(value) {
+        if (value !== '') {
+          this.courseInfoOptionList = this.courseInfoOptionList.filter(item => {
+            return item.courseCode.toLowerCase().indexOf(value.toLowerCase()) > -1;
+          });
+          let selectItem = this.courseInfoOptionList[0];
+          this.removeDuplicateCourseName(this.courseInfoOptionList, selectItem.courseName);
+          if (this.courseInfoOptionList.length === 1) {
+            this.stuCourseScoreDetail.courseName = selectItem.courseName;
+            this.stuCourseScoreDetail.selectedCourseNo = selectItem.selectedCourseNo;
+            this.stuCourseScoreDetail.academicYear = selectItem.academicYear;
+            this.stuCourseScoreDetail.term = selectItem.term;
+          }
+        } else {
+          this.courseInfoOptionList = [];
+        }
+      },
+      filterListByCourseName(value) {
+        if (value !== '') {
+          this.courseInfoOptionList = this.courseInfoOptionList.filter(item => {
+            return item.courseName.toLowerCase().indexOf(value.toLowerCase()) > -1;
+          });
+          let selectItem = this.courseInfoOptionList[0];
+          this.removeDuplicateCourseCode(this.courseInfoOptionList, selectItem.courseCode);
+          if (this.courseInfoOptionList.length === 1) {
+            this.stuCourseScoreDetail.selectedCourseNo = selectItem.selectedCourseNo;
+            this.stuCourseScoreDetail.courseCode = selectItem.courseCode;
+            this.stuCourseScoreDetail.academicYear = selectItem.academicYear;
+            this.stuCourseScoreDetail.term = selectItem.term;
+          }
+        } else {
+          this.courseInfoOptionList = [];
+        }
+      },
+      clearCourseDetail () {
+        this.stuCourseScoreDetail.selectedCourseNo = '';
+        this.stuCourseScoreDetail.courseCode = '';
+        this.stuCourseScoreDetail.courseName = '';
+        this.stuCourseScoreDetail.academicYear = '';
+        this.stuCourseScoreDetail.term = '';
+        this.courseInfoOptionList = [];
+        this.courseCodeOptionList = [];
+        this.courseNameOptionList = [];
+      },
+      async getAllCourse() {
+        let response = await initCourseInfo();
+        this.courseInfoList = response.data;
       },
       handleSaveCourse() {
         this.$refs.updateForm.validate((valid) => {
@@ -596,15 +759,18 @@
       },
       handleCancel() {
         this.dialogVisible = false;
+        this.relativeDisable = true;
         this.$refs.updateForm.resetFields();
       },
       showAddDialog() {
         this.dialogTitle = '添加';
         this.dialogVisible = true;
         this.courseInfoEditable = false;
+        this.relativeDisable = false;
       },
       closeDialog() {
         this.dialogVisible = false;
+        this.relativeDisable = true;
         this.$refs.updateForm.resetFields();
         this.stuCourseScoreDetail = {};
       },
@@ -716,7 +882,6 @@
         this.$loading({fullscreen: true});
       },
       handleSuccess(response, file, fileList) {
-        // console.log(response);
         if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
           this.$alert(response.msg, {
             confirmButtonText: 'OK'
@@ -791,15 +956,6 @@
         return b - a;
       }
     },
-    computed: {
-      //   if (this.stuCourseScoreDetail.studentName !== '') {
-      //     this.studentList.filter(item => {
-      //       return item.studentName.indexOf(this.stuCourseScoreDetail.studentName) > -1;
-      //     });
-      //   }
-        // return [];
-      // }
-    },
     created() {
       this.$store.dispatch('commitInformationMenuIndex', 'studentCourseScoreDetail');
     },
@@ -808,6 +964,7 @@
       // this.init();
       this.callStudentCourseDetails(this.pageable);
       this.getAllStudents();
+      this.getAllCourse();
     }
   }
 </script>
@@ -864,11 +1021,11 @@
     }
   }
 
-  >>> .el-input.is-disabled .el-input__inner {
-    background-color: #FFFFFF;
-    border-color: #66b1ff;
-    color: #c0c4cc;
-  }
+  /*>>> .el-input.is-disabled .el-input__inner {*/
+    /*background-color: #FFFFFF;*/
+    /*border-color: #66b1ff;*/
+    /*color: #c0c4cc;*/
+  /*}*/
 
   >>>.el-menu--horizontal>.el-submenu .el-submenu__title {
     height: 40px;

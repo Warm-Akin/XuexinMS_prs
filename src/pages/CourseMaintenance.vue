@@ -89,7 +89,7 @@
             </el-table-column>
             <el-table-column label="选课课号" align="center" width="150" :show-overflow-tooltip="true">
               <template slot-scope="scope">
-                <span>{{scope.row.category}}</span>
+                <span>{{scope.row.selectedCourseNo}}</span>
               </template>
             </el-table-column>
             <el-table-column label="限选人数" align="center" width="100" :show-overflow-tooltip="true">
@@ -151,6 +151,9 @@
               </el-form-item>
               <el-form-item label="课程名称" prop="courseName">
                 <el-input v-model="updateCourse.courseName"></el-input>
+              </el-form-item>
+              <el-form-item label="选课课号" prop="selectedCourseNo">
+                <el-input v-model="updateCourse.selectedCourseNo"></el-input>
               </el-form-item>
               <el-form-item label="学年">
                 <el-input v-model="updateCourse.academicYear"></el-input>
@@ -297,6 +300,9 @@
           ],
           courseName: [
             {required: true, message: '请输入课程名称', trigger: ['blur', 'change']}
+          ],
+          selectedCourseNo: [
+            {required: true, message: '请输入选课课号', trigger: ['blur', 'change']}
           ]
         },
         courseUploadUrl: Constant.COURSE_UPLOAD_URL,
