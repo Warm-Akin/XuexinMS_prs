@@ -6,6 +6,13 @@ async function getStuCourseDetailPage (params) {
   return body.data;
 }
 
+async function saveStudentCourseScoreDetail (params) {
+  const url = `/xuexin/admin/studentCourseDetail/save`;
+  const body = await post(url, params);
+  return body.data;
+}
+
 export {
-  getStuCourseDetailPage
+  getStuCourseDetailPage,
+  saveStudentCourseScoreDetail
 }

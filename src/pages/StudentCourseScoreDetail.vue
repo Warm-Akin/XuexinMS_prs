@@ -385,7 +385,7 @@
 <script>
   import Footer from '@/components/Footer';
   import InfoMenu from '@/components/InformationMenu';
-  import { getStudentCourseDetailPage } from '@/service/studentCourseDetail.service'
+  import { getStudentCourseDetailPage, saveCourseScoreDetail } from '@/service/studentCourseDetail.service'
   // import { initCourseInfo, getCourseInfoPage, findCoursesByConditions, saveCourseInfo } from '@/service/course.service'
   import { findAllActiveStudents } from '@/service/student.service'
   import { initCourseInfo } from '@/service/course.service'
@@ -419,7 +419,7 @@
         stuCourseScoreDetail: {
           courseCode: '',
           courseName: '',
-          studentId: '',
+          stuId: '',
           studentNo: '',
           studentName: '',
           orgId: '',
@@ -732,15 +732,16 @@
           if (!valid) {
             return false;
           } else {
-            this.saveCourse();
+            this.saveCourseScoreDetail();
           }
         });
       },
-      async saveCourse() {
+      async saveCourseScoreDetail() {
         this.$loading({fullscreen: true});
-        let responseData = await saveCourseInfo(this.updateCourse);
-        if (responseData.code === Constant.POPUP_EXCEPTION_CODE && responseData.msg !== '') {
-          this.$alert(responseData.msg, {
+        this.stuCourseScoreDetail.retakeFlag = (this.stuCourseScoreDetail.retakeFlag === true) ? 'Y' : 'N';
+        let response = await saveCourseScoreDetail(this.stuCourseScoreDetail);
+        if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
+          this.$alert(response.msg, {
             confirmButtonText: 'OK'
           });
         } else {
@@ -752,7 +753,7 @@
             currentPage: 1,
             pageSize: 20
           };
-          this.callCourseList(this.pageable);
+          this.callStudentCourseDetails(this.pageable);
           this.init();
         }
         this.$loading({fullscreen: true}).close();
@@ -896,7 +897,7 @@
               pageSize: 20
             };
             this.callCourseList(this.pageable);
-            this.init();
+            // this.init();
           });
         }
         this.$refs.upload.clearFiles();
