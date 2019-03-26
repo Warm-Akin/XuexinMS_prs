@@ -206,7 +206,7 @@
               <el-button type="primary" @click="handleSaveCourse">保存</el-button>
             </span>
           </el-dialog>
-          <el-dialog title="上传教师信息" :visible.sync="uploadDialogVisible" width="30%" center :before-close="handleCloseUpload">
+          <el-dialog title="上传开课课程信息" :visible.sync="uploadDialogVisible" width="30%" center :before-close="handleCloseUpload">
             <el-upload
               class="upload-demo"
               ref="upload"

@@ -12,7 +12,21 @@ async function saveStudentCourseScoreDetail (params) {
   return body.data;
 }
 
+async function queryStudentCourseScoreDetail (params) {
+  const url = `/xuexin/admin/studentCourseDetail/findByConditions`;
+  const body = await post(url, params);
+  return body.data;
+}
+
+async function getAllStuCourseDetail () {
+  const url = `/xuexin/admin/studentCourseDetail/findAll`;
+  const body = await get(url);
+  return body.data;
+}
+
 export {
   getStuCourseDetailPage,
-  saveStudentCourseScoreDetail
+  saveStudentCourseScoreDetail,
+  queryStudentCourseScoreDetail,
+  getAllStuCourseDetail
 }

@@ -1,4 +1,4 @@
-import { getStuCourseDetailPage, saveStudentCourseScoreDetail } from '@/repository/studentCourseDetail.repository';
+import { getStuCourseDetailPage, saveStudentCourseScoreDetail, queryStudentCourseScoreDetail, getAllStuCourseDetail } from '@/repository/studentCourseDetail.repository';
 
 async function getStudentCourseDetailPage (params) {
   const data = await getStuCourseDetailPage(params);
@@ -10,7 +10,19 @@ async function saveCourseScoreDetail (params) {
   return data || [];
 }
 
+async function queryForDetailList (params) {
+  const data = await queryStudentCourseScoreDetail(params);
+  return data || [];
+}
+
+async function getAllActiveDetails () {
+  const data = await getAllStuCourseDetail();
+  return data || [];
+}
+
 export {
   getStudentCourseDetailPage,
-  saveCourseScoreDetail
+  saveCourseScoreDetail,
+  queryForDetailList,
+  getAllActiveDetails
 };

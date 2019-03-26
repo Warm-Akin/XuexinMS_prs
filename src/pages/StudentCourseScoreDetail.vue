@@ -5,43 +5,33 @@
       <el-col :span="24">
         <el-col :xl="22" :lg="22" :offset="1" class="page-title">学生选课及成绩明细管理</el-col>
         <el-col :span="4" class="margin-top search-form">
-          <el-form label-width="70px" label-position="left" :model="searchCourse" ref="searchForm">
-            <el-form-item label="课程代码">
-              <el-input v-model="searchCourse.courseCode"></el-input>
+          <el-form label-width="70px" label-position="left" :model="searchDetail" ref="searchForm">
+            <el-form-item label="学号">
+              <el-input v-model="searchDetail.studentNo"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名">
+              <el-input v-model="searchDetail.studentName">'</el-input>
+            </el-form-item>
+            <el-form-item label="选课课号">
+              <el-input v-model="searchDetail.selectedCourseNo">'</el-input>
             </el-form-item>
             <el-form-item label="课程名称">
-              <el-input v-model="searchCourse.courseName">'</el-input>
-            </el-form-item>
-            <el-form-item label="教师工号">
-              <el-input v-model="searchCourse.teacherNo"></el-input>
-            </el-form-item>
-            <el-form-item label="教师姓名">
-              <el-input v-model="searchCourse.teacherName"></el-input>
+              <el-input v-model="searchDetail.courseName">'</el-input>
             </el-form-item>
             <el-form-item label="学年">
-              <el-select v-model="searchCourse.academicYear" filterable placeholder="请选择">
+              <el-select v-model="searchDetail.academicYear" filterable placeholder="请选择">
                 <el-option v-for="item in academicYearOptions" :key="item.name" :label="item.name" :value="item.name"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="学期">
-              <el-radio-group v-model="searchCourse.term" size="small">
+              <el-radio-group v-model="searchDetail.term" size="small">
                 <el-radio label="1" class="radio-margin">1</el-radio>
                 <el-radio label="2" class="radio-margin">2</el-radio>
                 <el-radio label="" class="radio-margin">不限</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="课程性质">
-              <el-select v-model="searchCourse.courseType" filterable placeholder="请选择">
-                <el-option v-for="item in courseTypeOptions" :key="item.name" :label="item.name" :value="item.name"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="学分">
-              <el-select v-model="searchCourse.credit" filterable placeholder="请选择">
-                <el-option v-for="item in creditOptions" :key="item.name" :label="item.name" :value="item.name"></el-option>
-              </el-select>
-            </el-form-item>
           </el-form>
-          <el-button type="primary" icon="el-icon-search" class="search-btn" @click="queryCourse">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" class="search-btn" @click="queryDetail">搜索</el-button>
         </el-col>
         <el-col :span="1" class="margin-top">
           <div class="line"></div>
@@ -351,10 +341,10 @@
             </el-form>
               <span slot="footer" class="dialog-footer">
                 <el-button @click="handleCancel">取消</el-button>
-                <el-button type="primary" @click="handleSaveCourse">保存</el-button>
+                <el-button type="primary" @click="handleSaveDetail">保存</el-button>
               </span>
           </el-dialog>
-          <el-dialog title="上传教师信息" :visible.sync="uploadDialogVisible" width="30%" center :before-close="handleCloseUpload">
+          <el-dialog title="上传信息" :visible.sync="uploadDialogVisible" width="30%" center :before-close="handleCloseUpload">
             <el-upload
               class="upload-demo"
               ref="upload"
@@ -385,7 +375,7 @@
 <script>
   import Footer from '@/components/Footer';
   import InfoMenu from '@/components/InformationMenu';
-  import { getStudentCourseDetailPage, saveCourseScoreDetail } from '@/service/studentCourseDetail.service'
+  import { getStudentCourseDetailPage, saveCourseScoreDetail, queryForDetailList, getAllActiveDetails } from '@/service/studentCourseDetail.service'
   // import { initCourseInfo, getCourseInfoPage, findCoursesByConditions, saveCourseInfo } from '@/service/course.service'
   import { findAllActiveStudents } from '@/service/student.service'
   import { initCourseInfo } from '@/service/course.service'
@@ -419,7 +409,7 @@
         stuCourseScoreDetail: {
           courseCode: '',
           courseName: '',
-          stuId: '',
+          // stuId: '',
           studentNo: '',
           studentName: '',
           orgId: '',
@@ -453,43 +443,19 @@
           credit: '',
           active: ''
         },
-        updateCourse: {
-          courseCode: '',
+        searchDetail: {
           courseName: '',
           academicYear: '',
           term: '',
-          totalHours: '',
-          labHours: '',
-          limitStudentNum: '',
           selectedCourseNo: '',
-          studentNum: '',
-          credit: '',
-          courseType: '',
-          belongTo: '',
-          teacherNo: '',
-          teacherName: '',
-          classInfo: '',
-          memo: ''
-        },
-        searchCourse: {
-          courseCode: '',
-          courseName: '',
-          academicYear: '',
-          term: '',
-          teacherNo: '',
-          teacherName: '',
-          courseType: '',
-          credit: '',
+          studentNo: '',
+          studentName: '',
           currentPage: 1,
           pageSize: 20
         },
         dialogTitle: '',
         dialogVisible: false,
         academicYearOptions: [],
-        courseTypeOptions: [],
-        creditOptions: [],
-        politicalOptions: Constant.POLITICALOPTIONS,
-        nationOptions: Constant.NATIONOPTIONS,
         rules: {
           selectedCourseNo: [
             {required: true, message: '请输入选课课号', trigger: ['blur', 'change']}
@@ -727,7 +693,7 @@
         let response = await initCourseInfo();
         this.courseInfoList = response.data;
       },
-      handleSaveCourse() {
+      handleSaveDetail() {
         this.$refs.updateForm.validate((valid) => {
           if (!valid) {
             return false;
@@ -793,31 +759,33 @@
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            this.doExport(this.multipleSelection);
+            let exportList = JSON.parse(JSON.stringify(this.multipleSelection));
+            exportList.forEach(item => {
+              item.retakeFlag = (item.retakeFlag === true) ? 'Y' : 'N';
+            });
+            this.doExport(exportList);
           }).catch(() => {
             return;
           });
         } else {
           // get all data
           this.$loading({fullscreen: true});
-          let response = await initCourseInfo();
-          // deep clone
-          let teacherList = JSON.parse(JSON.stringify(response.data));
-          this.doExport(teacherList);
+          let detailAllList = await getAllActiveDetails();
+          let dataList = detailAllList.data;
+          this.doExport(dataList);
           this.$loading({fullscreen: true}).close();
         }
       },
-      doExport(courseList) {
+      doExport(dataList) {
         require.ensure([], () => {
           const {exportJsonToExcel} = require('@/utils/Export2Excel');
-          let tHeader = ['课程代码', ' 课程名称', '学年', '学期', '总学时', '实验学时', '限选人数', '选课人数', '学分', '课程性质',
-            '课程归属', '教师工号', '教师姓名', '教学班组成', '备注'];
-          let filterVal = ['courseCode', 'courseName', 'academicYear', 'term', 'totalHours', 'labHours', 'limitStudentNum', 'selectedCourseNo', 'studentNum',
-            'credit', 'courseType', 'belongTo', 'teacherNo', 'teacherName', 'classInfo', 'memo'];
-          // deep clone
-          let exportTeacherList = courseList;
-          let data = this.formatJson(filterVal, exportTeacherList);
-          exportJsonToExcel(tHeader, data, '开课课程信息表');
+          let tHeader = ['学号', ' 姓名', '学院', '班级', '专业', '选课课号', '课程代码', '课程名称', '学年', '学期',
+            '是否补考', '平时成绩', '期中成绩', '期末成绩', '总评成绩', '实验成绩', '折算成绩', '补考成绩', '补考备注','重修成绩', '绩点', '备注'];
+          let filterVal = ['studentNo', 'studentName','orgName', 'className', 'major', 'selectedCourseNo', 'courseCode', 'courseName', 'academicYear', 'term', 'retakeFlag',
+            'usualScore', 'middleScore', 'endScore', 'finalScore', 'labScore', 'convertScore', 'resitScore', 'resitMemo', 'repairScore', 'gradePoint', 'memo'];
+          let exportList = dataList;
+          let data = this.formatJson(filterVal, exportList);
+          exportJsonToExcel(tHeader, data, '学生选课及成绩明细信息表');
         });
       },
       formatJson(filterVal, jsonData) {
@@ -897,7 +865,6 @@
               pageSize: 20
             };
             this.callCourseList(this.pageable);
-            // this.init();
           });
         }
         this.$refs.upload.clearFiles();
@@ -913,48 +880,27 @@
         this.uploadDialogVisible = false;
         this.$loading({fullscreen: true}).close();
       },
-      async queryCourse() {
+      async queryDetail() {
         this.loadingStatus = true;
-        let courseListData = await findCoursesByConditions(this.searchCourse);
-        this.courseList = courseListData.data.pageResultList;
-        // let courseList = courseListData.data.pageResultList;
-        // this.courseList = courseList;
-        // this.courseList = this.formatList(courseList);
-        this.totalCount = courseListData.data.total;
+        let response = await queryForDetailList(this.searchDetail);
+        let stuCourseScoreDetailList = response.data.pageResultList;
+        // format data
+        this.stuCourseScoreDetailList = this.formatList(stuCourseScoreDetailList);
+        this.totalCount = response.data.total;
         this.loadingStatus = false;
       },
       async init() {
         this.academicYearOptions = [];
-        this.courseTypeOptions = [];
-        this.creditOptions = [];
-        let courseData = await initCourseInfo();
-        let courseList = courseData.data;
+        let detailAllList = await getAllActiveDetails();
+        let detailList = detailAllList.data;
         let academicYearSet = new Set();
-        let courseTypeSet = new Set();
-        let creditSet = new Set();
-        courseList.forEach(course => {
-          academicYearSet.add(course.academicYear);
-          courseTypeSet.add(course.courseType);
-          creditSet.add(course.credit);
+        detailList.forEach(detail => {
+          academicYearSet.add(detail.academicYear);
         });
         academicYearSet.forEach(academicYear => {
           let academicYearObj = {name: academicYear};
           this.academicYearOptions.push(academicYearObj);
         });
-        courseTypeSet.forEach(courseType => {
-          let courseTypeObj = {name: courseType};
-          this.courseTypeOptions.push(courseTypeObj);
-        });
-        creditSet.forEach(credit => {
-          let creditObj = {name: credit};
-          this.creditOptions.push(creditObj);
-        });
-        // todo sort
-        this.creditOptions.sort(this.sortArray);
-        // console.log(this.creditOptions)
-      },
-      sortArray(a, b){
-        return b - a;
       }
     },
     created() {
@@ -962,7 +908,7 @@
     },
     mounted() {
       document.title = "学生选课及成绩明细";
-      // this.init();
+      this.init();
       this.callStudentCourseDetails(this.pageable);
       this.getAllStudents();
       this.getAllCourse();
