@@ -35,13 +35,14 @@
             <el-button type="primary" size="small" icon="el-icon-search" @click="">搜索</el-button>
           </el-col>
           <el-col :span="6"  style="margin-top: 3.5%;">
-            <el-button type="primary" size="small" @click="">添加</el-button>
-            <el-button type="primary" size="small" @click="">修改</el-button>
-            <el-button type="primary" size="small" @click="">删除</el-button>
+            <el-button type="primary" size="small" @click="showAddDialog">添加</el-button>
+            <el-button type="primary" size="small" @click="showModifyDialog">修改</el-button>
+            <el-button type="primary" size="small" @click="deleteRecords">删除</el-button>
           </el-col>
         </el-row>
         <el-row>
-          <el-table stripe style="width: 90%" :data="companyList" ref="multipleTable" max-height="530">
+          <el-table stripe style="width: 90%" :data="companyList" ref="multipleTable" max-height="530" highlight-current-row
+                    @row-dblclick="handleRowDBClick" @selection-change="handleSelectionChange" v-loading="loadingStatus">
             <el-table-column type="selection" width="40" fixed></el-table-column>
             <el-table-column label="统一社会信用码/工商注册码" prop="soleCode" align="center" width="200">
               <template slot-scope="scope">
@@ -90,6 +91,42 @@
                          layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
           </el-pagination>
         </el-row>
+          <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="500px" top="20px" @close='closeDialog' :modal="false">
+            <el-form label-position="left" :model="updateCompany"  ref="updateForm">
+              <!--:rules="rules"-->
+              <el-form-item label="统一社会信用码/工商注册码" prop="soleCode">
+                <el-input v-model="updateCompany.soleCode" :disabled="formEditable"></el-input>
+              </el-form-item>
+              <el-form-item label="公司名称" prop="companyName">
+                <el-input v-model="updateCompany.companyName" :disabled="formEditable"></el-input>
+              </el-form-item>
+              <el-form-item label="法人名称" prop="legalName">
+                <el-input v-model="updateCompany.legalName"></el-input>
+              </el-form-item>
+              <el-form-item label="法人电话">
+                <el-input v-model="updateCompany.legalPhone"></el-input>
+              </el-form-item>
+              <el-form-item label="legalCertcode">
+                <el-input v-model="updateCompany.legalCertcode"></el-input>
+              </el-form-item>
+              <el-form-item label="公司电话">
+                <el-input v-model="updateCompany.companyPhone"></el-input>
+              </el-form-item>
+              <el-form-item label="公司地址">
+                <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 3}" v-model="updateCompany.companyAddress"></el-input>
+              </el-form-item>
+              <el-form-item label="备注">
+                <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 3}" v-model="updateCompany.remark"></el-input>
+              </el-form-item>
+              <el-form-item label="登录密码">
+                <el-input type="password" v-model="updateCompany.password"></el-input>
+              </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="handleCancel">取消</el-button>
+              <el-button type="primary" @click="handleSave">保存</el-button>
+            </span>
+          </el-dialog>
       </el-col>
     </el-row>
     <Footer></Footer>
@@ -107,6 +144,11 @@
     },
     data() {
       return {
+        formEditable: true,
+        dialogVisible: false,
+        loadingStatus: false,
+        dialogTitle: '',
+        multipleSelection: [],
         resumeList: [],
         companyList: [],
         totalCount: 0,
@@ -118,7 +160,18 @@
           companyName: '',
           legalName: '',
           soleCode: ''
-        }
+        },
+        updateCompany: {
+          soleCode: '',
+          companyName: '',
+          legalName: '',
+          legalPhone: '',
+          legalCertcode: '',
+          companyAddress: '',
+          companyPhone: '',
+          remark: '',
+          password: ''
+        },
       }
     },
     methods: {
@@ -136,8 +189,58 @@
       handleCurrentChange(val) {
         this.pageable.currentPage = val;
         this.initCompanyList(this.pageable);
-      }
+      },
+      showAddDialog() {
+        this.dialogTitle = '添加';
+        this.dialogVisible = true;
+        this.formEditable = false;
+      },
+      showModifyDialog() {
+        if (this.multipleSelection.length === 1) {
+          this.dialogTitle = '修改';
+          this.formEditable = true;
+          // deep clone
+          this.updateCompany = JSON.parse(JSON.stringify(this.multipleSelection[0]));
+          this.dialogVisible = true;
+        } else {
+          this.$message.warning('请选择一条要修改的记录');
+        }
+        // this.updateCompany = {};
+      },
+      deleteRecords() {
+        console.log('delete')
+      },
+      handleRowDBClick(row, event) {
+        this.dialogTitle = '修改';
+        this.formEditable = true;
+        this.updateCompany = JSON.parse(JSON.stringify(row));
+        this.dialogVisible = true;
+      },
+      handleSelectionChange(value) {
+        this.multipleSelection = value;
+      },
+      closeDialog() {
+        this.dialogVisible = false;
+        this.$refs.updateForm.resetFields();
+        this.updateCompany = {
+          soleCode: '',
+            companyName: '',
+            legalName: '',
+            legalPhone: '',
+            legalCertcode: '',
+            companyAddress: '',
+            companyPhone: '',
+            remark: '',
+            password: ''
+        };
+      },
+      handleCancel() {
+        this.dialogVisible = false;
+        this.$refs.updateForm.resetFields();
+      },
+      handleSave() {
 
+      }
     },
     created() {
       this.$store.dispatch('commitAdminMenuIndex', 'companyMaintenance');
@@ -176,5 +279,9 @@
 
   .data-content {
     margin-top: 1%;
+  }
+
+  .table-nav {
+    margin-bottom: 40px;
   }
 </style>

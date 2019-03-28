@@ -54,8 +54,7 @@
           <el-button class="el-button--primary" plain round @click="showModifyDialog">修改</el-button>
           <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">上传</el-button>
           <el-button class="el-button--primary" plain round @click="exportTableData">导出</el-button>
-          <el-table class="stakeholder-table" :data="studentList"
-                    ref="multipleTable" stripe max-height="515" @row-dblclick="handleRowDBClick"
+          <el-table :data="studentList" ref="multipleTable" stripe max-height="515" @row-dblclick="handleRowDBClick"
                     style="width: 100%" highlight-current-row @selection-change="handleSelectionChange"
                     :default-sort="{prop: 'studentNo', order: 'ascending'}"
                     v-loading="loadingStatus">
@@ -286,9 +285,9 @@
               </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-            <el-button @click="handleCancel">取消</el-button>
-            <el-button type="primary" @click="handleSaveStudent">保存</el-button>
-          </span>
+              <el-button @click="handleCancel">取消</el-button>
+              <el-button type="primary" @click="handleSaveStudent">保存</el-button>
+            </span>
           </el-dialog>
           <el-dialog title="上传学生信息" :visible.sync="uploadDialogVisible" width="30%" center :before-close="handleCloseUpload">
             <el-upload
