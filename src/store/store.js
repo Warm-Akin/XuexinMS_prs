@@ -6,7 +6,8 @@ vue.use(vuex);
 const state = {
   menuIndex: '',
   companyMenuIndex: '',
-  informationMenuIndex: ''
+  informationMenuIndex: '',
+  adminMenuIndex: ''
 };
 
 const mutations = {
@@ -18,6 +19,9 @@ const mutations = {
   },
   setInformationMenuIndex: (state, data) => {
     state.informationMenuIndex = data;
+  },
+  setAdminMenuIndex: (state, data) => {
+    state.adminMenuIndex = data;
   }
 };
 
@@ -30,6 +34,9 @@ const actions = {
   },
   commitInformationMenuIndex: ({ commit }, informationMenuIndex) => {
     commit('setInformationMenuIndex',informationMenuIndex)
+  },
+  commitAdminMenuIndex: ({ commit }, adminMenuIndex) => {
+    commit('setAdminMenuIndex',adminMenuIndex)
   }
 };
 

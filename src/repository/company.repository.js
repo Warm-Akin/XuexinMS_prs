@@ -6,6 +6,13 @@ async function registerCompanyInfo(params) {
   return body.data;
 }
 
+async function getActiveCompanyList(params) {
+  const url = `/xuexin/admin/company/findActiveList/${params.currentPage}/${params.pageSize}`;
+  const body = await get(url);
+  return body.data;
+}
+
 export {
-  registerCompanyInfo
+  registerCompanyInfo,
+  getActiveCompanyList
 };
