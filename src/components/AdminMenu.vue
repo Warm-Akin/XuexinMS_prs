@@ -7,11 +7,11 @@
         <span slot="title">公司信息管理</span>
       </el-menu-item>
       <!--todo 修改路径-->
-      <el-menu-item index="showResume">
+      <el-menu-item index="resumeMaintenance">
         <i class="el-icon-search"></i>
         <span slot="title">学生简历</span>
       </el-menu-item>
-      <el-menu-item index="resumeMaintenance">
+      <el-menu-item index="resumeTemplateMaintenance">
         <i class="el-icon-setting"></i>
         <span slot="title">简历模板管理</span>
       </el-menu-item>

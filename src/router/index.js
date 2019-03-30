@@ -19,6 +19,7 @@ import CompanyPassword from '@/pages/CompanyPassword'
 import StudentCourseScoreDetail from '@/pages/StudentCourseScoreDetail'
 import page404 from '@/pages/404'
 import CompanyMaintenance from '@/pages/CompanyMaintenance'
+import ResumeMaintenance from '@/pages/ResumeMaintenance'
 
 
 Vue.use(Router)
@@ -118,6 +119,11 @@ const routes = [
     path: '/companyMaintenance',
     name: 'CompanyMaintenance',
     component: CompanyMaintenance
+  },
+  {
+    path: '/resumeMaintenance',
+    name: 'ResumeMaintenance',
+    component: ResumeMaintenance
   }
 ];
 

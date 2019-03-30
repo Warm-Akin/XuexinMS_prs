@@ -18,9 +18,22 @@ async function getAllResumeInfo (params) {
   return body.data;
 }
 
+async function removeResumeInfo (params) {
+  const url = `/xuexin/admin/resume/delete`;
+  const body = await post(url, params);
+  return body.data;
+}
+
+async function findResumeListByConditions (params) {
+  const url = `/xuexin/admin/resume/findByConditions`;
+  const body = await post(url, params);
+  return body.data;
+}
 
 export {
   saveStudentResume,
   downloadStudentResume,
-  getAllResumeInfo
+  getAllResumeInfo,
+  removeResumeInfo,
+  findResumeListByConditions
 };
