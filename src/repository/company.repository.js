@@ -12,7 +12,28 @@ async function getActiveCompanyList(params) {
   return body.data;
 }
 
+async function saveCompanyDetail(params) {
+  const url = `/xuexin/admin/company/save`;
+  const body = await post(url, params);
+  return body.data;
+}
+
+async function searchCompanyList(params) {
+  const url = `/xuexin/admin/company/findByConditions`;
+  const body = await post(url, params);
+  return body.data;
+}
+
+async function deleteRecords(params) {
+  const url = `/xuexin/admin/company/deleteRecords`;
+  const body = await post(url, params);
+  return body.data;
+}
+
 export {
   registerCompanyInfo,
-  getActiveCompanyList
+  getActiveCompanyList,
+  saveCompanyDetail,
+  searchCompanyList,
+  deleteRecords
 };
