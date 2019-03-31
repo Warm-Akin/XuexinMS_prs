@@ -518,20 +518,12 @@
         return jsonData.map(v => filterVal.map(j => v[j]));
       },
       handleSizeChange(val) {
-        this.pageable.pageSize = val;
-        this.callStudentList(this.pageable);
-        // this.stakeholderSearchInfo = JSON.parse(sessionStorage.getItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS));
-        // this.stakeholderSearchInfo.pageSize = val;
-        // sessionStorage.setItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS, JSON.stringify(this.stakeholderSearchInfo));
-        // this.callSearchInfo();
+        this.searchTeacher.pageSize =val;
+        this.queryTeacher();
       },
       handleCurrentChange(val) {
-        this.pageable.currentPage = val;
-        this.callStudentList(this.pageable);
-        // this.stakeholderSearchInfo = JSON.parse(sessionStorage.getItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS));
-        // this.stakeholderSearchInfo.currentPage = val;
-        // sessionStorage.setItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS, JSON.stringify(this.stakeholderSearchInfo));
-        // this.callSearchInfo();
+        this.searchTeacher.currentPage =val;
+        this.queryTeacher();
       },
       handleSelectionChange(value) {
         this.multipleSelection = value;

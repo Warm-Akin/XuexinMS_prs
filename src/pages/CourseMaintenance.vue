@@ -316,7 +316,6 @@
         let courseInfo = await getCourseInfoPage(pageable);
         this.courseList = courseInfo.data.pageResultList;
         // format data
-        // this.courseList = this.formatList(courseList);
         this.totalCount = courseInfo.data.total;
         this.$loading({fullscreen: true}).close();
       },
@@ -413,20 +412,12 @@
         return jsonData.map(v => filterVal.map(j => v[j]));
       },
       handleSizeChange(val) {
-        this.pageable.pageSize = val;
-        this.callCourseList(this.pageable);
-        // this.stakeholderSearchInfo = JSON.parse(sessionStorage.getItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS));
-        // this.stakeholderSearchInfo.pageSize = val;
-        // sessionStorage.setItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS, JSON.stringify(this.stakeholderSearchInfo));
-        // this.callSearchInfo();
+        this.searchCourse.pageSize = val;
+        this.queryCourse();
       },
       handleCurrentChange(val) {
-        this.pageable.currentPage = val;
-        this.callCourseList(this.pageable);
-        // this.stakeholderSearchInfo = JSON.parse(sessionStorage.getItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS));
-        // this.stakeholderSearchInfo.currentPage = val;
-        // sessionStorage.setItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS, JSON.stringify(this.stakeholderSearchInfo));
-        // this.callSearchInfo();
+        this.searchCourse.currentPage = val;
+        this.queryCourse();
       },
       handleSelectionChange(value) {
         this.multipleSelection = value;
@@ -507,9 +498,6 @@
         this.loadingStatus = true;
         let courseListData = await findCoursesByConditions(this.searchCourse);
         this.courseList = courseListData.data.pageResultList;
-        // let courseList = courseListData.data.pageResultList;
-        // this.courseList = courseList;
-        // this.courseList = this.formatList(courseList);
         this.totalCount = courseListData.data.total;
         this.loadingStatus = false;
       },

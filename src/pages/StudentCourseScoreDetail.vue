@@ -792,20 +792,12 @@
         return jsonData.map(v => filterVal.map(j => v[j]));
       },
       handleSizeChange(val) {
-        this.pageable.pageSize = val;
-        this.callCourseList(this.pageable);
-        // this.stakeholderSearchInfo = JSON.parse(sessionStorage.getItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS));
-        // this.stakeholderSearchInfo.pageSize = val;
-        // sessionStorage.setItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS, JSON.stringify(this.stakeholderSearchInfo));
-        // this.callSearchInfo();
+        this.searchDetail.pageSize = val;
+        this.queryDetail();
       },
       handleCurrentChange(val) {
-        this.pageable.currentPage = val;
-        this.callCourseList(this.pageable);
-        // this.stakeholderSearchInfo = JSON.parse(sessionStorage.getItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS));
-        // this.stakeholderSearchInfo.currentPage = val;
-        // sessionStorage.setItem(Constant.STAKEHOLDER_SEARCH_CONDITIONS, JSON.stringify(this.stakeholderSearchInfo));
-        // this.callSearchInfo();
+        this.searchDetail.currentPage = val;
+        this.queryDetail();
       },
       handleSelectionChange(value) {
         this.multipleSelection = value;
