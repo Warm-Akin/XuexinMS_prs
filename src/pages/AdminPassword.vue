@@ -2,7 +2,7 @@
   <el-row class="main-content">
     <el-row>
       <el-col :span="3">
-        <CompanyMenu></CompanyMenu>
+        <AdminMenu></AdminMenu>
       </el-col>
       <el-col :span="1">
         <div class="line"></div>
@@ -44,11 +44,11 @@
 
 <script>
   import Footer from '@/components/Footer';
-  import CompanyMenu from '@/components/CompanyMenu';
+  import AdminMenu from '@/components/AdminMenu';
 
   export default {
     components: {
-      Footer, CompanyMenu
+      Footer, AdminMenu
     },
     data() {
       return {
@@ -80,7 +80,7 @@
       }
     },
     created() {
-      this.$store.dispatch('commitCompanyMenuIndex', 'companyPassword');
+      this.$store.dispatch('commitAdminMenuIndex', 'resetPassword');
     },
     mounted() {
       document.title = '修改密码';

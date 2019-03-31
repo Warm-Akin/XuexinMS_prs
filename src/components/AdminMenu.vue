@@ -16,7 +16,7 @@
         <span slot="title">简历模板管理</span>
       </el-menu-item>
       <!--todo modify the component-->
-      <el-menu-item index="companyPassword">
+      <el-menu-item index="resetPassword">
         <i class="el-icon-message"></i>
         <span slot="title">修改密码</span>
       </el-menu-item>

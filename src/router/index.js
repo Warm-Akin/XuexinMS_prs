@@ -20,7 +20,8 @@ import StudentCourseScoreDetail from '@/pages/StudentCourseScoreDetail'
 import page404 from '@/pages/404'
 import CompanyMaintenance from '@/pages/CompanyMaintenance'
 import ResumeMaintenance from '@/pages/ResumeMaintenance'
-
+import AdminPassword from '@/pages/AdminPassword'
+import ResumeTemplateMaintenance from '@/pages/ResumeTemplateMaintenance'
 
 Vue.use(Router)
 
@@ -124,6 +125,16 @@ const routes = [
     path: '/resumeMaintenance',
     name: 'ResumeMaintenance',
     component: ResumeMaintenance
+  },
+  {
+    path: '/resetPassword',
+    name: 'AdminPassword',
+    component: AdminPassword
+  },
+  {
+    path: '/resumeTemplateMaintenance',
+    name: 'ResumeTemplateMaintenance',
+    component: ResumeTemplateMaintenance
   }
 ];
 

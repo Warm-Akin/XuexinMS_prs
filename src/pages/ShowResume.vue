@@ -10,11 +10,6 @@
         <el-row>
           <el-table stripe style="width: 90%" :data="resumeList" ref="multipleTable" max-height="530">
             <el-table-column type="selection" width="40" fixed></el-table-column>
-            <!--<el-table-column label="简历ID" prop="id" align="center" hidden>-->
-              <!--<template slot-scope="scope">-->
-                <!--<span>{{scope.row.id}}</span>-->
-              <!--</template>-->
-            <!--</el-table-column>-->
             <el-table-column label="姓名" prop="studentName" align="center" width="200">
               <template slot-scope="scope">
                 <span>{{scope.row.studentName}}</span>
@@ -98,7 +93,6 @@
         this.pageable.currentPage = val;
         this.initResume(this.pageable);
       }
-
     },
     created() {
       this.$store.dispatch('commitCompanyMenuIndex', 'showResume');
