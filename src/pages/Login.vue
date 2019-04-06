@@ -3,7 +3,7 @@
       <div class="login-form" @keydown.enter="submitForm('userInfoForm')">
         <el-form :model="user" ref="userInfoForm" label-width="100px">
           <el-form-item label="用户名" class="label-region">
-            <el-input type="text" v-model="user.employName" autocomplete="off"></el-input>
+            <el-input type="text" v-model="user.userName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="密码" class="label-region">
             <el-input type="password" v-model="user.password" autocomplete="off"></el-input>
@@ -24,6 +24,7 @@
 <script>
   import Footer from '@/components/Footer.vue';
   import {checkLoginService} from '@/service/user.service';
+  import axios from 'axios';
   import Constant from '@/utils/Constant'
   // import Cookies from "js-cookie";
 
@@ -34,14 +35,14 @@
     data () {
       return {
         user: {
-          employName: '',
+          userName: '',
           password: ''
         }
       };
     },
     methods: {
       submitForm (formName) {
-        if (this.user.employName.length === 0 ) {
+        if (this.user.userName.length === 0 ) {
           this.$message.error('请输入用户名');
           return;
         } else if (this.user.password.length === 0) {
@@ -62,25 +63,49 @@
       resetForm (formName) {
         // this.$refs[formName].resetFields();
         this.user = {
-          employName: '',
+          userName: '',
           password: ''
         };
       },
       async check () {
-        let responseData = await checkLoginService(this.user);
-        console.log(responseData.data);
-        if (responseData.code === Constant.POPUP_EXCEPTION_CODE && responseData.msg !== '') {
-          this.$alert(responseData.msg, {
-            confirmButtonText: 'OK'
-          });
+        // axios.post('/xuexin/user/login', {
+        //   userName: this.user.userName,
+        //   password: this.user.password
+        // }).then((response) => {
+        //   console.log('123', response)
+        //   let res = response;
+        //   if ((res.code === Constant.POPUP_EXCEPTION_CODE || res.code === 'ERROR') && res.msg !== '') {
+        //     this.$alert(res.msg, {
+        //       confirmButtonText: 'OK'
+        //     });
+        //   } else {
+        //     this.$message.success('成功');
+        //   }
+        // });
+        let response = await checkLoginService(this.user);
+        console.log("after")
+        // console.log('login response');
+        console.log('response', response);
+
+
+        if (response.data.code === 'ERROR' && response.data.msg !== '') {
+          this.$message.error(response.data.msg);
+          return;
         } else {
           // login success
           // Cookies.set("userType", responseData.data.userType);
-          // Cookies.set("user", this.user.employName);
-          sessionStorage.setItem("userType", responseData.data.userType);
-          sessionStorage.setItem("user", this.user.employName);
+          // Cookies.set("user", this.user.userName);
+          let userType = response.data.userType;
+          sessionStorage.setItem("userType", userType);
+          sessionStorage.setItem("user", this.user.userName);
           // Cookies.set("password", this.user.password);
-          this.$router.push('/studentMaintenance');
+          if (userType === '1') {
+            // student
+            this.$router.push('/personal');
+          } else {
+            // todo 区分其他类型用户
+            this.$router.push('/studentMaintenance');
+          }
         }
       },
       gotoRegister() {

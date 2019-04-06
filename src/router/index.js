@@ -138,6 +138,17 @@ const routes = [
   }
 ];
 
-const router = new Router({ routes });
+const router = new Router({mode: 'history', routes}); // Remove # before url
+
+// router.beforeEach((to, from, next) => {
+//   // will redirect to login page with wrong URL
+//   if (to.matched.length === 0) { // No match to routing
+//     from.name ? next({ name: from.name }) : next('/404');
+//   } else {
+//     next();
+//   }
+// });
+
+// const router = new Router({ routes });
 
 export default router;
