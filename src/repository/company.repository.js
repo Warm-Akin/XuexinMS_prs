@@ -1,31 +1,31 @@
 import {get, post} from '@/utils/httpHelper';
 
 async function registerCompanyInfo(params) {
-  const url = `/xuexin/anonymous/company/register`;
+  const url = `/xuexin/anon/company/register`;
   const body = await post(url, params);
   return body.data;
 }
 
 async function getActiveCompanyList(params) {
-  const url = `/xuexin/admin/company/findActiveList/${params.currentPage}/${params.pageSize}`;
+  const url = `/xuexin/security/admin/company/findActiveList/${params.currentPage}/${params.pageSize}`;
   const body = await get(url);
   return body.data;
 }
 
 async function saveCompanyDetail(params) {
-  const url = `/xuexin/admin/company/save`;
+  const url = `/xuexin/security/admin/company/save`;
   const body = await post(url, params);
   return body.data;
 }
 
 async function searchCompanyList(params) {
-  const url = `/xuexin/admin/company/findByConditions`;
+  const url = `/xuexin/security/admin/company/findByConditions`;
   const body = await post(url, params);
   return body.data;
 }
 
 async function deleteRecords(params) {
-  const url = `/xuexin/admin/company/deleteRecords`;
+  const url = `/xuexin/security/admin/company/deleteRecords`;
   const body = await post(url, params);
   return body.data;
 }

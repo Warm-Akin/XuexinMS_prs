@@ -7,8 +7,21 @@
       </el-col>
       <el-col :span="23" class="data-content">
         <el-row class="content-title"><i class="el-icon-document"></i>企业信息列表</el-row>
+        <!--<el-row>-->
+          <!--<el-col :span="10" class="content-title">-->
+            <!--<i class="el-icon-document"></i>企业信息列表-->
+          <!--</el-col>-->
+          <!--<el-col :span="7">&nbsp;</el-col>-->
+          <!--<el-col :span="6">-->
+            <!--<el-row>-->
+              <!--<el-button type="primary" size="small" @click="showAddDialog">添加</el-button>-->
+              <!--<el-button type="primary" size="small" @click="showModifyDialog">修改</el-button>-->
+              <!--<el-button type="primary" size="small" @click="handleDelete">删除</el-button>-->
+            <!--</el-row>-->
+          <!--</el-col>-->
+        <!--</el-row>-->
         <el-row class="search-bar">
-          <el-col :span="15">
+          <el-col :span="16">
             <el-form  label-position="left" :model="searchCompany" ref="searchForm">
               <el-row>
                 <el-col :span="7">
@@ -234,7 +247,6 @@
             type: 'warning'
           }).then(action => {
             this.deleteRecords();
-            console.log('delete')
           }).catch(_ => {
             console.log('cancel')
           });

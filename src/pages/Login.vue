@@ -68,26 +68,7 @@
         };
       },
       async check () {
-        // axios.post('/xuexin/user/login', {
-        //   userName: this.user.userName,
-        //   password: this.user.password
-        // }).then((response) => {
-        //   console.log('123', response)
-        //   let res = response;
-        //   if ((res.code === Constant.POPUP_EXCEPTION_CODE || res.code === 'ERROR') && res.msg !== '') {
-        //     this.$alert(res.msg, {
-        //       confirmButtonText: 'OK'
-        //     });
-        //   } else {
-        //     this.$message.success('成功');
-        //   }
-        // });
         let response = await checkLoginService(this.user);
-        console.log("after")
-        // console.log('login response');
-        console.log('response', response);
-
-
         if (response.data.code === 'ERROR' && response.data.msg !== '') {
           this.$message.error(response.data.msg);
           return;

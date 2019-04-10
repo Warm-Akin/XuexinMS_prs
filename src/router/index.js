@@ -27,7 +27,7 @@ Vue.use(Router)
 
 const routes = [
   {
-    path: '/',
+    path: '/error',
     name: 'HelloWorld',
     component: HelloWorld
   },
@@ -140,14 +140,14 @@ const routes = [
 
 const router = new Router({mode: 'history', routes}); // Remove # before url
 
-// router.beforeEach((to, from, next) => {
-//   // will redirect to login page with wrong URL
-//   if (to.matched.length === 0) { // No match to routing
-//     from.name ? next({ name: from.name }) : next('/404');
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  // will redirect to login page with wrong URL
+  if (to.matched.length === 0) { // No match to routing
+    from.name ? next({ name: from.name }) : next('/login');
+  } else {
+    next();
+  }
+});
 
 // const router = new Router({ routes });
 

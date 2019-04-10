@@ -199,7 +199,7 @@
             <el-form label-width="90px" label-position="left" :model="updateTeacher" class="dialog-form"
                      ref="updateForm" :rules="rules">
               <el-form-item label="工号" prop="teacherNo">
-                <el-input v-model="updateTeacher.teacherNo" :disabled="teacherInfoEditable"></el-input>
+                <el-input v-model="updateTeacher.teacherNo" :disabled="formEditable"></el-input>
               </el-form-item>
               <el-form-item label="姓名" prop="teacherName">
                 <el-input v-model="updateTeacher.teacherName"></el-input>

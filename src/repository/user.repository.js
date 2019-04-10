@@ -1,7 +1,8 @@
 import { post } from '@/utils/httpHelper';
+import Cookies from "js-cookie";
 
 async function checkLogin (params) {
-  const url = `/xuexin/user/login`;
+  const url = `/xuexin/login`;
   const body = await post(url, params);
   debugger;
   return body.data;
@@ -9,11 +10,19 @@ async function checkLogin (params) {
 
 async function login2 (params) {
   let result = {};
-  await post(`/xuexin/user/login`, params).then(function (data) {
+  await post(`/xuexin/login`, params).then(function (data) {
     if (data) {
       result = data;
       console.log('data', data)
       // save token info in cookie
+      let token = result.data.data.accessToken['rawToken'];
+      let refreshToken = result.data.data.refreshToken['rawToken'];
+      let userName = result.data.data.accessToken['claims']['sub'];
+      let userRole = result.data.data.accessToken['claims']['scopes'][0];
+      Cookies.set("JWT-TOKEN", 'Bearer ' + token);
+      Cookies.set("JWT-REFRESH-TOKEN", 'Bearer ' + refreshToken);
+      Cookies.set("USER_NAME", userName);
+      Cookies.set("USER_ROLE", userRole);
     }
   }).catch(error => {
     console.log('error', error);

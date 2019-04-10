@@ -1,37 +1,41 @@
 import axios from 'axios';
+import router from '@/router'
+import Cookies from "js-cookie";
 
 axios.defaults.withCredentials = true;
 axios.defaults.retry = 2; // maximun time
 axios.defaults.retryDelay = 1000; // (ms)
 // axios.defaults.baseURL = process.env.API_BASEURL;
 
-// // add request interceptors
-// axios.interceptors.request.use(config => {
-//   NProgress.start() // progress bar start
-//   // Unified processing of request header information (header..)
-//   let jwtToken = CookiesHelper.get('JWT-TOKEN-HEADER');
-//   if (jwtToken) {
-//     config.headers.common['Authentication-Token'] = jwtToken
-//   }
-//   return config;
-// }, error => {
-//   // handle request error
-//   return Promise.reject(error);
-// });
-//
+// add request interceptors
+axios.interceptors.request.use(config => {
+  // NProgress.start() // progress bar start
+  // Unified processing of request header information (header..)
+  let jwtToken = Cookies.get('JWT-TOKEN');
+  if (jwtToken) {
+    config.headers.common['Authentication-Token'] = jwtToken
+  }
+  return config;
+}, error => {
+  console.log('error')
+  console.log(error)
+  // handle request error
+  return Promise.reject(error);
+});
+
 // // http response interceptor
 // axios.interceptors.response.use(
 //   response => {
 //     checkCode(response);
-//     NProgress.done();
+//     // NProgress.done();
 //     return response;
 //   },
 //   error => {
 //     checkStatus(error);
-//     NProgress.done();
+//     // NProgress.done();
 //     return Promise.reject(error);
 //   });
-//
+// //
 // /**
 // * handing http network status(network error)
 // */
@@ -55,20 +59,20 @@ axios.defaults.retryDelay = 1000; // (ms)
 //           });
 //         } else {
 //           router.push({name: 'Login'});
-//           Message.error(error.response.data.errorMessage)
+//           this.$message.error(error.response.data.errorMessage)
 //         }
 //         break;
 //       case 403:
-//         router.push({name: 'AccessDenied'});
+//         router.push({name: 'page404'});
 //         break;
 //       case 404:
-//         router.push({name: 'Error404'});
+//         router.push({name: 'page404'});
 //         break;
-//       case 408:
-//         axiosRetryInterceptor(error); // request timeout
-//         break;
+//       // case 408:
+//       //   axiosRetryInterceptor(error); // request timeout
+//       //   break;
 //       default: // HANDLE OTHER ERROR
-//         router.push({name: 'ErrorPage'});
+//         router.push('/error');
 //         break;
 //     }
 //     // return Promise.reject(error.response.data)
@@ -79,15 +83,11 @@ axios.defaults.retryDelay = 1000; // (ms)
 // * handing service code (custom/service exception)
 // */
 // function checkCode (response) {
-//   // handing alert case
-//   // if (response.data.code === Constant.POPUP_EXCEPTION_CODE && response.data.msg !== '') {
-//   //   MessageBox.alert(response.data.msg)
-//   // } else
 //   if (response.data.code === 'ERROR') {
 //     // Handing service exception
 //     router.push('/error');
 //   } else if (response.data.code === 'REFRESH') {
-//     CookiesHelper.set('JWT-TOKEN-HEADER', 'Bearer ' + response.data.data['rawToken'])
+//     Cookies.set('JWT-TOKEN-HEADER', 'Bearer ' + response.data.data['rawToken'])
 //   }
 //   return response;
 // }
@@ -115,7 +115,7 @@ axios.defaults.retryDelay = 1000; // (ms)
 //
 // // request new token using refresh token
 // function refresh (config) {
-//   let refreshToken = CookiesHelper.get('JWT-TOKEN-REFRESH');
+//   let refreshToken = Cookies.get('JWT-TOKEN-REFRESH');
 //   config._retry = true
 //   config.url = `/refreshToken`
 //   config.headers['Authentication-RefreshToken'] = refreshToken
