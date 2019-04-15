@@ -41,12 +41,10 @@
     methods: {
       async downloadResume() {
         // let response = await downloadResumePdf(this.userName);
-
-
-        axios.get(`/xuexin/student/resume/export?studentNo=` + this.userName, {
+        axios.get(`/xuexin/security/student/resume/export?studentNo=` + this.userName, {
           responseType: `blob`
         }).then(response => {
-          console.log(response);
+          // console.log(response);
           if (response.status === 200 && response.data.size !== 0) { // request success
             let blob = new Blob([response.data], { // use Blob to handle response
               type: 'application/pdf'
@@ -64,7 +62,6 @@
             this.$loading({fullscreen: true}).close();
           }
         });
-        // console.log(response)
       }
     },
     created() {

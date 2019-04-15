@@ -1,4 +1,4 @@
-import { registerCompanyInfo, getActiveCompanyList, saveCompanyDetail, searchCompanyList, deleteRecords } from '@/repository/company.repository';
+import { registerCompanyInfo, getActiveCompanyList, saveCompanyDetail, searchCompanyList, deleteRecords, paymentAPI } from '@/repository/company.repository';
 
 async function registerCompany (params) {
   const data = await registerCompanyInfo(params);
@@ -25,10 +25,16 @@ async function removeRecords (params) {
   return data || [];
 }
 
+async function getPaymentAPI (params) {
+  const data = await paymentAPI(params);
+  return data || [];
+}
+
 export {
   registerCompany,
   getActiveCompanyInfo,
   saveCompanyInfo,
   findCompanyByConditions,
-  removeRecords
+  removeRecords,
+  getPaymentAPI
 };

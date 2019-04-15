@@ -32,6 +32,7 @@
                   :autoCropWidth="imageOption.autoCropWidth"
                   :autoCropHeight="imageOption.autoCropHeight"
                   :fixedBox="imageOption.fixedBox"
+                  :headers="{'Authentication-Token': jwtToken}"
                   @realTime="realTime"
                   @imgLoad="imgLoad"></vueCropper>
               </div>
@@ -65,6 +66,7 @@
   import Constant from '@/utils/Constant';
   import { getUserResumeInfo } from '@/service/student.service';
   import axios from 'axios';
+  import Cookies from "js-cookie";
 
   export default {
     components: {
@@ -109,7 +111,8 @@
         },
         fileName: '',
         imageUrl: '',
-        buttonText: '选择图片上传'
+        buttonText: '选择图片上传',
+        jwtToken: Cookies.get('JWT-TOKEN')
       }
     },
     methods: {

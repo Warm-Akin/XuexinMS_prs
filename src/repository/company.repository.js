@@ -30,10 +30,17 @@ async function deleteRecords(params) {
   return body.data;
 }
 
+async function paymentAPI(param) {
+  const url = `/xuexin/security/company/alipay/payment`;
+  const body = await post(url, param);
+  return body.data;
+}
+
 export {
   registerCompanyInfo,
   getActiveCompanyList,
   saveCompanyDetail,
   searchCompanyList,
-  deleteRecords
+  deleteRecords,
+  paymentAPI
 };

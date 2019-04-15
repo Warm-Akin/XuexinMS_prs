@@ -1,7 +1,8 @@
 <template>
   <el-row>
+    <!--<el-row v-if="htmlContent==''">-->
     <el-col :span="8" class="picture-region">
-      <img src="@/assets/Payment.jpg" class="picture" />
+      <img src="@/assets/Payment.jpg" class="picture"/>
     </el-col>
     <el-col :span="15">
       <el-row class="tip-title">
@@ -19,6 +20,11 @@
             <el-row class="detail-content">
               缴费方式按年收取，从缴费之日起计算，过期后可续费。
             </el-row>
+            <el-row class="detail-content">
+                <span style="display: block; font-size: 12px;">使用支付宝支付：<el-radio
+                  :v-model="annualFee">200元</el-radio></span>
+              <el-button type="primary" @click="handlePayment('1')">去支付</el-button>
+            </el-row>
           </el-tab-pane>
           <el-tab-pane>
             <span slot="label"><i class="el-icon-tickets"></i>普通会员</span>
@@ -28,19 +34,72 @@
             <el-row class="detail-content">
               普通会员缴费每次须不少于10元。
             </el-row>
+            <el-row class="detail-content">
+              <span style="display: block; font-size: 12px;">
+                使用支付宝支付：<el-input-number v-model="normalFee" :step="10" :min="10"></el-input-number>
+              </span>
+              <el-button type="primary" @click="handlePayment('2')">去支付</el-button>
+            </el-row>
           </el-tab-pane>
         </el-tabs>
       </el-row>
     </el-col>
+    <!--</el-row>-->
+    <!--<el-row v-else v-html="htmlContent"></el-row>-->
   </el-row>
 </template>
 
 <script>
+  import {getPaymentAPI} from "@/service/company.service";
+
   export default {
     name: "payment-content",
     data() {
       return {
-        limitCount: 0
+        limitCount: 0,
+        annualFee: 200,
+        normalFee: 10,
+        htmlContent: ''
+      }
+    },
+    methods: {
+      handlePayment(value) {
+        let paymentObj = {
+          'totalFee': 0
+        };
+        if (value === '1') {
+          paymentObj.totalFee = this.annualFee;
+        } else {
+          paymentObj.totalFee = this.normalFee;
+        }
+        this.callPayment(paymentObj);
+      },
+      async callPayment(param) {
+        let response = await getPaymentAPI(param);
+        let htmlString = response.data;
+        console.log(htmlString);
+        this.htmlContent = htmlString;
+        // let routerData = this.$router.resolve({
+        //   path: '/finance/applyText', query: {
+        //     htmls: htmlString
+        //   }
+        // });
+        // window.open(routerData.href, '_blank');
+        const div = document.createElement('div');
+        div.innerHTML = htmlString;
+        document.body.appendChild(div);
+        document.forms[0].submit();
+
+
+        // this.$router.push({
+        //   name: 'testPay',
+        //   params: {
+        //     htmlValue: htmlString
+        //   }
+        // });
+        // this.$alert(``+ htmlString, '请缴费', {
+        //   dangerouslyUseHTMLString: true
+        // });
       }
     }
   }
@@ -85,7 +144,7 @@
   /*!*width: 100%;*!*/
   /*}*/
 
-  >>>.el-tabs--border-card {
+  > > > .el-tabs--border-card {
     width: 85%;
   }
 
