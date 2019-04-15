@@ -76,7 +76,8 @@
           // login success
           // Cookies.set("userType", responseData.data.userType);
           // Cookies.set("user", this.user.userName);
-          let userType = response.data.userType;
+          console.log('success', response.data)
+          let userType = response.data.data.accessToken['claims']['scopes'][0];
           sessionStorage.setItem("userType", userType);
           sessionStorage.setItem("user", this.user.userName);
           // Cookies.set("password", this.user.password);

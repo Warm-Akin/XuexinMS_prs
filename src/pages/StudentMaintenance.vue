@@ -110,11 +110,11 @@
               </template>
             </el-table-column>
             <!--todo ignore-->
-            <el-table-column label="系" sortable prop="department" align="center" width="80" :show-overflow-tooltip="true">
-              <template slot-scope="scope">
-                <span>{{scope.row.department}}</span>
-              </template>
-            </el-table-column>
+            <!--<el-table-column label="系" sortable prop="department" align="center" width="80" :show-overflow-tooltip="true">-->
+              <!--<template slot-scope="scope">-->
+                <!--<span>{{scope.row.department}}</span>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
             <el-table-column label="专业名称" sortable prop="major" align="center" width="180" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.major}}</span>
@@ -231,9 +231,9 @@
               <el-form-item label="来源地区">
                 <el-input v-model="updateStudent.fromPlace"></el-input>
               </el-form-item>
-              <el-form-item label="系">
-                <el-input v-model="updateStudent.department" :disabled="formEditable"></el-input>
-              </el-form-item>
+              <!--<el-form-item label="系">-->
+                <!--<el-input v-model="updateStudent.department" :disabled="formEditable"></el-input>-->
+              <!--</el-form-item>-->
               <el-form-item label="学院名称">
                 <el-input v-model="updateStudent.orgName" :disabled="formEditable"></el-input>
               </el-form-item>

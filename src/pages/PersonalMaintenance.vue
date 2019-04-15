@@ -303,23 +303,23 @@
       },
       init() {
         let userName = sessionStorage.getItem("user");
-        let userType = sessionStorage.getItem("userType");
+        // let userType = sessionStorage.getItem("userType");
         this.studentNo = userName;
-        if (userType !== '1') {
+        // if (userType !== '1') {
           // todo
           // access deny page
-          this.$router.push('/login');
-        } else {
+          // this.$router.push('/login');
+        // } else {
           // init student Information
           this.getUserInformation(userName);
-        }
+        // }
       },
       async getUserInformation (userName) {
         let response = await getStudentInfo(userName);
         this.updateStudent = response.data;
       },
       initImage() {
-        axios.get(`/xuexin/student/resume/findImageByStudentNo/${this.studentNo}`, {responseType: 'arraybuffer'}).then(response => {
+        axios.get(`/xuexin/security/student/resume/findImageByStudentNo/${this.studentNo}`, {responseType: 'arraybuffer'}).then(response => {
           let bytes = new Uint8Array(response.data);
           if (bytes.length > 0) {
             let blob = new Blob([bytes], { type: "image/jpeg" });

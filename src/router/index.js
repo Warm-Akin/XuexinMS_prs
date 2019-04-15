@@ -22,6 +22,7 @@ import CompanyMaintenance from '@/pages/CompanyMaintenance'
 import ResumeMaintenance from '@/pages/ResumeMaintenance'
 import AdminPassword from '@/pages/AdminPassword'
 import ResumeTemplateMaintenance from '@/pages/ResumeTemplateMaintenance'
+import StudentPassword from '@/pages/StudentPassword'
 
 Vue.use(Router)
 
@@ -105,6 +106,11 @@ const routes = [
     path: '/companyPassword',
     name: 'CompanyPassword',
     component: CompanyPassword
+  },
+  {
+    path: '/studentPassword',
+    name: 'StudentPassword',
+    component: StudentPassword
   },
   {
     path: '/studentCourseScoreDetail',

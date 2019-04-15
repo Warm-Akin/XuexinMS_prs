@@ -36,7 +36,7 @@
           </el-row>
           <el-row>
             <el-col :span="22">
-              <el-form-item label="legalCertcode(待定)">
+              <el-form-item label="法人信用代码">
                 <el-input v-model="companyInfo.legalCertcode"></el-input>
               </el-form-item>
             </el-col>

@@ -4,7 +4,7 @@
              :router="true" :default-active="menuRouter">
       <el-menu-item index="companyMaintenance">
         <i class="el-icon-document"></i>
-        <span slot="title">公司信息管理</span>
+        <span slot="title">企业信息管理</span>
       </el-menu-item>
       <!--todo 修改路径-->
       <el-menu-item index="resumeMaintenance">
