@@ -36,11 +36,18 @@ async function paymentAPI(param) {
   return body.data;
 }
 
+async function updateInfoAfterPayment(param) {
+  const url = `/xuexin/security/company/updateLimitation`;
+  const body = await post(url, param);
+  return body.data;
+}
+
 export {
   registerCompanyInfo,
   getActiveCompanyList,
   saveCompanyDetail,
   searchCompanyList,
   deleteRecords,
-  paymentAPI
+  paymentAPI,
+  updateInfoAfterPayment
 };

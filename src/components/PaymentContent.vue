@@ -65,17 +65,22 @@
     methods: {
       handlePayment(value) {
         let paymentObj = {
-          'totalFee': 0
+          'totalFee': 0,
+          'type': '',
+          'companySoleCode': sessionStorage.getItem('user')
         };
         if (value === '1') {
           paymentObj.totalFee = this.annualFee;
+          paymentObj.type = '1';
         } else {
           paymentObj.totalFee = this.normalFee;
+          paymentObj.type = '2';
         }
         this.callPayment(paymentObj);
       },
       async callPayment(param) {
         let response = await getPaymentAPI(param);
+        sessionStorage.setItem('paymentObj', JSON.stringify(param));
         let htmlString = response.data;
         console.log(htmlString);
         this.htmlContent = htmlString;
@@ -89,6 +94,9 @@
         div.innerHTML = htmlString;
         document.body.appendChild(div);
         document.forms[0].submit();
+        this.$alert('success',{
+          confirmButtonText: 'OK'
+        })
 
 
         // this.$router.push({
