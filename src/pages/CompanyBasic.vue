@@ -44,7 +44,7 @@
             </el-row>
             <el-row>
               <el-col :span="20">
-                <el-form-item label="legalCertcode(待定)">
+                <el-form-item label="法人信用代码">
                   <el-input v-model="companyInfo.legalCertcode" :disabled="relativeDisable"></el-input>
                 </el-form-item>
               </el-col>
@@ -84,6 +84,8 @@
 <script>
   import Footer from '@/components/Footer';
   import CompanyMenu from '@/components/CompanyMenu';
+  import Constant from '@/utils/Constant';
+  import {getCompanyInfo, updateCompanyInfo} from '@/service/company.service'
 
   export default {
     components: {
@@ -93,6 +95,7 @@
       return {
         relativeDisable: true,
         absoluteDisable: true,
+        userName: sessionStorage.getItem('user'),
         companyInfo: {
           soleCode: '',
           companyName: '',
@@ -115,22 +118,43 @@
       }
     },
     methods: {
+      async initCompanyInfo() {
+        let response = await getCompanyInfo(this.userName);
+        if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
+          this.$alert(response.msg, {
+            confirmButtonText: 'OK'
+          });
+        } else {
+          this.companyInfo = response.data;
+        }
+      },
       handleEdit() {
         this.relativeDisable = false;
       },
       handleCancel() {
         this.relativeDisable = true;
       },
-      handleSave() {
-        // todo
+      async handleSave() {
+        let response = await updateCompanyInfo(this.companyInfo);
+        if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
+          this.$alert(response.msg, {
+            confirmButtonText: 'OK'
+          });
+        } else {
+          this.$message.success('数据更新成功！');
+          this.$loading({fullscreen: true});
+          // this.getUserInformation(this.updateStudent.studentNo);
+          this.$loading({fullscreen: true}).close();
+        }
         this.relativeDisable = true;
-      }
+      },
     },
     created() {
       this.$store.dispatch('commitCompanyMenuIndex', 'companyBasic');
     },
     mounted() {
       document.title = '基本信息';
+      this.initCompanyInfo();
     }
   }
 </script>

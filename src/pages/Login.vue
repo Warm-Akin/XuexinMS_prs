@@ -74,18 +74,14 @@
           return;
         } else {
           // login success
-          // Cookies.set("userType", responseData.data.userType);
-          // Cookies.set("user", this.user.userName);
-          console.log('success', response.data)
           let userType = response.data.data.accessToken['claims']['scopes'][0];
           sessionStorage.setItem("userType", userType);
           sessionStorage.setItem("user", this.user.userName);
-          // Cookies.set("password", this.user.password);
-          if (userType === '1') {
-            // student
+          if (userType === 'ROLE_STUDENT') {
             this.$router.push('/personal');
-          } else {
-            // todo 区分其他类型用户
+          } else if (userType === 'ROLE_COMPANY') {
+            this.$router.push('/companyBasic');
+          } else if (userType == 'ROLE_ADMIN') {
             this.$router.push('/studentMaintenance');
           }
         }

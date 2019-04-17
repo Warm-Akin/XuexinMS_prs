@@ -42,6 +42,18 @@ async function updateInfoAfterPayment(param) {
   return body.data;
 }
 
+async function getCompanyInfoBySoleNo(param) {
+  const url = `/xuexin/security/company/findBySoleCode/${param}`;
+  const body = await get(url);
+  return body.data;
+}
+
+async function updateCompanySelfInfo(param) {
+  const url = `/xuexin/security/company/updateInformation`;
+  const body = await post(url, param);
+  return body.data;
+}
+
 export {
   registerCompanyInfo,
   getActiveCompanyList,
@@ -49,5 +61,7 @@ export {
   searchCompanyList,
   deleteRecords,
   paymentAPI,
-  updateInfoAfterPayment
+  updateInfoAfterPayment,
+  getCompanyInfoBySoleNo,
+  updateCompanySelfInfo
 };

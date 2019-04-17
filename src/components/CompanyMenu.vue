@@ -2,6 +2,10 @@
   <el-row class="menu-bar">
     <el-menu class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"
              :router="true" :default-active="menuRouter">
+      <el-menu-item index="" :disabled="true">
+        <i class="el-icon-location"></i>
+        <span slot="title">{{userName}}</span>
+      </el-menu-item>
       <el-menu-item index="companyBasic">
         <i class="el-icon-document"></i>
         <span slot="title">公司基本信息</span>
@@ -27,7 +31,8 @@
     name: "company-menu",
     data() {
       return {
-        menuRouter: ''
+        menuRouter: '',
+        userName: sessionStorage.getItem('user')
       }
     },
     mounted() {

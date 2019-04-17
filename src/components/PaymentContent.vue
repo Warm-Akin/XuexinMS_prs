@@ -94,20 +94,6 @@
         div.innerHTML = htmlString;
         document.body.appendChild(div);
         document.forms[0].submit();
-        this.$alert('success',{
-          confirmButtonText: 'OK'
-        })
-
-
-        // this.$router.push({
-        //   name: 'testPay',
-        //   params: {
-        //     htmlValue: htmlString
-        //   }
-        // });
-        // this.$alert(``+ htmlString, '请缴费', {
-        //   dangerouslyUseHTMLString: true
-        // });
       }
     }
   }
