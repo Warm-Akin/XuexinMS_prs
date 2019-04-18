@@ -143,7 +143,8 @@
         } else {
           this.$message.success('数据更新成功！');
           this.$loading({fullscreen: true});
-          // this.getUserInformation(this.updateStudent.studentNo);
+          // this.userName = this.companyInfo.soleCode;
+          this.initCompanyInfo();
           this.$loading({fullscreen: true}).close();
         }
         this.relativeDisable = true;

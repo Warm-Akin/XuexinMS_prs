@@ -27,16 +27,29 @@
 </template>
 
 <script>
+  import {checkCompanyUser} from '@/service/company.service';
+
   export default {
-    name: "company-menu",
     data() {
       return {
         menuRouter: '',
         userName: sessionStorage.getItem('user')
       }
     },
+    methods: {
+      // todo forbidden from security
+      async checkUserInfo() {
+        let response = await checkCompanyUser(this.userName);
+        let userType = response.data;
+        if (userType === '' || userType !== 'ROLE_COMPANY') {
+          this.$message.error('您暂无权限访问该页面');
+          this.$router.push('/login');
+        }
+      }
+    },
     mounted() {
       this.menuRouter = this.$store.state.companyMenuIndex;
+      this.checkUserInfo();
     }
   }
 </script>
@@ -49,11 +62,16 @@
 </style>
 
 <style scoped>
+
   .menu-bar {
     background-color: #545c64;
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
+  }
+
+  >>>.el-menu-item.is-disabled {
+    opacity: 1;
   }
 </style>

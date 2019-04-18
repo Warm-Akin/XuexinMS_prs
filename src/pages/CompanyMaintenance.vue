@@ -83,7 +83,7 @@
                 <span>{{scope.row.legalPhone}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="legalCertcode(待定)" prop="legalCertcode" align="center" width="250">
+            <el-table-column label="法人信用代码" prop="legalCertcode" align="center" width="250">
               <template slot-scope="scope">
                 <span>{{scope.row.legalCertcode}}</span>
               </template>
@@ -124,7 +124,7 @@
               <el-form-item label="法人电话">
                 <el-input v-model="updateCompany.legalPhone"></el-input>
               </el-form-item>
-              <el-form-item label="legalCertcode">
+              <el-form-item label="法人信用代码">
                 <el-input v-model="updateCompany.legalCertcode"></el-input>
               </el-form-item>
               <el-form-item label="公司电话">

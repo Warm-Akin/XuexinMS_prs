@@ -1,18 +1,11 @@
 <template>
   <el-row class="menu-bar">
-    <!--<el-row>-->
-      <!--<el-col :span="3">-->
-        <!--{{userName}}-->
-      <!--</el-col>-->
-    <!--</el-row>-->
     <el-row>
       <el-col :span="3">
         <el-menu class="el-menu-vertical-demo" mode="vertical" @open="handleOpen" @close="handleClose"
                  :default-openeds="resumeSteps" :router="true" :collapse="isCollapse" :default-active="menuIndex"
                  :active="menuIndex"
                  background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-          <!--:default-active="menuIndex"
-          @select="handleSelect"-->
           <el-menu-item index="" :disabled="true">
             <i class="el-icon-location"></i>
             <span slot="title">{{userName}}</span>
@@ -106,6 +99,5 @@
   /*padding: 0 45px;*/
   /*!* min-width: 200px; *!*/
   /*}*/
-
 
 </style>

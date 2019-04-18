@@ -8,6 +8,12 @@ async function checkLogin (params) {
   return body.data;
 }
 
+async function updateAdminPassword (params) {
+  const url = `/xuexin/security/admin/user/updatePassword`;
+  const body = await post(url, params);
+  return body.data;
+}
+
 async function login2 (params) {
   let result = {};
   await post(`/xuexin/login`, params).then(function (data) {
@@ -32,5 +38,6 @@ async function login2 (params) {
 
 export {
   checkLogin,
-  login2
+  login2,
+  updateAdminPassword
 };

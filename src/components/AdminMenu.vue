@@ -57,4 +57,8 @@
     left: 0;
     height: 100%;
   }
+
+  >>>.el-menu-item.is-disabled {
+    opacity: 1;
+  }
 </style>

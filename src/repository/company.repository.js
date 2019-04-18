@@ -54,6 +54,19 @@ async function updateCompanySelfInfo(param) {
   return body.data;
 }
 
+async function updateCompanyPwdInfo(param) {
+  const url = `/xuexin/security/company/updatePassword`;
+  const body = await post(url, param);
+  return body.data;
+}
+
+async function checkCompanyUserRole(param) {
+  const url = `/xuexin/security/company/checkRole/${param}`;
+  const body = await get(url);
+  return body.data;
+}
+
+
 export {
   registerCompanyInfo,
   getActiveCompanyList,
@@ -63,5 +76,7 @@ export {
   paymentAPI,
   updateInfoAfterPayment,
   getCompanyInfoBySoleNo,
-  updateCompanySelfInfo
+  updateCompanySelfInfo,
+  updateCompanyPwdInfo,
+  checkCompanyUserRole
 };

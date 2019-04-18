@@ -1,6 +1,7 @@
 import { registerCompanyInfo, getActiveCompanyList, saveCompanyDetail,
   searchCompanyList, deleteRecords, paymentAPI, updateInfoAfterPayment ,
-  getCompanyInfoBySoleNo, updateCompanySelfInfo } from '@/repository/company.repository';
+  getCompanyInfoBySoleNo, updateCompanySelfInfo, updateCompanyPwdInfo,
+  checkCompanyUserRole} from '@/repository/company.repository';
 
 async function registerCompany (params) {
   const data = await registerCompanyInfo(params);
@@ -47,6 +48,16 @@ async function updateCompanyInfo (params) {
   return data || [];
 }
 
+async function updateCompanyPwd (params) {
+  const data = await updateCompanyPwdInfo(params);
+  return data || [];
+}
+
+async function checkCompanyUser (params) {
+  const data = await checkCompanyUserRole(params);
+  return data || [];
+}
+
 export {
   registerCompany,
   getActiveCompanyInfo,
@@ -56,5 +67,7 @@ export {
   getPaymentAPI,
   updateCompanyAfterPayment,
   getCompanyInfo,
-  updateCompanyInfo
+  updateCompanyInfo,
+  updateCompanyPwd,
+  checkCompanyUser
 };
