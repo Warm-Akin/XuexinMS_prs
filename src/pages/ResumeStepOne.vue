@@ -125,6 +125,13 @@
                     </el-form-item>
                   </el-col>
                 </el-row>
+                <el-row>
+                  <el-col :span="19">
+                    <el-form-item label="自我评价" prop="selfEvaluation">
+                      <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 6}" v-model="studentResume.selfEvaluation"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
                 <el-row style="margin-bottom: 50px;">
                   <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="handleSave">保存</el-button>
                 </el-row>
@@ -169,7 +176,8 @@
           skillTwo: '',
           twoInfo: '',
           skillThree: '',
-          threeInfo: ''
+          threeInfo: '',
+          selfEvaluation: ''
         },
         rules: {
           jobWant: [
@@ -202,11 +210,11 @@
           ],
           schoolName: [
             {required: true, message: '请输入学校名称', trigger: ['blur', 'change']}
+          ],
+          selfEvaluation: [
+            {required: true, message: '请输入自我评价', trigger: ['blur', 'change']}
           ]
-          // ,
-          // schoolName: [
-          //   {required: true, message: '请输入学校名称', trigger: ['blur', 'change']}
-          // ],
+          ,
           // schoolName: [
           //   {required: true, message: '请输入学校名称', trigger: ['blur', 'change']}
           // ],
@@ -256,6 +264,7 @@
       async getUserResume(userName) {
         let response = await getUserResumeInfo(userName);
         this.studentResume = response.data;
+        this.$refs.updateForm.resetFields();
       }
     },
     created() {

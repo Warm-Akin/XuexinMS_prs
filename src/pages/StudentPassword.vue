@@ -45,6 +45,8 @@
 <script>
   import Footer from '@/components/Footer';
   import Menu from '@/components/ResumeMenu.vue';
+  import Constant from '@/utils/Constant';
+  import {updateStudentPwd} from '@/service/student.service'
 
   export default {
     components: {
@@ -73,10 +75,28 @@
             this.$message.error('您的输入有误，请检查后重试');
             return false;
           } else {
-            // todo 更新密码
-            this.$message.success('保存成功');
+            // 更新密码
+            this.updatePassword(this.pwdObject);
           }
         });
+      },
+      async updatePassword(param) {
+        this.$loading({fullscreen: true});
+        let response = await updateStudentPwd(param);
+        if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
+          this.$alert(response.msg, {
+            confirmButtonText: 'OK'
+          });
+        } else {
+          this.$refs.updateForm.resetFields();
+          this.$message.success('数据更新成功！');
+          this.pwdObject = {
+            userName: '',
+            originalPassword: '',
+            newPassword: ''
+          };
+        }
+        this.$loading({fullscreen: true}).close();
       }
     },
     created() {

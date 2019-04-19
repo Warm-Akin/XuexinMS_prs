@@ -2,7 +2,7 @@
   <el-row class="menu-bar">
     <el-menu class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"
              :router="true" :default-active="menuRouter">
-      <el-menu-item index="" :disabled="true">
+      <el-menu-item index="#" :disabled="true">
         <i class="el-icon-location"></i>
         <span slot="title">{{userName}}</span>
       </el-menu-item>
@@ -59,6 +59,6 @@
   }
 
   >>>.el-menu-item.is-disabled {
-    opacity: 1;
+    opacity: 0.8;
   }
 </style>

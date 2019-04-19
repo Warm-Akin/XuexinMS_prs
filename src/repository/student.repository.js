@@ -42,6 +42,12 @@ async function getResumeByStuNo (params) {
   return body.data;
 }
 
+async function updateStudentPassword (params) {
+  const url = `/xuexin/security/student/updatePassword`;
+  const body = await post(url, params);
+  return body.data;
+}
+
 export {
   getAll,
   saveStudent,
@@ -49,5 +55,6 @@ export {
   getActiveStudentsByConditions,
   getStudentByStuNo,
   updateStudentInfo,
-  getResumeByStuNo
+  getResumeByStuNo,
+  updateStudentPassword
 };

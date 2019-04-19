@@ -214,13 +214,12 @@
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="政治面貌">
-                <el-select v-model="updateStudent.politicalStatus" filterable placeholder="请选择">
-                  <el-option v-for="item in politicalOptions" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
+                <el-select v-model="updateStudent.politicalStatus" filterable placeholder="请选择" clearable>
+                  <el-option v-for="item in politicalOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="民族">
-                <el-select v-model="updateStudent.nation" filterable placeholder="请选择">
+                <el-select v-model="updateStudent.nation" filterable placeholder="请选择" clearable>
                   <el-option v-for="item in nationOptions" :key="item.name" :label="item.name"
                              :value="item.name"></el-option>
                 </el-select>
@@ -231,11 +230,10 @@
               <el-form-item label="来源地区">
                 <el-input v-model="updateStudent.fromPlace"></el-input>
               </el-form-item>
-              <!--<el-form-item label="系">-->
-                <!--<el-input v-model="updateStudent.department" :disabled="formEditable"></el-input>-->
-              <!--</el-form-item>-->
               <el-form-item label="学院名称">
-                <el-input v-model="updateStudent.orgName" :disabled="formEditable"></el-input>
+                <el-select v-model="updateStudent.orgName" filterable placeholder="请选择" clearable>
+                  <el-option v-for="item in organizationOptionList" :key="item.orgId" :label="item.orgName" :value="item.orgName"></el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="专业类别">
                 <el-input v-model="updateStudent.majorCategories" :disabled="formEditable"></el-input>
@@ -320,7 +318,8 @@
 <script>
   import Footer from '@/components/Footer';
   import InfoMenu from '@/components/InformationMenu';
-  import {getStudentList, saveStudentInfo, findAllActiveStudents, findStudentByConditions} from '@/service/student.service'
+  import { getStudentList, saveStudentInfo, findAllActiveStudents, findStudentByConditions } from '@/service/student.service'
+  import { getOrganization } from '@/service/organization.service';
   import Constant from '@/utils/Constant'
 
   export default {
@@ -420,6 +419,7 @@
         studentUploadUrl: Constant.STUDENT_UPLOAD_URL,
         fileList: [],
         uploadDialogVisible: false,
+        organizationOptionList: []
       };
     },
     methods: {
@@ -610,6 +610,11 @@
         this.studentList = studentListData.data.pageResultList;
         this.totalCount = studentListData.data.total;
         this.loadingStatus = false;
+      },
+      async getOrganizationInfo() {
+        let response = await getOrganization();
+        this.organizationOptionList = response.data;
+        console.log('organization', response.data)
       }
     },
     created() {
@@ -618,6 +623,7 @@
     mounted() {
       document.title = '学生信息管理';
       this.callStudentList(this.pageable);
+      this.getOrganizationInfo();
     }
   }
 </script>
