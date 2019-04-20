@@ -54,6 +54,7 @@
           <el-button class="el-button--primary" plain round @click="showModifyDialog">修改</el-button>
           <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">上传</el-button>
           <el-button class="el-button--primary" plain round @click="exportTableData">导出</el-button>
+          <el-button class="el-button--primary" plain round @click="handleDelete">删除</el-button>
           <el-table :data="studentList" ref="multipleTable" stripe max-height="515" @row-dblclick="handleRowDBClick"
                     style="width: 100%" highlight-current-row @selection-change="handleSelectionChange"
                     :default-sort="{prop: 'studentNo', order: 'ascending'}"
@@ -109,12 +110,6 @@
                 <span>{{scope.row.orgName}}</span>
               </template>
             </el-table-column>
-            <!--todo ignore-->
-            <!--<el-table-column label="系" sortable prop="department" align="center" width="80" :show-overflow-tooltip="true">-->
-              <!--<template slot-scope="scope">-->
-                <!--<span>{{scope.row.department}}</span>-->
-              <!--</template>-->
-            <!--</el-table-column>-->
             <el-table-column label="专业名称" sortable prop="major" align="center" width="180" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.major}}</span>
@@ -300,8 +295,8 @@
               :file-list="fileList"
               :limit="1"
               :on-exceed="handleExceed"
-              :auto-upload="false">
-              <!--:headers="{'Authentication-Token': jwtToken}"-->
+              :auto-upload="false"
+              :headers="{'Authentication-Token': jwtToken}">
               <el-button type="primary" slot="trigger" size="small" plain>选择文件</el-button>
               <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="submitUpload" plain>上传</el-button>
               <div slot="tip" class="el-upload__tip">仅支持 Excel 文件</div>
@@ -318,9 +313,10 @@
 <script>
   import Footer from '@/components/Footer';
   import InfoMenu from '@/components/InformationMenu';
-  import { getStudentList, saveStudentInfo, findAllActiveStudents, findStudentByConditions } from '@/service/student.service'
+  import { getStudentList, saveStudentInfo, findAllActiveStudents, findStudentByConditions, removeStudents } from '@/service/student.service'
   import { getOrganization } from '@/service/organization.service';
-  import Constant from '@/utils/Constant'
+  import Constant from '@/utils/Constant';
+  import Cookies from "js-cookie";
 
   export default {
     components: {
@@ -383,8 +379,6 @@
           studentNo: '',
           studentName: '',
           sex: '',
-          // birthdayFrom: '',
-          // birthdayTo: '',
           politicalStatus: '',
           nation: '',
           orgName: '',
@@ -419,7 +413,8 @@
         studentUploadUrl: Constant.STUDENT_UPLOAD_URL,
         fileList: [],
         uploadDialogVisible: false,
-        organizationOptionList: []
+        organizationOptionList: [],
+        jwtToken: Cookies.get('JWT-TOKEN')
       };
     },
     methods: {
@@ -579,7 +574,6 @@
             confirmButtonText: 'OK'
           });
         } else {
-          // todo 异常情况
           this.$alert('上传成功', {
             confirmButtonText: 'OK'
           }).then(value => {
@@ -614,7 +608,32 @@
       async getOrganizationInfo() {
         let response = await getOrganization();
         this.organizationOptionList = response.data;
-        console.log('organization', response.data)
+      },
+      handleDelete() {
+        if (this.multipleSelection.length > 0) {
+          this.$confirm('确定删除吗？', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(action => {
+            this.deleteRecords();
+          }).catch(_ => {
+            console.log('cancel')
+          });
+        } else {
+          this.$message.warning('请选择要删除的记录');
+        }
+      },
+      async deleteRecords() {
+        let response = await removeStudents(this.multipleSelection);
+        if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
+          this.$alert(response.msg, {
+            confirmButtonText: 'OK'
+          });
+        } else {
+          this.$message.success('删除成功');
+          this.callStudentList(this.pageable);
+        }
       }
     },
     created() {

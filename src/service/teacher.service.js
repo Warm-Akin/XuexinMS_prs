@@ -1,4 +1,4 @@
-import { getAllTeacherInfo, getPageTeacherInfo, getTeachersByConditions, insertTeacherInfo } from '@/repository/teacher.repository';
+import { getAllTeacherInfo, getPageTeacherInfo, getTeachersByConditions, insertTeacherInfo, removeTeacherList } from '@/repository/teacher.repository';
 
   async function getTeacherInfo () {
     const data = await getAllTeacherInfo();
@@ -20,9 +20,15 @@ async function saveTeacherInfo (params) {
   return data || [];
 }
 
+async function removeTeachers (params) {
+  const data = await removeTeacherList(params);
+  return data || [];
+}
+
 export {
   getTeacherInfo,
   getTeacherInfoPage,
   findTeachersByConditions,
-  saveTeacherInfo
+  saveTeacherInfo,
+  removeTeachers
 };

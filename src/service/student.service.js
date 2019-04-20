@@ -1,5 +1,5 @@
 import { getAll, saveStudent, getAllActiveStudents, getActiveStudentsByConditions, getStudentByStuNo, updateStudentInfo,
-  getResumeByStuNo, updateStudentPassword } from '@/repository/student.repository';
+  getResumeByStuNo, updateStudentPassword, removeStudentList } from '@/repository/student.repository';
 
 async function getStudentList (params) {
   const data = await getAll(params);
@@ -41,6 +41,12 @@ async function updateStudentPwd (param) {
   return data || [];
 }
 
+async function removeStudents (param) {
+  const data = await removeStudentList(param);
+  return data || [];
+}
+
+
 export {
   getStudentList,
   saveStudentInfo,
@@ -49,5 +55,6 @@ export {
   getStudentInfo,
   updatePersonalInfo,
   getUserResumeInfo,
-  updateStudentPwd
+  updateStudentPwd,
+  removeStudents
 };

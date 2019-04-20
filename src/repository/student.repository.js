@@ -48,6 +48,12 @@ async function updateStudentPassword (params) {
   return body.data;
 }
 
+async function removeStudentList (params) {
+  const url = `/xuexin/security/admin/student/removeStudents`;
+  const body = await post(url, params);
+  return body.data;
+}
+
 export {
   getAll,
   saveStudent,
@@ -56,5 +62,6 @@ export {
   getStudentByStuNo,
   updateStudentInfo,
   getResumeByStuNo,
-  updateStudentPassword
+  updateStudentPassword,
+  removeStudentList
 };

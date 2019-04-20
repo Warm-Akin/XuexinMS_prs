@@ -63,6 +63,7 @@
           <el-button class="el-button--primary" plain round @click="showModifyDialog">修改</el-button>
           <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">上传</el-button>
           <el-button class="el-button--primary" plain round @click="exportTableData">导出</el-button>
+          <el-button class="el-button--primary" plain round @click="handleDelete">删除</el-button>
           <el-table class="stakeholder-table" :data="teacherList"
                     ref="multipleTable" stripe max-height="515" @row-dblclick="handleRowDBClick"
                     style="width: 100%" highlight-current-row @selection-change="handleSelectionChange"
@@ -226,7 +227,9 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="学院名称">
-                <el-input v-model="updateTeacher.orgName"></el-input>
+                <el-select v-model="updateTeacher.orgName" filterable placeholder="请选择" clearable>
+                  <el-option v-for="item in organizationOptionList" :key="item.orgId" :label="item.orgName" :value="item.orgName"></el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="职务">
                 <el-input v-model="updateTeacher.duty"></el-input>
@@ -313,8 +316,8 @@
               :file-list="fileList"
               :limit="1"
               :on-exceed="handleExceed"
-              :auto-upload="false">
-              <!--:headers="{'Authentication-Token': jwtToken}"-->
+              :auto-upload="false"
+              :headers="{'Authentication-Token': jwtToken}">
               <el-button type="primary" slot="trigger" size="small" plain>选择文件</el-button>
               <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="submitUpload" plain>
                 上传
@@ -333,8 +336,10 @@
 <script>
   import Footer from '@/components/Footer';
   import InfoMenu from '@/components/InformationMenu';
-  import {getTeacherInfo, getTeacherInfoPage, findTeachersByConditions, saveTeacherInfo} from '@/service/teacher.service'
-  import Constant from '@/utils/Constant'
+  import { getTeacherInfo, getTeacherInfoPage, findTeachersByConditions, saveTeacherInfo, removeTeachers } from '@/service/teacher.service';
+  import { getOrganization } from '@/service/organization.service';
+  import Constant from '@/utils/Constant';
+  import Cookies from "js-cookie";
 
   export default {
     components: {
@@ -412,6 +417,8 @@
         teacherUploadUrl: Constant.TEACHER_UPLOAD_URL,
         fileList: [],
         uploadDialogVisible: false,
+        organizationOptionList: [],
+        jwtToken: Cookies.get('JWT-TOKEN')
       };
     },
     methods: {
@@ -675,6 +682,39 @@
         // isOutHire
         teacher.isOutHire = (teacher.isOutHire === true) ? 'Y' : 'N';
         return teacher;
+      },
+      async getOrganizationInfo() {
+        let response = await getOrganization();
+        this.organizationOptionList = response.data;
+      },
+      handleDelete() {
+        if (this.multipleSelection.length > 0) {
+          this.$confirm('确定删除吗？', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(action => {
+            this.deleteRecords();
+          }).catch(_ => {
+            console.log('cancel')
+          });
+        } else {
+          this.$message.warning('请选择要删除的记录');
+        }
+      },
+      async deleteRecords() {
+        let teacherList = JSON.parse(JSON.stringify(this.multipleSelection));
+        // format data
+        teacherList.forEach(teacher => this.decodeTeacherInfo(teacher));
+        let response = await removeTeachers(teacherList);
+        if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
+          this.$alert(response.msg, {
+            confirmButtonText: 'OK'
+          });
+        } else {
+          this.$message.success('删除成功');
+          this.callTeacherList(this.pageable);
+        }
       }
     },
     created() {
@@ -684,6 +724,7 @@
       document.title = "教师信息管理";
       this.init();
       this.callTeacherList(this.pageable);
+      this.getOrganizationInfo();
     }
   }
 </script>

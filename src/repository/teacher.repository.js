@@ -30,9 +30,16 @@ async function getTeachersByConditions (params) {
   return body.data;
 }
 
+async function removeTeacherList (params) {
+  const url = `/xuexin/security/admin/teacher/removeTeachers`;
+  const body = await post(url, params);
+  return body.data;
+}
+
 export {
   getAllTeacherInfo,
   getPageTeacherInfo,
   getTeachersByConditions,
-  insertTeacherInfo
+  insertTeacherInfo,
+  removeTeacherList
 };
