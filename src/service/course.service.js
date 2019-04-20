@@ -1,4 +1,4 @@
-import { getAllCourseInfo, getPageCourseInfo, getCoursesByConditions, insertCourseInfo } from '@/repository/course.repository';
+import { getAllCourseInfo, getPageCourseInfo, getCoursesByConditions, insertCourseInfo, removeCourseList } from '@/repository/course.repository';
 
   async function initCourseInfo () {
     const data = await getAllCourseInfo();
@@ -20,9 +20,15 @@ async function saveCourseInfo (params) {
   return data || [];
 }
 
+async function removeCourses (params) {
+  const data = await removeCourseList(params);
+  return data || [];
+}
+
 export {
   initCourseInfo,
   getCourseInfoPage,
   findCoursesByConditions,
-  saveCourseInfo
+  saveCourseInfo,
+  removeCourses
 };

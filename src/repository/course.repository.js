@@ -24,9 +24,16 @@ async function getCoursesByConditions (params) {
   return body.data;
 }
 
+async function removeCourseList (params) {
+  const url = `/xuexin/security/admin/course/removeCourses`;
+  const body = await post(url, params);
+  return body.data;
+}
+
 export {
   getAllCourseInfo,
   getPageCourseInfo,
   getCoursesByConditions,
-  insertCourseInfo
+  insertCourseInfo,
+  removeCourseList
 };

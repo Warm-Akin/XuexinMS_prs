@@ -51,6 +51,7 @@
           <el-button class="el-button--primary" plain round @click="showModifyDialog">修改</el-button>
           <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">上传</el-button>
           <el-button class="el-button--primary" plain round @click="exportTableData">导出</el-button>
+          <el-button class="el-button--primary" plain round @click="handleDelete">删除</el-button>
           <el-table class="stakeholder-table" :data="courseList"
                     ref="multipleTable" stripe max-height="515" @row-dblclick="handleRowDBClick"
                     style="width: 120%" highlight-current-row @selection-change="handleSelectionChange"
@@ -219,8 +220,8 @@
               :file-list="fileList"
               :limit="1"
               :on-exceed="handleExceed"
-              :auto-upload="false">
-              <!--:headers="{'Authentication-Token': jwtToken}"-->
+              :auto-upload="false"
+              :headers="{'Authentication-Token': jwtToken}">
               <el-button type="primary" slot="trigger" size="small" plain>选择文件</el-button>
               <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="submitUpload" plain>上传</el-button>
               <div slot="tip" class="el-upload__tip">仅支持 Excel 文件</div>
@@ -237,8 +238,9 @@
 <script>
   import Footer from '@/components/Footer';
   import InfoMenu from '@/components/InformationMenu';
-  import { initCourseInfo, getCourseInfoPage, findCoursesByConditions, saveCourseInfo } from '@/service/course.service'
-  import Constant from '@/utils/Constant'
+  import { initCourseInfo, getCourseInfoPage, findCoursesByConditions, saveCourseInfo, removeCourses } from '@/service/course.service'
+  import Constant from '@/utils/Constant';
+  import Cookies from "js-cookie";
 
   export default {
     components: {
@@ -307,7 +309,8 @@
         },
         courseUploadUrl: Constant.COURSE_UPLOAD_URL,
         fileList: [],
-        uploadDialogVisible: false
+        uploadDialogVisible: false,
+        jwtToken: Cookies.get('JWT-TOKEN')
       };
     },
     methods: {
@@ -463,7 +466,6 @@
         this.$loading({fullscreen: true});
       },
       handleSuccess(response, file, fileList) {
-        // console.log(response);
         if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
           this.$alert(response.msg, {
             confirmButtonText: 'OK'
@@ -529,10 +531,36 @@
         });
         // todo sort
         this.creditOptions.sort(this.sortArray);
-        console.log(this.creditOptions)
+        // console.log(this.creditOptions)
       },
       sortArray(a, b){
         return b - a;
+      },
+      handleDelete() {
+        if (this.multipleSelection.length > 0) {
+          this.$confirm('确定删除吗？', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(action => {
+            this.deleteRecords();
+          }).catch(_ => {
+            console.log('cancel')
+          });
+        } else {
+          this.$message.warning('请选择要删除的记录');
+        }
+      },
+      async deleteRecords() {
+        let response = await removeCourses(this.multipleSelection);
+        if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
+          this.$alert(response.msg, {
+            confirmButtonText: 'OK'
+          });
+        } else {
+          this.$message.success('删除成功');
+          this.callCourseList(this.pageable);
+        }
       }
     },
     created() {
