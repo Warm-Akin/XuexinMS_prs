@@ -1,7 +1,7 @@
 import { get, post } from '@/utils/httpHelper';
 
   async function getAllCourseInfo () {
-    const url = `/xuexin/security/admin/course/findAll`;
+    const url = `/xuexin/security/admin/course/findAllActive`;
     const body = await get(url);
     return body.data;
   }

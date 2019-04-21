@@ -19,7 +19,7 @@
               <el-input v-model="searchDetail.courseName">'</el-input>
             </el-form-item>
             <el-form-item label="学年">
-              <el-select v-model="searchDetail.academicYear" filterable placeholder="请选择">
+              <el-select v-model="searchDetail.academicYear" filterable placeholder="请选择" clearable>
                 <el-option v-for="item in academicYearOptions" :key="item.name" :label="item.name" :value="item.name"></el-option>
               </el-select>
             </el-form-item>
@@ -41,6 +41,7 @@
           <el-button class="el-button--primary" plain round @click="showModifyDialog">修改</el-button>
           <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">上传</el-button>
           <el-button class="el-button--primary" plain round @click="exportTableData">导出</el-button>
+          <el-button class="el-button--primary" plain round @click="handleDelete">删除</el-button>
           <el-table class="stakeholder-table" :data="stuCourseScoreDetailList"
                     ref="multipleTable" stripe max-height="515" @row-dblclick="handleRowDBClick"
                     style="width: 120%" highlight-current-row @selection-change="handleSelectionChange"
@@ -97,10 +98,9 @@
                 <span>{{scope.row.term}}</span>
               </template>
             </el-table-column>
-            <!-- todo checkBox-->
             <el-table-column label="是否补考" align="center" width="120">
               <template slot-scope="scope">
-                <el-checkbox v-model="scope.row.qualificationFlag" disabled></el-checkbox>
+                <el-checkbox v-model="scope.row.retakeFlag" disabled></el-checkbox>
               </template>
             </el-table-column>
             <el-table-column label="平时成绩" align="center" width="120">
@@ -223,7 +223,6 @@
                                :disabled="relativeDisable" @clear="clearCourseDetail" @change="filterListByCourseName">
                       <el-option v-for="item in courseNameOptionList" :key="item.courseId" :label="item.courseName" :value="item.courseName"></el-option>
                     </el-select>
-                    <!--<el-input v-model="stuCourseScoreDetail.courseName" :disabled="relativeDisable"></el-input>-->
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -348,7 +347,7 @@
             <el-upload
               class="upload-demo"
               ref="upload"
-              :action="courseUploadUrl"
+              :action="studentCourseDetailsUploadUrl"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               :on-change="handleChange"
@@ -357,8 +356,8 @@
               :file-list="fileList"
               :limit="1"
               :on-exceed="handleExceed"
-              :auto-upload="false">
-              <!--:headers="{'Authentication-Token': jwtToken}"-->
+              :auto-upload="false"
+              :headers="{'Authentication-Token': jwtToken}">
               <el-button type="primary" slot="trigger" size="small" plain>选择文件</el-button>
               <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="submitUpload" plain>上传</el-button>
               <div slot="tip" class="el-upload__tip">仅支持 Excel 文件</div>
@@ -375,11 +374,11 @@
 <script>
   import Footer from '@/components/Footer';
   import InfoMenu from '@/components/InformationMenu';
-  import { getStudentCourseDetailPage, saveCourseScoreDetail, queryForDetailList, getAllActiveDetails } from '@/service/studentCourseDetail.service'
-  // import { initCourseInfo, getCourseInfoPage, findCoursesByConditions, saveCourseInfo } from '@/service/course.service'
+  import { getStudentCourseDetailPage, saveCourseScoreDetail, queryForDetailList, getAllActiveDetails, removeStudentCourseDetails } from '@/service/studentCourseDetail.service'
   import { findAllActiveStudents } from '@/service/student.service'
   import { initCourseInfo } from '@/service/course.service'
-  import Constant from '@/utils/Constant'
+  import Constant from '@/utils/Constant';
+  import Cookies from "js-cookie";
 
   export default {
     components: {
@@ -409,7 +408,6 @@
         stuCourseScoreDetail: {
           courseCode: '',
           courseName: '',
-          // stuId: '',
           studentNo: '',
           studentName: '',
           orgId: '',
@@ -473,9 +471,10 @@
             {required: true, message: '请输入学年', trigger: ['blur', 'change']}
           ]
         },
-        courseUploadUrl: Constant.COURSE_UPLOAD_URL,
+        studentCourseDetailsUploadUrl: Constant.COURSE_UPLOAD_URL,
         fileList: [],
-        uploadDialogVisible: false
+        uploadDialogVisible: false,
+        jwtToken: Cookies.get('JWT-TOKEN')
       };
     },
     methods: {
@@ -491,6 +490,12 @@
       formatList(dataList) {
         dataList.forEach(data => {
           data.retakeFlag = (data.retakeFlag === 'N' || data.retakeFlag === 'n') ? false : true;
+        });
+        return dataList;
+      },
+      decodeList(dataList) {
+        dataList.forEach(item => {
+          item.retakeFlag = (item.retakeFlag === true) ? 'Y' : 'N';
         });
         return dataList;
       },
@@ -760,9 +765,10 @@
             type: 'warning'
           }).then(() => {
             let exportList = JSON.parse(JSON.stringify(this.multipleSelection));
-            exportList.forEach(item => {
-              item.retakeFlag = (item.retakeFlag === true) ? 'Y' : 'N';
-            });
+            exportList = this.decodeList(exportList);
+            // exportList.forEach(item => {
+            //   item.retakeFlag = (item.retakeFlag === true) ? 'Y' : 'N';
+            // });
             this.doExport(exportList);
           }).catch(() => {
             return;
@@ -893,6 +899,34 @@
           let academicYearObj = {name: academicYear};
           this.academicYearOptions.push(academicYearObj);
         });
+      },
+      handleDelete() {
+        if (this.multipleSelection.length > 0) {
+          this.$confirm('确定删除吗？', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(action => {
+            this.deleteRecords();
+          }).catch(_ => {
+            console.log('cancel')
+          });
+        } else {
+          this.$message.warning('请选择要删除的记录');
+        }
+      },
+      async deleteRecords() {
+        let details = JSON.parse(JSON.stringify(this.multipleSelection));
+        details = this.decodeList(details);
+        let response = await removeStudentCourseDetails(details);
+        if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
+          this.$alert(response.msg, {
+            confirmButtonText: 'OK'
+          });
+        } else {
+          this.$message.success('删除成功');
+          this.callStudentCourseDetails(this.pageable);
+        }
       }
     },
     created() {

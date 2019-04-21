@@ -24,6 +24,7 @@ import AdminPassword from '@/pages/AdminPassword'
 import ResumeTemplateMaintenance from '@/pages/ResumeTemplateMaintenance'
 import StudentPassword from '@/pages/StudentPassword'
 import PaymentSuccess from '@/pages/PaymentSuccess'
+import OrganizationMaintenance from '@/pages/OrganizationMaintenance'
 
 Vue.use(Router)
 
@@ -147,6 +148,11 @@ const routes = [
     path: '/paymentSuccess',
     name: 'PaymentSuccess',
     component: PaymentSuccess
+  },
+  {
+    path: '/organizationMaintenance',
+    name: 'OrganizationMaintenance',
+    component: OrganizationMaintenance
   }
 ];
 

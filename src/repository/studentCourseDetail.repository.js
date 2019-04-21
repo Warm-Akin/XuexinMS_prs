@@ -24,9 +24,16 @@ async function getAllStuCourseDetail () {
   return body.data;
 }
 
+async function removeStudentCourseDetailList (params) {
+  const url = `/xuexin/security/admin/studentCourseDetail/removeDetails`;
+  const body = await post(url, params);
+  return body.data;
+}
+
 export {
   getStuCourseDetailPage,
   saveStudentCourseScoreDetail,
   queryStudentCourseScoreDetail,
-  getAllStuCourseDetail
+  getAllStuCourseDetail,
+  removeStudentCourseDetailList
 }

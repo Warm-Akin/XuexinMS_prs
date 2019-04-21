@@ -403,8 +403,8 @@
           const {exportJsonToExcel} = require('@/utils/Export2Excel');
           let tHeader = ['课程代码', ' 课程名称', '学年', '学期', '总学时', '实验学时', '限选人数', '选课人数', '学分', '课程性质',
             '课程归属', '教师工号', '教师姓名', '教学班组成', '备注'];
-          let filterVal = ['courseCode', 'courseName', 'academicYear', 'term', 'totalHours', 'labHours', 'limitStudentNum', 'selectedCourseNo', 'studentNum',
-            'credit', 'courseType', 'belongTo', 'teacherNo', 'teacherName', 'classInfo', 'memo'];
+          let filterVal = ['courseCode', 'courseName', 'academicYear', 'term', 'totalHours', 'labHours', 'limitStudentNum', 'studentNum', 'credit', 'courseType',
+            'belongTo', 'teacherNo', 'teacherName', 'classInfo', 'memo'];
           // deep clone
           let exportTeacherList = courseList;
           let data = this.formatJson(filterVal, exportTeacherList);
