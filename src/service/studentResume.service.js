@@ -1,4 +1,4 @@
-import { saveStudentResume, downloadStudentResume, getAllResumeInfo, removeResumeInfo, findResumeListByConditions } from '@/repository/studentResume.repository';
+import { saveStudentResume, downloadStudentResume, getAllResumeInfo, removeResumeInfo, findResumeListByConditions, getAllResumeInfoByAdmin } from '@/repository/studentResume.repository';
 
 async function saveResumeInfo (params) {
   const data = await saveStudentResume(params);
@@ -25,10 +25,16 @@ async function findResumeByConditions (params) {
   return data || [];
 }
 
+async function getResumeInfoByAdmin (params) {
+  const data = await getAllResumeInfoByAdmin(params);
+  return data || [];
+}
+
 export {
   saveResumeInfo,
   downloadResumePdf,
   getResumeInfo,
   removeResumeRecords,
-  findResumeByConditions
+  findResumeByConditions,
+  getResumeInfoByAdmin
 };

@@ -25,6 +25,7 @@ import ResumeTemplateMaintenance from '@/pages/ResumeTemplateMaintenance'
 import StudentPassword from '@/pages/StudentPassword'
 import PaymentSuccess from '@/pages/PaymentSuccess'
 import OrganizationMaintenance from '@/pages/OrganizationMaintenance'
+import ResumePdfMaintenance from '@/pages/ResumePdfMaintenance'
 
 Vue.use(Router)
 
@@ -153,6 +154,11 @@ const routes = [
     path: '/organizationMaintenance',
     name: 'OrganizationMaintenance',
     component: OrganizationMaintenance
+  },
+  {
+    path: '/resumePdfMaintenance',
+    name: 'ResumePdfMaintenance',
+    component: ResumePdfMaintenance
   }
 ];
 

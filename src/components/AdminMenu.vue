@@ -15,7 +15,7 @@
         <i class="el-icon-search"></i>
         <span slot="title">学生简历</span>
       </el-menu-item>
-      <el-menu-item index="resumeTemplateMaintenance">
+      <el-menu-item index="resumePdfMaintenance">
         <i class="el-icon-setting"></i>
         <span slot="title">简历模板管理</span>
       </el-menu-item>

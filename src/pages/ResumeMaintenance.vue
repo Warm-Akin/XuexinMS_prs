@@ -101,7 +101,7 @@
 <script>
   import Footer from '@/components/Footer';
   import AdminMenu from '@/components/AdminMenu';
-  import { getResumeInfo, removeResumeRecords, findResumeByConditions } from '@/service/studentResume.service';
+  import { getResumeInfoByAdmin, removeResumeRecords, findResumeByConditions } from '@/service/studentResume.service';
   import Constant from '@/utils/Constant'
 
   export default {
@@ -131,7 +131,7 @@
     methods: {
       async initResume(pageable) {
         this.$loading({fullscreen: true});
-        let response = await getResumeInfo(pageable);
+        let response = await getResumeInfoByAdmin(pageable);
         this.resumeList = response.data.pageResultList;
         this.totalCount = response.data.total;
         this.$loading({fullscreen: true}).close();
