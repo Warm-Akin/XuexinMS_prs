@@ -76,24 +76,7 @@
       return {
         userName: '',
         absoluteDisable: true,
-        studentResume: {
-          jobWant: '',
-          studentName: '',
-          orgName: '',
-          schoolName: '',
-          major: '',
-          majorInfo: '',
-          englishLevel: '',
-          softwareSkills: '',
-          mobileNo: '',
-          email: '',
-          skillOne: '',
-          oneInfo: '',
-          skillTwo: '',
-          twoInfo: '',
-          skillThree: '',
-          threeInfo: ''
-        },
+        studentResume: {},
         uploadPhotoUrl: '',
         previews: {},
         imageOption: {
@@ -191,6 +174,7 @@
               });
             } else {
               this.$message.success('图片上传成功');
+              this.$router.push('/resumeTemplateSelect');
             }
           });
         });

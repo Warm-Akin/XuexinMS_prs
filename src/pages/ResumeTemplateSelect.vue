@@ -11,10 +11,25 @@
           </el-col>
           <el-col :span="20">
             <el-row class="content-title">导出为PDF</el-row>
-            <el-row style="margin-top: 20px;">
-              <el-button type="primary" icon="el-icon-download" @click="downloadResume">导出简历</el-button>
+            <el-row style="margin-top: 20px; margin-bottom: 1%;">
+              <el-button type="primary" icon="el-icon-download" @click="downloadResume">生成简历</el-button>
             </el-row>
-            <el-row>&nbsp;</el-row>
+            <el-row>
+              <el-col :span="4" class="template-image" v-for="item in pdfTemplateList" :key="item.templateId">
+                <el-row>
+                  <img :src="item.imageUrl" class="image-avatar" @click="previewTemplate(item.imageUrl)">
+                </el-row>
+                <el-row>
+                  <!--@change="changeSelected"-->
+                  <el-checkbox :v-model="item.templateId" :true-label="item.templateId" :false-label='"-" + item.templateId'>{{item.templateName.length < 20 ? item.templateName: item.templateName.substring(0, 20) + '...'}}</el-checkbox>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-dialog title="简历模板预览" :visible.sync="previewDialogVisible" width="48%" :before-close="handleClosePreview" center :modal-append-to-body="false" style="margin-top: -5%;">
+                <img :src="previewImageUrl" width="100%">
+              </el-dialog>
+            </el-row>
           </el-col>
         </el-col>
       </el-row>
@@ -35,7 +50,11 @@
     },
     data() {
       return {
-        userName: ''
+        userName: '',
+        pdfTemplateList: [],
+        // pdfTemplateIdList: [],
+        previewDialogVisible: false,
+        previewImageUrl: ''
       }
     },
     methods: {
@@ -62,6 +81,19 @@
             this.$loading({fullscreen: true}).close();
           }
         });
+      },
+      previewTemplate(value) {
+        this.previewDialogVisible = true;
+        this.previewImageUrl = value;
+      },
+      handleClosePreview() {
+        this.previewDialogVisible = false;
+        this.previewImageUrl = '';
+      },
+      initTemplateImageList() {
+        axios.get(`/xuexin/security/student/resume/findAllActiveTemplate`).then(response => {
+          this.pdfTemplateList = response.data.data;
+        });
       }
     },
     created() {
@@ -70,6 +102,7 @@
     },
     mounted() {
       document.title = '选择模板生成简历';
+      this.initTemplateImageList();
     }
   }
 </script>
@@ -130,6 +163,21 @@
     width: 140px;
     height: 160px;
     display: block;
+  }
+
+  .image-avatar {
+    position: relative;
+    width: 90%;
+    display: block;
+    margin-bottom: 8px;
+    margin-left: 7px;
+    text-align: center;
+  }
+
+  .template-image {
+    margin-right: 3%;
+    margin-bottom: 1%;
+    text-align: center;
   }
 
 </style>

@@ -75,7 +75,7 @@
                     <el-row>
                       <el-col>
                         <el-form-item label="身份证号" prop="idcardNo">
-                          <el-input v-model="updateStudent.idcardNo" :disabled="absoluteDisable"></el-input>
+                          <el-input v-model="updateStudent.idcardNo" :disabled="absoluteDisable" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"></el-input>
                         </el-form-item>
                       </el-col>
                     </el-row>
@@ -125,8 +125,8 @@
                   </el-col>
                   <el-col :span="1">&nbsp;</el-col>
                   <el-col :span="9">
-                    <el-form-item label="电子邮箱">
-                      <el-input type="email" v-model="updateStudent.email" :disabled="relativeDisable"></el-input>
+                    <el-form-item label="电子邮箱" prop="email">
+                      <el-input type="email" v-model="updateStudent.email" :disabled="relativeDisable" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -156,13 +156,13 @@
                 <el-row>
                   <el-col :span="9">
                     <el-form-item label="手机号码">
-                      <el-input v-model="updateStudent.mobileNo" :disabled="relativeDisable"></el-input>
+                      <el-input v-model="updateStudent.mobileNo" :disabled="relativeDisable" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="1">&nbsp;</el-col>
                   <el-col :span="9">
                     <el-form-item label="家庭电话">
-                      <el-input v-model="updateStudent.familyTelNo" :disabled="relativeDisable"></el-input>
+                      <el-input v-model="updateStudent.familyTelNo" :disabled="relativeDisable" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -299,8 +299,30 @@
       },
       handleCancel() {
         this.relativeDisable = true;
+        // reload the user data
+        this.init();
+        this.initImage();
       },
-      async handleSave() {
+      handleSave() {
+        this.$refs.updateForm.validate((valid) => {
+          if (!valid) {
+            return false;
+          } else {
+            let idNoReg = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+            if (!idNoReg.test(this.updateStudent.idcardNo)) {
+              this.$alert('请输入正确的身份证号码');
+              return false;
+            }
+            let phoneReg = /^1[3|4|5|7|8][0-9]{9}$/;
+            if (!phoneReg.test(this.updateStudent.mobileNo)) {
+              this.$alert('请输入正确的手机号码');
+              return false;
+            }
+            this.saveStudentInfo();
+          }
+        });
+      },
+      async saveStudentInfo() {
         let response = await updatePersonalInfo(this.updateStudent);
         if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
           this.$alert(response.msg, {

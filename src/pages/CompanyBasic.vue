@@ -133,8 +133,23 @@
       },
       handleCancel() {
         this.relativeDisable = true;
+        this.initCompanyInfo();
       },
-      async handleSave() {
+      handleSave() {
+        this.$refs.updateForm.validate((valid) => {
+          if (!valid) {
+            return false;
+          } else {
+            let phoneReg = /^1[3|4|5|7|8][0-9]{9}$/;
+            if (!phoneReg.test(this.companyInfo.legalPhone)) {
+              this.$alert('请输入正确的手机号码');
+              return false;
+            }
+            this.saveCompanyInfo();
+          }
+        });
+      },
+      async saveCompanyInfo() {
         let response = await updateCompanyInfo(this.companyInfo);
         if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
           this.$alert(response.msg, {
@@ -148,7 +163,7 @@
           this.$loading({fullscreen: true}).close();
         }
         this.relativeDisable = true;
-      },
+      }
     },
     created() {
       this.$store.dispatch('commitCompanyMenuIndex', 'companyBasic');

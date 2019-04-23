@@ -47,8 +47,8 @@
           </el-dialog>
         </el-row>
         <el-row>
-          <el-dialog title="简历模板预览" :visible.sync="previewDialogVisible" :before-close="handleClosePreview" width="50%" center :modal-append-to-body="false">
-            <img :src="previewImageUrl">
+          <el-dialog title="简历模板预览" :visible.sync="previewDialogVisible" :before-close="handleClosePreview" width="48%" center :modal-append-to-body="false" style="margin-top: -5%;">
+            <img :src="previewImageUrl" width="100%">
           </el-dialog>
         </el-row>
       </el-col>

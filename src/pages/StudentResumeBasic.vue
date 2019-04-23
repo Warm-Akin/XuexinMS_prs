@@ -10,10 +10,6 @@
             <div class="line"></div>
           </el-col>
           <el-col :span="20">
-            <!--<el-row>-->
-            <!--<el-button type="primary" style="left: 80px; width: 80px;" size="small" @click="handleEdit" :disabled="!relativeDisable">编辑</el-button>-->
-            <!--<el-button type="primary" style="margin-left: 40px; width: 80px;" size="small" @click="handleCancel" :disabled="relativeDisable">取消</el-button>-->
-            <!--</el-row>-->
             <el-row>&nbsp;</el-row>
             <el-row>
               <el-form label-width="85px" label-position="left" :model="studentResume" class="dialog-form" ref="updateForm" :rules="rules">
@@ -214,25 +210,12 @@
           selfEvaluation: [
             {required: true, message: '请输入自我评价', trigger: ['blur', 'change']}
           ]
-          ,
-          // schoolName: [
-          //   {required: true, message: '请输入学校名称', trigger: ['blur', 'change']}
-          // ],
-          // schoolName: [
-          //   {required: true, message: '请输入学校名称', trigger: ['blur', 'change']}
-          // ]
         },
         politicalOptions: Constant.POLITICALOPTIONS,
         nationOptions: Constant.NATIONOPTIONS,
       }
     },
     methods: {
-      // handleEdit() {
-      //   this.relativeDisable = false;
-      // },
-      // handleCancel() {
-      //   this.relativeDisable = true;
-      // },
       async handleSave() {
         this.$refs.updateForm.validate((valid) => {
           if (!valid) {
@@ -241,8 +224,6 @@
             this.callSaveInfo();
           }
         });
-
-        // this.relativeDisable = true;
       },
       async callSaveInfo() {
         let response = await saveResumeInfo(this.studentResume);
@@ -252,14 +233,8 @@
           });
         } else {
           this.$message.success('数据保存成功！');
-          this.$loading({fullscreen: true});
-          this.getUserResume(this.studentResume.studentNo);
-          this.$loading({fullscreen: true}).close();
+          this.$router.push('/resumePhotoUpload');
         }
-      },
-      init() {
-        // init student Information
-        this.getUserResume(this.userName);
       },
       async getUserResume(userName) {
         let response = await getUserResumeInfo(userName);
@@ -273,11 +248,7 @@
     },
     mounted() {
       document.title = '简历基本信息';
-      // let width = document.body.clientWidth - 200;
-      // console.log('width', width);
-      // // $(".main-content").css('width', width + 'px');
-      // document.getElementById('main-content').style.width = width + 'px';
-      this.init();
+      this.getUserResume(this.userName);
     }
   }
 </script>
