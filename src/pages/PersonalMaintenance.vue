@@ -11,12 +11,17 @@
           </el-col>
           <el-col :span="20">
             <el-row>
-              <el-button type="primary" style="left: 80px; width: 80px;" size="small" @click="handleEdit" :disabled="!relativeDisable">编辑</el-button>
-              <el-button type="primary" style="margin-left: 40px; width: 80px;" size="small" @click="handleCancel" :disabled="relativeDisable">取消</el-button>
+              <el-button type="primary" style="left: 80px; width: 80px;" size="small" @click="handleEdit"
+                         :disabled="!relativeDisable">编辑
+              </el-button>
+              <el-button type="primary" style="margin-left: 40px; width: 80px;" size="small" @click="handleCancel"
+                         :disabled="relativeDisable">取消
+              </el-button>
             </el-row>
             <el-row>&nbsp;</el-row>
             <el-row>
-              <el-form label-width="80px" label-position="left" :model="updateStudent" class="dialog-form" ref="updateForm" :rules="rules">
+              <el-form label-width="80px" label-position="left" :model="updateStudent" class="dialog-form"
+                       ref="updateForm" :rules="rules">
                 <el-row>
                   <!--3行 右侧作为图片区域-->
                   <el-col :span="9">
@@ -37,8 +42,10 @@
                     <el-row>
                       <el-col>
                         <el-form-item label="政治面貌">
-                          <el-select v-model="updateStudent.politicalStatus" filterable placeholder="请选择" :disabled="absoluteDisable">
-                            <el-option v-for="item in politicalOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                          <el-select v-model="updateStudent.politicalStatus" filterable placeholder="请选择"
+                                     :disabled="absoluteDisable">
+                            <el-option v-for="item in politicalOptions" :key="item.value" :label="item.label"
+                                       :value="item.value"></el-option>
                           </el-select>
                         </el-form-item>
                       </el-col>
@@ -75,8 +82,10 @@
                     <el-row>
                       <el-col>
                         <el-form-item label="民族">
-                          <el-select v-model="updateStudent.nation" filterable placeholder="请选择" :disabled="absoluteDisable">
-                            <el-option v-for="item in nationOptions" :key="item.name" :label="item.name" :value="item.name"></el-option>
+                          <el-select v-model="updateStudent.nation" filterable placeholder="请选择"
+                                     :disabled="absoluteDisable">
+                            <el-option v-for="item in nationOptions" :key="item.name" :label="item.name"
+                                       :value="item.name"></el-option>
                           </el-select>
                         </el-form-item>
                       </el-col>
@@ -173,13 +182,15 @@
                 <el-row>
                   <el-col :span="9">
                     <el-form-item label="家庭住址">
-                      <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 4}" v-model="updateStudent.address" :disabled="relativeDisable"></el-input>
+                      <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 4}" v-model="updateStudent.address"
+                                :disabled="relativeDisable"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="1">&nbsp;</el-col>
                   <el-col :span="9">
                     <el-form-item label="特长">
-                      <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 4}" v-model="updateStudent.skill" :disabled="relativeDisable"></el-input>
+                      <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 4}" v-model="updateStudent.skill"
+                                :disabled="relativeDisable"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -191,7 +202,9 @@
                   </el-col>
                 </el-row>
                 <el-row style="margin-bottom: 15px;">
-                  <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="handleSave" :disabled="relativeDisable">保存</el-button>
+                  <el-button type="primary" style="margin-left: 10px;width: 80px;" size="small" @click="handleSave"
+                             :disabled="relativeDisable">保存
+                  </el-button>
                 </el-row>
               </el-form>
             </el-row>
@@ -207,7 +220,7 @@
   import Footer from '@/components/Footer.vue';
   import Menu from '@/components/ResumeMenu.vue';
   import Constant from '@/utils/Constant';
-  import { getStudentInfo, updatePersonalInfo }from '@/service/student.service';
+  import {getStudentInfo, updatePersonalInfo} from '@/service/student.service';
   import axios from 'axios';
 
   export default {
@@ -303,18 +316,10 @@
       },
       init() {
         let userName = sessionStorage.getItem("user");
-        // let userType = sessionStorage.getItem("userType");
         this.studentNo = userName;
-        // if (userType !== '1') {
-          // todo
-          // access deny page
-          // this.$router.push('/login');
-        // } else {
-          // init student Information
-          this.getUserInformation(userName);
-        // }
+        this.getUserInformation(userName);
       },
-      async getUserInformation (userName) {
+      async getUserInformation(userName) {
         let response = await getStudentInfo(userName);
         this.updateStudent = response.data;
       },
@@ -322,21 +327,21 @@
         axios.get(`/xuexin/security/student/resume/findImageByStudentNo/${this.studentNo}`, {responseType: 'arraybuffer'}).then(response => {
           let bytes = new Uint8Array(response.data);
           if (bytes.length > 0) {
-            let blob = new Blob([bytes], { type: "image/jpeg" });
+            let blob = new Blob([bytes], {type: "image/jpeg"});
             let url = URL.createObjectURL(blob);
             this.imageUrl = url;
           }
         });
       }
     },
-  created() {
-    this.$store.dispatch('commitMenuIndex', 'personal');
-  },
-  mounted() {
-    document.title = '个人信息';
-    this.init();
-    this.initImage();
-  }
+    created() {
+      this.$store.dispatch('commitMenuIndex', 'personal');
+    },
+    mounted() {
+      document.title = '个人信息';
+      this.init();
+      this.initImage();
+    }
   }
 </script>
 

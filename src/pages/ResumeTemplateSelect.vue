@@ -65,11 +65,11 @@
       }
     },
     created() {
-      this.$store.dispatch('commitMenuIndex', 'resumeStepThree');
+      this.$store.dispatch('commitMenuIndex', 'resumeTemplateSelect');
       this.userName = sessionStorage.getItem('user');
     },
     mounted() {
-      document.title = '选择模板';
+      document.title = '选择模板生成简历';
     }
   }
 </script>

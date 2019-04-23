@@ -200,7 +200,7 @@
       }
     },
     created() {
-      this.$store.dispatch('commitMenuIndex', 'resumeStepTwo');
+      this.$store.dispatch('commitMenuIndex', 'resumePhotoUpload');
       this.userName = sessionStorage.getItem('user');
       this.uploadPhotoUrl = Constant.PHOTO_UPLOAD_URL + `/${this.userName}`;
     },

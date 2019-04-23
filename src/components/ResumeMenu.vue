@@ -20,15 +20,15 @@
               <span>简历制作</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="resumeStepOne">简历基本信息</el-menu-item>
-              <el-menu-item index="resumeStepTwo">上传简历照片</el-menu-item>
-              <!--<el-menu-item index="resumeStepThree">选择模板</el-menu-item>-->
+              <el-menu-item index="studentResumeBasic">简历基本信息</el-menu-item>
+              <el-menu-item index="resumePhotoUpload">上传简历照片</el-menu-item>
+              <el-menu-item index="resumeTemplateSelect">模板选择</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-menu-item index="resumeStepThree">
-            <i class="el-icon-document"></i>
-            <span slot="title">导出pdf</span>
-          </el-menu-item>
+          <!--<el-menu-item index="resumeStepThree">-->
+            <!--<i class="el-icon-document"></i>-->
+            <!--<span slot="title">导出pdf</span>-->
+          <!--</el-menu-item>-->
           <el-menu-item index="studentPassword">
             <i class="el-icon-refresh"></i>
             <span slot="title">密码修改</span>
@@ -57,17 +57,10 @@
       handleClose(key, keyPath) {
         console.log(key, keyPath);
       }
-      // ,
-      // handleSelect(key, keyPath) {
-      //   console.log(key, keyPath);
-      // }
+
     },
     mounted() {
       this.menuIndex = this.$store.state.menuIndex;
-      // let userType = sessionStorage.getItem("userType");
-      // if (userType !== 'STUDENT') {
-      //   this.$router.push('/404');
-      // }
     }
   }
 </script>

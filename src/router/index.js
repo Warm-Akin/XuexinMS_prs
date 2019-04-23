@@ -7,9 +7,9 @@ import TeacherMaintenance from '@/pages/TeacherMaintenance'
 import CourseMaintenance from '@/pages/CourseMaintenance'
 import Menu from '@/components/ResumeMenu'
 import PersonalMaintenance from '@/pages/PersonalMaintenance'
-import ResumeStepOne from '@/pages/ResumeStepOne'
-import ResumeStepTwo from '@/pages/ResumeStepTwo'
-import ResumeStepThree from '@/pages/ResumeStepThree'
+import StudentResumeBasic from '@/pages/StudentResumeBasic'
+import ResumePhotoUpload from '@/pages/ResumePhotoUpload'
+import ResumeTemplateSelect from '@/pages/ResumeTemplateSelect'
 import CompanyRegister from '@/pages/CompanyRegister'
 import Payment from '@/pages/Payment'
 import CompanyBasic from '@/pages/CompanyBasic'
@@ -66,19 +66,19 @@ const routes = [
     component: PersonalMaintenance
   },
   {
-    path: '/resumeStepOne',
-    name: 'ResumeStepOne',
-    component: ResumeStepOne
+    path: '/studentResumeBasic',
+    name: 'StudentResumeBasic',
+    component: StudentResumeBasic
   },
   {
-    path: '/resumeStepTwo',
-    name: 'ResumeStepTwo',
-    component: ResumeStepTwo
+    path: '/resumePhotoUpload',
+    name: 'ResumePhotoUpload',
+    component: ResumePhotoUpload
   },
   {
-    path: '/resumeStepThree',
-    name: 'ResumeStepThree',
-    component: ResumeStepThree
+    path: '/resumeTemplateSelect',
+    name: 'ResumeTemplateSelect',
+    component: ResumeTemplateSelect
   },
   {
     path: '/register',

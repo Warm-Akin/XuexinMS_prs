@@ -9,14 +9,19 @@
       </el-col>
       <el-col :span="20">
         <el-row class="content-title"><i class="el-icon-news"></i>  简历模板维护</el-row>
-        <el-row>
-          <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">上传</el-button>
+        <el-row style="margin-bottom: 1%;">
+          <el-button class="el-button--primary" plain round @click="uploadDialogVisible = true">添加模板</el-button>
+          <el-button class="el-button--primary" plain round @click="handleDelete">删除模板</el-button>
         </el-row>
         <!--template list-->
         <el-row>
-          <el-col :span="4">
-            <!--<img v-if="imageUrl" :src="imageUrl" class="image-avatar">-->
-            <img src=" http://pqcwuate5.bkt.clouddn.com/pdfModel_test-2.png" class="image-avatar">
+          <el-col :span="4" class="template-image" v-for="item in pdfTemplateList" :key="item.templateId">
+            <el-row>
+              <img :src="item.imageUrl" class="image-avatar" @click="previewTemplate(item.imageUrl)">
+            </el-row>
+            <el-row>
+              <el-checkbox :v-model="item.templateId" :true-label="item.templateId" :false-label='"-" + item.templateId' @change="changeSelected">{{item.templateName.length < 20 ? item.templateName: item.templateName.substring(0, 20) + '...'}}</el-checkbox>
+            </el-row>
           </el-col>
         </el-row>
         <el-row>
@@ -41,6 +46,11 @@
             </el-upload>
           </el-dialog>
         </el-row>
+        <el-row>
+          <el-dialog title="简历模板预览" :visible.sync="previewDialogVisible" :before-close="handleClosePreview" width="50%" center :modal-append-to-body="false">
+            <img :src="previewImageUrl">
+          </el-dialog>
+        </el-row>
       </el-col>
     </el-row>
     <Footer></Footer>
@@ -53,6 +63,7 @@
   import Constant from '@/utils/Constant';
   import Cookies from "js-cookie";
   import axios from 'axios';
+  import { deletePdfTemplates } from '@/service/resumeTemplate.service';
 
   export default {
     components: {
@@ -64,19 +75,16 @@
         fileList: [],
         uploadDialogVisible: false,
         jwtToken: Cookies.get('JWT-TOKEN'),
-        imageUrl: ''
+        pdfTemplateList: [],
+        pdfTemplateIdList: [],
+        previewDialogVisible: false,
+        previewImageUrl: ''
       }
     },
     methods: {
       initTemplateImageList() {
-        //
-        axios.get(`/xuexin/security/admin/resumeTemplate/findAllActive`, { responseType: 'arraybuffer'}).then(response => {
-          let bytes = new Uint8Array(response.data);
-          if (bytes.length > 0) {
-            let blob = new Blob([bytes], {type: "image/png"});
-            let url = URL.createObjectURL(blob);
-            this.imageUrl = url;
-          }
+        axios.get(`/xuexin/security/admin/resumeTemplate/findAllActive`).then(response => {
+          this.pdfTemplateList = response.data.data;
         });
       },
       handleCloseUpload(done) {
@@ -132,13 +140,61 @@
           this.$alert('上传成功', {
             confirmButtonText: 'OK'
           }).then(value => {
-            // console.log('response', value)
-            // recall getAll data
-            // todo
-            console.log('success')
+            // recall getAllTemplate data
+            this.initTemplateImageList();
           });
         }
         this.$refs.upload.clearFiles();
+      },
+      changeSelected(value) {
+        if (value.indexOf('-') < 0) { // = -1
+          // selected
+          this.pdfTemplateIdList.push(value);
+        } else { // = 0
+          // unselected
+          // 删除被取消选中的元素 => item.indexOf(value.substring(1)) < 0 表示返回数组中不与取消选中的元素相匹配的元素
+          this.pdfTemplateIdList = this.pdfTemplateIdList.filter( item => {
+            return item.indexOf(value.substring(1)) < 0;
+          });
+        }
+      },
+      handleDelete() {
+        // delete template
+        if (this.pdfTemplateIdList.length === 0) {
+          this.$message.error('请选择要删除的模板')
+        } else {
+          this.$confirm('当前已选择<span style="color: tomato">' + this.pdfTemplateIdList.length + '</span>项 , 是否继续?', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            dangerouslyUseHTMLString: true
+          }).then(() => {
+            // call delete
+            this.callDeleteTemplate();
+          }).catch(() => {
+            return;
+          });
+        }
+      },
+      async callDeleteTemplate() {
+        let response = await deletePdfTemplates(this.pdfTemplateIdList);
+        if (response.code === Constant.POPUP_EXCEPTION_CODE && response.msg !== '') {
+          this.$alert(response.msg, {
+            confirmButtonText: 'OK'
+          });
+        } else {
+          this.initTemplateImageList();
+          this.$message.success('删除成功');
+          this.pdfTemplateIdList = [];
+        }
+      },
+      previewTemplate(value) {
+        this.previewDialogVisible = true;
+        this.previewImageUrl = value;
+      },
+      handleClosePreview() {
+        this.previewDialogVisible = false;
+        this.previewImageUrl = '';
       }
     },
     created() {
@@ -146,7 +202,7 @@
     },
     mounted() {
       document.title = '简历模板维护';
-      // this.initTemplateImageList();
+      this.initTemplateImageList();
     }
   }
 </script>
@@ -179,9 +235,19 @@
 
   .image-avatar {
     position: relative;
-    width: 160px;
-    height: 220px;
+    width: 90%;
+    /*width: 170px;*/
+    /*height: 240px;*/
     display: block;
+    margin-bottom: 8px;
+    margin-left: 7px;
+    text-align: center;
+  }
+
+  .template-image {
+    margin-right: 3%;
+    margin-bottom: 1%;
+    text-align: center;
   }
 
 </style>

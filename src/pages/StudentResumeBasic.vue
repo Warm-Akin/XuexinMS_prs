@@ -268,7 +268,7 @@
       }
     },
     created() {
-      this.$store.dispatch('commitMenuIndex', 'resumeStepOne');
+      this.$store.dispatch('commitMenuIndex', 'studentResumeBasic');
       this.userName = sessionStorage.getItem('user');
     },
     mounted() {
