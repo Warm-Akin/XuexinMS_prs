@@ -25,10 +25,6 @@
               <el-menu-item index="resumeTemplateSelect">模板选择</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <!--<el-menu-item index="resumeStepThree">-->
-            <!--<i class="el-icon-document"></i>-->
-            <!--<span slot="title">导出pdf</span>-->
-          <!--</el-menu-item>-->
           <el-menu-item index="studentPassword">
             <i class="el-icon-refresh"></i>
             <span slot="title">密码修改</span>

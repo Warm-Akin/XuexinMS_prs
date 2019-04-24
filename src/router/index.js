@@ -13,7 +13,7 @@ import ResumeTemplateSelect from '@/pages/ResumeTemplateSelect'
 import CompanyRegister from '@/pages/CompanyRegister'
 import Payment from '@/pages/Payment'
 import CompanyBasic from '@/pages/CompanyBasic'
-import ShowResume from '@/pages/ShowResume'
+import CompanySearchResume from '@/pages/CompanySearchResume'
 import CompanyPayment from '@/pages/CompanyPayment'
 import CompanyPassword from '@/pages/CompanyPassword'
 import StudentCourseScoreDetail from '@/pages/StudentCourseScoreDetail'
@@ -96,9 +96,9 @@ const routes = [
     component: CompanyBasic
   },
   {
-    path: '/showResume',
-    name: 'ShowResume',
-    component: ShowResume
+    path: '/searchResume',
+    name: 'CompanySearchResume',
+    component: CompanySearchResume
   },
   {
     path: '/companyPayment',

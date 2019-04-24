@@ -10,7 +10,7 @@
         <i class="el-icon-document"></i>
         <span slot="title">公司基本信息</span>
       </el-menu-item>
-      <el-menu-item index="showResume">
+      <el-menu-item index="searchResume">
         <i class="el-icon-search"></i>
         <span slot="title">查看学生简历</span>
       </el-menu-item>

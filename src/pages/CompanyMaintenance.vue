@@ -8,21 +8,21 @@
       <el-col :span="23" class="data-content">
         <el-row class="content-title"><i class="el-icon-document"></i>企业信息列表</el-row>
         <!--<el-row>-->
-          <!--<el-col :span="10" class="content-title">-->
-            <!--<i class="el-icon-document"></i>企业信息列表-->
-          <!--</el-col>-->
-          <!--<el-col :span="7">&nbsp;</el-col>-->
-          <!--<el-col :span="6">-->
-            <!--<el-row>-->
-              <!--<el-button type="primary" size="small" @click="showAddDialog">添加</el-button>-->
-              <!--<el-button type="primary" size="small" @click="showModifyDialog">修改</el-button>-->
-              <!--<el-button type="primary" size="small" @click="handleDelete">删除</el-button>-->
-            <!--</el-row>-->
-          <!--</el-col>-->
+        <!--<el-col :span="10" class="content-title">-->
+        <!--<i class="el-icon-document"></i>企业信息列表-->
+        <!--</el-col>-->
+        <!--<el-col :span="7">&nbsp;</el-col>-->
+        <!--<el-col :span="6">-->
+        <!--<el-row>-->
+        <!--<el-button type="primary" size="small" @click="showAddDialog">添加</el-button>-->
+        <!--<el-button type="primary" size="small" @click="showModifyDialog">修改</el-button>-->
+        <!--<el-button type="primary" size="small" @click="handleDelete">删除</el-button>-->
+        <!--</el-row>-->
+        <!--</el-col>-->
         <!--</el-row>-->
         <el-row class="search-bar">
           <el-col :span="16">
-            <el-form  label-position="left" :model="searchCompany" ref="searchForm">
+            <el-form label-position="left" :model="searchCompany" ref="searchForm">
               <el-row>
                 <el-col :span="7">
                   <el-form-item label="统一社会信用码/工商注册码">
@@ -60,8 +60,10 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-table stripe style="width: 95%" :data="companyList" ref="multipleTable" max-height="530" highlight-current-row
-                    @row-dblclick="handleRowDBClick" @selection-change="handleSelectionChange" v-loading="loadingStatus">
+          <el-table stripe style="width: 95%" :data="companyList" ref="multipleTable" max-height="530"
+                    highlight-current-row
+                    @row-dblclick="handleRowDBClick" @selection-change="handleSelectionChange"
+                    v-loading="loadingStatus">
             <el-table-column type="selection" width="40" fixed></el-table-column>
             <el-table-column label="统一社会信用码/工商注册码" prop="soleCode" align="center" width="200">
               <template slot-scope="scope">
@@ -110,41 +112,43 @@
                          layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
           </el-pagination>
         </el-row>
-          <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="500px" top="20px" @close='closeDialog' :modal="false">
-            <el-form label-position="left" :model="updateCompany"  ref="updateForm" :rules="rules">
-              <el-form-item label="统一社会信用码/工商注册码" prop="soleCode">
-                <el-input v-model="updateCompany.soleCode" :disabled="formEditable"></el-input>
-              </el-form-item>
-              <el-form-item label="公司名称" prop="companyName">
-                <el-input v-model="updateCompany.companyName" :disabled="formEditable"></el-input>
-              </el-form-item>
-              <el-form-item label="法人名称">
-                <el-input v-model="updateCompany.legalName"></el-input>
-              </el-form-item>
-              <el-form-item label="法人电话">
-                <el-input v-model="updateCompany.legalPhone"></el-input>
-              </el-form-item>
-              <el-form-item label="法人信用代码">
-                <el-input v-model="updateCompany.legalCertcode"></el-input>
-              </el-form-item>
-              <el-form-item label="公司电话">
-                <el-input v-model="updateCompany.companyPhone"></el-input>
-              </el-form-item>
-              <el-form-item label="公司地址">
-                <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 3}" v-model="updateCompany.companyAddress"></el-input>
-              </el-form-item>
-              <el-form-item label="备注">
-                <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 3}" v-model="updateCompany.remark"></el-input>
-              </el-form-item>
-              <el-form-item label="登录密码" prop="password">
-                <el-input type="password" v-model="updateCompany.password"></el-input>
-              </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
+        <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="500px" top="20px" @close='closeDialog'
+                   :modal="false">
+          <el-form label-position="left" :model="updateCompany" ref="updateForm" :rules="rules">
+            <el-form-item label="统一社会信用码/工商注册码" prop="soleCode">
+              <el-input v-model="updateCompany.soleCode" :disabled="formEditable"></el-input>
+            </el-form-item>
+            <el-form-item label="公司名称" prop="companyName">
+              <el-input v-model="updateCompany.companyName" :disabled="formEditable"></el-input>
+            </el-form-item>
+            <el-form-item label="法人名称">
+              <el-input v-model="updateCompany.legalName"></el-input>
+            </el-form-item>
+            <el-form-item label="法人电话">
+              <el-input v-model="updateCompany.legalPhone"></el-input>
+            </el-form-item>
+            <el-form-item label="法人信用代码">
+              <el-input v-model="updateCompany.legalCertcode"></el-input>
+            </el-form-item>
+            <el-form-item label="公司电话">
+              <el-input v-model="updateCompany.companyPhone"></el-input>
+            </el-form-item>
+            <el-form-item label="公司地址">
+              <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 3}"
+                        v-model="updateCompany.companyAddress"></el-input>
+            </el-form-item>
+            <el-form-item label="备注">
+              <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 3}" v-model="updateCompany.remark"></el-input>
+            </el-form-item>
+            <el-form-item label="登录密码" prop="password">
+              <el-input type="password" v-model="updateCompany.password"></el-input>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
               <el-button @click="handleCancel">取消</el-button>
               <el-button type="primary" @click="handleSave">保存</el-button>
             </span>
-          </el-dialog>
+        </el-dialog>
       </el-col>
     </el-row>
     <Footer></Footer>
@@ -154,7 +158,12 @@
 <script>
   import Footer from '@/components/Footer';
   import AdminMenu from '@/components/AdminMenu';
-  import { getActiveCompanyInfo, saveCompanyInfo, findCompanyByConditions, removeRecords } from '@/service/company.service';
+  import {
+    getActiveCompanyInfo,
+    saveCompanyInfo,
+    findCompanyByConditions,
+    removeRecords
+  } from '@/service/company.service';
   import Constant from '@/utils/Constant'
 
   export default {
@@ -283,14 +292,14 @@
         this.$refs.updateForm.resetFields();
         this.updateCompany = {
           soleCode: '',
-            companyName: '',
-            legalName: '',
-            legalPhone: '',
-            legalCertcode: '',
-            companyAddress: '',
-            companyPhone: '',
-            remark: '',
-            password: ''
+          companyName: '',
+          legalName: '',
+          legalPhone: '',
+          legalCertcode: '',
+          companyAddress: '',
+          companyPhone: '',
+          remark: '',
+          password: ''
         };
       },
       handleCancel() {
@@ -302,6 +311,11 @@
           if (!valid) {
             return false;
           } else {
+            let phoneReg = /^1[3|4|5|7|8][0-9]{9}$/;
+            if (!phoneReg.test(this.updateCompany.legalPhone)) {
+              this.$alert('请输入正确的手机号码');
+              return false;
+            }
             this.saveCompany();
           }
         });

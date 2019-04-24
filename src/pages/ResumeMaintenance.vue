@@ -56,15 +56,9 @@
             <el-table-column type="selection" width="40" fixed></el-table-column>
             <el-table-column label="姓名" prop="studentName" align="center" width="150">
               <template slot-scope="scope">
-                <span>{{scope.row.studentName}}</span>
+                <span @click="previewResumeDetail(scope.row)"><a href="javascript:void(0)">{{scope.row.studentName}}</a></span>
               </template>
             </el-table-column>
-            <!--todo 添加性别属性到resume表-->
-            <!--<el-table-column label="性别" prop="sex" align="center" width="150">-->
-            <!--<template slot-scope="scope">-->
-            <!--<span>{{scope.row.sex}}</span>-->
-            <!--</template>-->
-            <!--</el-table-column>-->
             <el-table-column label="求职意向" prop="jobWant" align="center" width="400">
               <template slot-scope="scope">
                 <span>{{scope.row.jobWant}}</span>
@@ -91,6 +85,14 @@
                          :page-sizes="[20,40, 100, 200, 500]" :page-size="pageable.pageSize"
                          layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
           </el-pagination>
+          <el-dialog title="简历预览" :visible.sync="previewDialogVisible" :before-close="handleClosePreview" width="48%" center :modal-append-to-body="false" style="margin-top: -5%;">
+            <el-row>
+              <el-button type="primary" size="small" @click="downloadStudentResume(studentResumeUrl)">下载</el-button>
+            </el-row>
+            <el-row>
+              <img :src="previewImageUrl" width="100%">
+            </el-row>
+          </el-dialog>
         </el-row>
       </el-col>
     </el-row>
@@ -102,7 +104,8 @@
   import Footer from '@/components/Footer';
   import AdminMenu from '@/components/AdminMenu';
   import { getResumeInfoByAdmin, removeResumeRecords, findResumeByConditions } from '@/service/studentResume.service';
-  import Constant from '@/utils/Constant'
+  import Constant from '@/utils/Constant';
+  import axios from 'axios';
 
   export default {
     components: {
@@ -125,7 +128,11 @@
           schoolName: '',
           currentPage: 1,
           pageSize: 20
-        }
+        },
+        previewDialogVisible: false,
+        previewImageUrl: '',
+        studentResumeUrl: '',
+        exportTemplateName: ''
       }
     },
     methods: {
@@ -179,6 +186,41 @@
         this.resumeList = response.data.pageResultList;
         this.totalCount = response.data.total;
         this.loadingStatus = false;
+      },
+      handleClosePreview() {
+        this.previewDialogVisible = false;
+        this.previewImageUrl = '';
+        this.studentResumeUrl = '';
+        this.exportTemplateName = '';
+      },
+      previewResumeDetail(studentResumeObj) {
+        this.previewDialogVisible = true;
+        this.previewImageUrl = studentResumeObj.resumeImageUrl;
+        this.studentResumeUrl = studentResumeObj.resumeUrl;
+        this.exportTemplateName = studentResumeObj.studentNo + "_" + studentResumeObj.studentName + ".pdf";
+      },
+      async downloadStudentResume(resumeUrl) {
+        axios.get(`/xuexin/security/admin/resume/studentResumeExport?resumeUrl=` + resumeUrl, {
+          responseType: `blob`
+        }).then(response => {
+          // console.log(response);
+          if (response.status === 200 && response.data.size !== 0) { // request success
+            let blob = new Blob([response.data], { // use Blob to handle response
+              type: 'application/pdf'
+            });
+            let objectUrl = URL.createObjectURL(blob); // create a url object
+            let link = document.createElement('a'); // create an a tag: <a></a>
+            link.href = objectUrl; // set href
+            let fileName = this.exportTemplateName; // download file's name
+            link.setAttribute('download', fileName); // set link attribute
+            document.body.appendChild(link); // put the link on the end of the body
+            link.click();
+            this.$loading({fullscreen: true}).close();
+          } else {
+            this.$message.error('导出失败，请重试');
+            this.$loading({fullscreen: true}).close();
+          }
+        });
       }
     },
     created() {

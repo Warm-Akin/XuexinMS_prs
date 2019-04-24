@@ -31,7 +31,7 @@ async function removeResumeInfo (params) {
 }
 
 async function findResumeListByConditions (params) {
-  const url = `/xuexin/admin/resume/findByConditions`;
+  const url = `/xuexin/security/admin/resume/findByConditions`;
   const body = await post(url, params);
   return body.data;
 }
