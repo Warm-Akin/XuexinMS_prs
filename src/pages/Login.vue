@@ -24,8 +24,9 @@
 <script>
   import Footer from '@/components/Footer.vue';
   import {checkLoginService} from '@/service/user.service';
-  import axios from 'axios';
-  import Constant from '@/utils/Constant'
+  import { RSAEncrypt } from '@/utils/jsencryptKey';
+  // import axios from 'axios';
+  // import Constant from '@/utils/Constant'
   // import Cookies from "js-cookie";
 
   export default {
@@ -52,8 +53,7 @@
           this.$refs[formName].validate((valid) => {
             if (valid) {
               // submit login information
-              let loginResult = this.check();
-              console.log(loginResult);
+              this.check();
             } else {
               return false;
             }
@@ -68,7 +68,10 @@
         };
       },
       async check () {
-        let response = await checkLoginService(this.user);
+        let login = JSON.parse(JSON.stringify(this.user));
+        login.userName = RSAEncrypt(login.userName);
+        login.password = RSAEncrypt(login.password);
+        let response = await checkLoginService(login);
         if (response.data.code === 'ERROR' && response.data.msg !== '') {
           this.$message.error(response.data.msg);
           return;
@@ -92,6 +95,7 @@
     },
     mounted() {
       document.title = "登录";
+      // this.$loading({fullscreen: true}).close();
     }
   }
 </script>

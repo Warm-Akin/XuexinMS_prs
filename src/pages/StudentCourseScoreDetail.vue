@@ -471,7 +471,7 @@
             {required: true, message: '请输入学年', trigger: ['blur', 'change']}
           ]
         },
-        studentCourseDetailsUploadUrl: Constant.COURSE_UPLOAD_URL,
+        studentCourseDetailsUploadUrl: Constant.STUDENT_COURSE_DETAIL_UPLOAD_URL,
         fileList: [],
         uploadDialogVisible: false,
         jwtToken: Cookies.get('JWT-TOKEN')
@@ -862,7 +862,7 @@
               currentPage: 1,
               pageSize: 20
             };
-            this.callCourseList(this.pageable);
+            this.callStudentCourseDetails(this.pageable);
           });
         }
         this.$refs.upload.clearFiles();
