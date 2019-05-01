@@ -15,8 +15,8 @@
       <el-submenu index="3">
         <template slot="title">系统管理中心</template>
         <el-menu-item index="organizationMaintenance">组织机构管理</el-menu-item>
-        <el-menu-item index="">权限控制中心</el-menu-item>
-        <el-menu-item index="">修改密码</el-menu-item>
+        <el-menu-item index="userMaintenance">用户信息控制中心</el-menu-item>
+        <!--<el-menu-item index="">修改密码</el-menu-item>-->
       </el-submenu>
     </el-menu>
   </el-row>

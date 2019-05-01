@@ -1,4 +1,4 @@
-import { post } from '@/utils/httpHelper';
+import { post, get } from '@/utils/httpHelper';
 import Cookies from "js-cookie";
 
 async function checkLogin (params) {
@@ -36,8 +36,22 @@ async function login2 (params) {
   return result;
 }
 
+async function getUserListPage (params) {
+  const url = `/xuexin/security/admin/user/findActiveUserList/${params.currentPage}/${params.pageSize}`;
+  const body = await get(url);
+  return body.data;
+}
+
+async function callSaveUserInfo (params, organizationName) {
+  const url = `/xuexin/security/admin/user/save/${organizationName}`;
+  const body = await post(url, params);
+  return body.data;
+}
+
 export {
   checkLogin,
   login2,
-  updateAdminPassword
+  updateAdminPassword,
+  getUserListPage,
+  callSaveUserInfo
 };

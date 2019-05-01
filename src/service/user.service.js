@@ -1,4 +1,4 @@
-import { checkLogin, login2, updateAdminPassword } from '@/repository/user.repository';
+import { checkLogin, login2, updateAdminPassword, getUserListPage, callSaveUserInfo } from '@/repository/user.repository';
 
 async function checkLoginService (params) {
   // const data = await checkLogin(params);
@@ -11,8 +11,19 @@ async function updateAdminPwd (params) {
   return data || [];
 }
 
+async function getUserInfoPage (params) {
+  const data = await getUserListPage(params);
+  return data || [];
+}
+
+async function saveUserInfo (param, organizationName) {
+  const data = await callSaveUserInfo(param, organizationName);
+  return data || [];
+}
 
 export {
   checkLoginService,
-  updateAdminPwd
+  updateAdminPwd,
+  getUserInfoPage,
+  saveUserInfo
 };

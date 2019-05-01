@@ -26,6 +26,7 @@ import StudentPassword from '@/pages/StudentPassword'
 import PaymentSuccess from '@/pages/PaymentSuccess'
 import OrganizationMaintenance from '@/pages/OrganizationMaintenance'
 import ResumePdfMaintenance from '@/pages/ResumePdfMaintenance'
+import UserMaintenance from '@/pages/UserMaintenance'
 
 Vue.use(Router)
 
@@ -159,6 +160,11 @@ const routes = [
     path: '/resumePdfMaintenance',
     name: 'ResumePdfMaintenance',
     component: ResumePdfMaintenance
+  },
+  {
+    path: '/userMaintenance',
+    name: 'UserMaintenance',
+    component: UserMaintenance
   }
 ];
 
