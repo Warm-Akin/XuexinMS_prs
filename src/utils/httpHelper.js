@@ -17,7 +17,7 @@ axios.interceptors.request.use(config => {
   return config;
 }, error => {
   console.log('error')
-  console.log(error)
+  // console.log(error)
   // handle request error
   return Promise.reject(error);
 });
@@ -42,10 +42,16 @@ function checkStatus (error) {
     switch (error.response.status) {
       case 401:
         // 未认证
+        // if (error.response.data.msg === 'token Expired') {
         if (error.response.data.msg === 'token Expired') {
           router.push({name: 'Login'});
           Message.error('登录已过期，请重新登录')
           location.reload();
+        } else if (error.data.msg !== '') {
+          router.push({name: 'Login'});
+          Message.error(error.response.data.msg);
+        } else {
+          router.push({name: 'Login'});
         }
           /*
           *
@@ -87,15 +93,11 @@ function checkStatus (error) {
         // 无资源匹配
         router.push({name: 'page404'});
         break;
-      // case 408:
-      //   axiosRetryInterceptor(error); // request timeout
-      //   break;
       default: // HANDLE OTHER ERROR
         router.push('/error');
         break;
     }
-    // this.$loading({fullscreen: true}).close();
-    // return Promise.reject(error.response.data)
+
   }
 }
 //
@@ -105,8 +107,9 @@ function checkStatus (error) {
 function checkCode (response) {
   if (response.data.code === 'ERROR') {
     // Handing service exception
-    console.log('checkCode')
-    router.push('/error');
+    console.log('error', response.data)
+    router.push({ name: 'Error', params: { errorMsg: response.data.msg }})
+    // router.push('/error');
   } else if (response.data.code === 'REFRESH') {
     Cookies.set('JWT-TOKEN-HEADER', 'Bearer ' + response.data.data['rawToken'])
   }

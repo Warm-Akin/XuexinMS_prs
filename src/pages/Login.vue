@@ -25,9 +25,6 @@
   import Footer from '@/components/Footer.vue';
   import {checkLoginService} from '@/service/user.service';
   import { RSAEncrypt } from '@/utils/jsencryptKey';
-  // import axios from 'axios';
-  // import Constant from '@/utils/Constant'
-  // import Cookies from "js-cookie";
 
   export default {
     components: {
@@ -85,7 +82,7 @@
           } else if (userType === 'ROLE_COMPANY') {
             this.$router.push('/companyBasic');
           } else if (userType == 'ROLE_ADMIN') {
-            this.$router.push('/studentMaintenance');
+            this.$router.push('/adminEntrance');
           }
         }
       },
@@ -95,7 +92,6 @@
     },
     mounted() {
       document.title = "登录";
-      // this.$loading({fullscreen: true}).close();
     }
   }
 </script>

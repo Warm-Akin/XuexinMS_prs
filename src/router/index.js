@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Error from '@/pages/Error'
 import Login from '@/pages/Login'
 import StudentMaintenance from '@/pages/StudentMaintenance'
 import TeacherMaintenance from '@/pages/TeacherMaintenance'
@@ -27,14 +27,15 @@ import PaymentSuccess from '@/pages/PaymentSuccess'
 import OrganizationMaintenance from '@/pages/OrganizationMaintenance'
 import ResumePdfMaintenance from '@/pages/ResumePdfMaintenance'
 import UserMaintenance from '@/pages/UserMaintenance'
+import AdminEntrance from '@/pages/AdminEntrance'
 
 Vue.use(Router)
 
 const routes = [
   {
     path: '/error',
-    name: 'HelloWorld',
-    component: HelloWorld
+    name: 'Error',
+    component: Error
   },
   {
     path: '/login',
@@ -165,6 +166,11 @@ const routes = [
     path: '/userMaintenance',
     name: 'UserMaintenance',
     component: UserMaintenance
+  },
+  {
+    path: '/adminEntrance',
+    name: 'AdminEntrance',
+    component: AdminEntrance
   }
 ];
 
