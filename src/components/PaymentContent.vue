@@ -1,12 +1,10 @@
 <template>
   <el-row>
-    <!--<el-row v-if="htmlContent==''">-->
     <el-col :span="8" class="picture-region">
       <img src="@/assets/Payment.jpg" class="picture"/>
     </el-col>
     <el-col :span="15">
       <el-row class="tip-title">
-        <!-- 添加条件 -> 注册时显示即可 -->
         <p>您的公司账号注册成功!</p>
         <p>当前账号查看简历次数为<span style="color: #E6A23C">&nbsp;{{limitCount}}</span>，请从下列中选择缴费项目便于您的后续操作，谢谢！</p>
       </el-row>
@@ -44,8 +42,6 @@
         </el-tabs>
       </el-row>
     </el-col>
-    <!--</el-row>-->
-    <!--<el-row v-else v-html="htmlContent"></el-row>-->
   </el-row>
 </template>
 
